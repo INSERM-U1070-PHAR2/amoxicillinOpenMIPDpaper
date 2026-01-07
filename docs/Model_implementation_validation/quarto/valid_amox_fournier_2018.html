@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 /* CSS for citations */
 div.csl-bib-body { }
 div.csl-entry {
@@ -328,6 +363,22 @@ window.Quarto = {
 </header>
 
 
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>here<span class="sc">::</span><span class="fu">i_am</span>(<span class="st">"Model_implementation_validation/quarto/valid_amox_fournier_2018.qmd"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Functions used for simulation-----</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># export functions contained in the "functions" folder</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>list_of_function_path <span class="ot">=</span> <span class="fu">list.files</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/R_functions/"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">pattern =</span> <span class="st">".*</span><span class="sc">\\</span><span class="st">.R$"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">full.names =</span> <span class="cn">TRUE</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  ) </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">walk</span>(<span class="at">.x=</span>list_of_function_path,<span class="at">.f=</span>source)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <section id="paper" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Paper</h1>
 <p><span class="citation" data-cites="fournier2018">Fournier et al. (<a href="../../Simulations/references.html#ref-fournier2018" role="doc-biblioref">2018</a>)</span></p>
@@ -335,6 +386,22 @@ window.Quarto = {
 <section id="model-description" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Model description</h1>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>doi <span class="ot">&lt;-</span> <span class="st">"10.1128/AAC.00505-18"</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/model_description.csv"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> F</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(DOI <span class="sc">==</span> doi) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="st">"Structural model"</span> <span class="ot">=</span> structural_model,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Variability model"</span> <span class="ot">=</span> variability_model,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Covariates effects"</span> <span class="ot">=</span> covariate_effects,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Number of patients"</span> <span class="ot">=</span> patients_number,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Free or total concentrations"</span> <span class="ot">=</span> free_or_total_concentrations,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Unbound fraction"</span> <span class="ot">=</span> unbound_fraction) <span class="sc">|&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div id="tbl-model-desc" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-desc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -383,6 +450,18 @@ Table&nbsp;4.1: Model description
 <section id="model-parameters" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="model-parameters"><span class="header-section-number">4.1</span> Model parameters</h2>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/model_parameters.csv"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> F</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>DOI) <span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>() <span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  kableExtra<span class="sc">::</span><span class="fu">add_footnote</span>(<span class="at">label =</span> <span class="st">"theta_CLCR_CL was wrongly reported as 0.57 </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="st">                           in the publication, email exchanges with the authors </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="st">                           confirmed that the actual value was 0.0057"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div id="tbl-model-param" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-param-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -508,6 +587,111 @@ V1_{i} = V1_{pop} \times \frac{BW}{70}
 <h2 data-number="5.1" class="anchored" data-anchor-id="preliminary-testing"><span class="header-section-number">5.1</span> Preliminary testing</h2>
 <p>First we check that simulations for a single dosing regimen and creatinine clearance value make sense.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>simulate_weights <span class="ot">&lt;-</span> <span class="cf">function</span>(n, mean, sd) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  mean <span class="sc">*</span> <span class="fu">exp</span>(<span class="fu">rnorm</span>(<span class="at">n =</span> n, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> sd))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># run only if the file does not exist</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/simulated_patients.csv"</span>))) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  patient_table <span class="ot">&lt;-</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">WT =</span> <span class="fu">simulate_weights</span>(<span class="at">n =</span> <span class="dv">500</span>, <span class="at">mean =</span> <span class="dv">89</span>, <span class="at">sd =</span> <span class="fl">0.184</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  metadata_patient_table <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_name =</span> <span class="fu">c</span>(<span class="st">"ID"</span>, <span class="st">"BW"</span>),</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_description =</span> <span class="fu">c</span>(<span class="st">"Patient identifier"</span>, <span class="st">"Patient weight"</span>),</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">unit =</span> <span class="fu">c</span>(<span class="st">"unitless"</span>, <span class="st">"kg"</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">write_csv</span>(</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> patient_table,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/simulated_patients.csv"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">write_csv</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> metadata_patient_table,</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Model_implementation_validation/data/fournier_2018/metadata_simulated_patients.csv"</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>path_dosing_regimens <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>patients <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/simulated_patients.csv"</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> F</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>path_parameters <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/model_parameters.csv"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> mrgsolve<span class="sc">::</span><span class="fu">mread</span>(<span class="at">model =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/mrgsolve/amox_Fournier.cpp"</span>))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>var_eta_CL <span class="ot">&lt;-</span> <span class="fu">cv_to_var</span>(<span class="at">distribution =</span> <span class="st">"lognormal"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cv =</span> <span class="fl">0.373</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>eta_dosing_reg_2g_q4h <span class="ot">&lt;-</span> <span class="fu">select_dosing_regimens</span>(</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">selected_regimen =</span> <span class="st">"2g q4h"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">path_to_the_file =</span> path_dosing_regimens</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>sim_dur <span class="ot">&lt;-</span> <span class="dv">96</span> <span class="co"># hours</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>sim_step <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">6</span> <span class="co"># 1 every 10 min</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>omega_mat <span class="ot">&lt;-</span> mrgsolve<span class="sc">::</span><span class="fu">dmat</span>(var_eta_CL)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>convert_clcr_to_creat_cg <span class="ot">&lt;-</span> <span class="cf">function</span>(clcr,</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">sex =</span> <span class="dv">0</span>,</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">bsa =</span> <span class="fl">1.73</span>,</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">age =</span> <span class="dv">60</span>,</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">wt =</span> <span class="dv">72</span>) {</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>  sex_factor <span class="ot">&lt;-</span>  <span class="fu">ifelse</span>(sex<span class="sc">==</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.85</span>)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  creat <span class="ot">&lt;-</span> ((<span class="dv">140</span><span class="sc">-</span>age)<span class="sc">*</span>sex_factor<span class="sc">*</span>wt) <span class="sc">/</span>(clcr <span class="sc">*</span><span class="dv">72</span>) </span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  creat</span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>cov_default <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">CREAT =</span> <span class="fu">convert_clcr_to_creat_cg</span>(<span class="dv">200</span>), <span class="at">WT =</span> <span class="dv">72</span>, <span class="at">BSA =</span> <span class="fl">1.73</span>, <span class="at">AGE =</span> <span class="dv">60</span>, <span class="at">SEX =</span> <span class="dv">0</span>, <span class="at">MIC =</span> <span class="dv">1</span>)</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co"># simulation for patients with a CLCR of200 mL/min, dosing regimen : 2g q4h</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1000</span>)</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>sim_2g_q4h_clcr_200 <span class="ot">&lt;-</span> <span class="fu">simulate_mrgsolve</span>(</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>  <span class="at">dosing_regimen =</span> eta_dosing_reg_2g_q4h,</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>  <span class="at">sim_dur =</span> sim_dur,</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> model,</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">patients =</span> patients,</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>  <span class="at">sim_step =</span> sim_step,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>  <span class="at">param_file =</span> path_parameters,</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>  <span class="at">cov_default =</span> cov_default,</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>  <span class="at">omega_mat =</span> omega_mat</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>plot_sim_2g_q4h_clcr_200 <span class="ot">&lt;-</span> sim_2g_q4h_clcr_200 <span class="sc">|&gt;</span></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> time,</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">q5 =</span> <span class="fu">quantile</span>(IPRED, <span class="fl">0.05</span>),</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">q50 =</span> <span class="fu">quantile</span>(IPRED, <span class="fl">0.5</span>),</span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">q95 =</span> <span class="fu">quantile</span>(IPRED, <span class="fl">0.95</span>)</span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> time)) <span class="sc">+</span></span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_ribbon</span>(<span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">ymin =</span> q5, <span class="at">ymax =</span> q95), <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">y =</span> q50)) <span class="sc">+</span></span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_x_continuous</span>(</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">"Time (h)"</span>,</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>    <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, sim_dur, <span class="at">by =</span> <span class="dv">12</span>)</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="at">name =</span> <span class="st">"Total concentration (mg/L)"</span>) <span class="sc">+</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggtitle</span>(<span class="at">label =</span> <span class="fu">paste0</span>(<span class="fu">nrow</span>(patients), <span class="st">" patients CLCR = 200 mL/min"</span>))</span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>plot_sim_2g_q4h_clcr_200</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -515,6 +699,18 @@ V1_{i} = V1_{pop} \times \frac{BW}{70}
 </figure>
 </div>
 </div>
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pta_ft_over_mic_72_96_2g_q4h_clcr_200_MIC_1 <span class="ot">&lt;-</span> <span class="fu">compute_ft_over_mic</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">sim_tbl =</span> sim_2g_q4h_clcr_200,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">from =</span> <span class="dv">72</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">to =</span> <span class="dv">96</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">compute_pta_t_over_mic</span>(<span class="at">target =</span> <span class="fl">0.5</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>pta_ft_over_mic_72_96_2g_q4h_clcr_200_MIC_1 <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -544,6 +740,18 @@ V1_{i} = V1_{pop} \times \frac{BW}{70}
 <h2 data-number="5.2" class="anchored" data-anchor-id="reproduction-of-figure-4"><span class="header-section-number">5.2</span> Reproduction of Figure 4</h2>
 <p>The figure represents the probability of target attainment for a population of 500 virtual patients of various weight and creatinine clearance, receiving various dosing regimens of amoxicillin. These dosing regimens are represented in the following table :</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>readr<span class="sc">::</span><span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dose (mg)"</span> <span class="ot">=</span> amt,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Interdose interval (h)"</span> <span class="ot">=</span> ii,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Infusion duration (h)"</span> <span class="ot">=</span> tinf,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Dosing regimen"</span> <span class="ot">=</span> regimen_id</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>time, <span class="sc">-</span>ss, <span class="sc">-</span>evid, <span class="sc">-</span>cmt) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div id="tbl-sim-dosing-reg" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sim-dosing-reg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -665,10 +873,233 @@ Table&nbsp;5.1: Simulated dosing regimen
 </div>
 </div>
 <p>Patients weights were sampled from a lognormal distribution with mean 89 kg and standard deviation of 0.184 ln(kg).</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>clcr_values <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">30</span>, <span class="dv">60</span>, <span class="dv">100</span>, <span class="dv">150</span>, <span class="dv">200</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>creat_values <span class="ot">&lt;-</span> <span class="fu">convert_clcr_to_creat_cg</span>(clcr_values,<span class="at">wt=</span><span class="dv">70</span>) <span class="co">#convert using mdrd assuming male, 60 yo, and base size</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>pretty_clcr_values <span class="ot">&lt;-</span> <span class="fu">paste0</span>(clcr_values, <span class="st">" mL/min"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Simualtions were performed for 6 creatinine clearance values(15 mL/min, 30 mL/min, 60 mL/min, 100 mL/min, 150 mL/min, 200 mL/min)</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fu <span class="ot">&lt;-</span> <span class="fl">0.82</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>pkpd_targets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mics <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">^</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">2</span>, <span class="dv">4</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pretty_pkpd_targets <span class="ot">&lt;-</span> <span class="fu">paste0</span>(pkpd_targets <span class="sc">*</span> <span class="dv">100</span>, <span class="st">"%"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Two different fT&gt;MIC (with unbound fraction = 0.82) were studied (50%, 100%). They were computed for a range of MICs (0.25, 0.5, 1, 2, 4, 8, 16 mg/L).</p>
 <p>The PTA when the target is 100% of the time above MIC calculated between 10 and 11 simulated days of treatment are inferior to those calculated between 9 and 10 days or 11 and 12 days. In order to reproduce figure 4, PTA were calculated between the 11 an 12th days of therapy.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fig4_pta_twelve_days_result_path <span class="ot">&lt;-</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  here<span class="sc">::</span><span class="fu">here</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co"># run only if results does not exist yet</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(fig4_pta_twelve_days_result_path)) {</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Function to #compute PTA for  1 dosing regimen, 1 CLCR, 1 MIC, enables looping through them</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  wrapper_compute_pta <span class="ot">&lt;-</span> <span class="cf">function</span>(dosing_reg_id,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                                  path_dosing_regimens,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                                  sim_dur,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                                  sim_step,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                                  model,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                                  patients,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                                  path_parameters,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>                                  cov_default,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                                  omega_mat,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                                  from,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>                                  to,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>                                  targets) {</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    dosing_reg <span class="ot">&lt;-</span> <span class="fu">select_dosing_regimens</span>(</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">selected_regimen =</span> dosing_reg_id,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>      <span class="at">path_to_the_file =</span> path_dosing_regimens</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    sim <span class="ot">&lt;-</span> <span class="fu">simulate_mrgsolve</span>(</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">dosing_regimen =</span> dosing_reg,</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">sim_dur =</span> sim_dur,</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> model,</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>      <span class="at">patients =</span> patients,</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">sim_step =</span> sim_step,</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">param_file =</span> path_parameters,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>      <span class="at">cov_default =</span> cov_default,</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>      <span class="at">omega_mat =</span> omega_mat</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    pta <span class="ot">&lt;-</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>      purrr<span class="sc">::</span><span class="fu">map</span>(</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        targets,</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="sc">~</span> <span class="fu">compute_ft_over_mic</span>(</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">sim_tbl =</span> sim,</span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>          <span class="at">from =</span> from,</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>          <span class="at">to =</span> to</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>        ) <span class="sc">|&gt;</span></span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>          <span class="fu">compute_pta_t_over_mic</span>(<span class="at">target =</span> .x)</span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>      purrr<span class="sc">::</span><span class="fu">reduce</span>(dplyr<span class="sc">::</span>left_join) <span class="sc">|&gt;</span></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>        <span class="at">CLCR =</span> cov_default<span class="sc">$</span>CLCR,</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>        <span class="at">regimen_id =</span> dosing_reg_id</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>    pta</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### Dosing regimens to be simulated ####</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>  path_dosing_regimens <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv"</span>)</span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>  dosing_regimens_ids <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(path_dosing_regimens) <span class="sc">|&gt;</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">pull</span>(regimen_id) <span class="sc">|&gt;</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>    <span class="fu">unique</span>()</span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### Patient level covariates ####</span></span>
+<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>  patients <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/simulated_patients.csv"</span>),</span>
+<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> F</span>
+<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### PK model, structural and variability parameters ####</span></span>
+<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>  model <span class="ot">&lt;-</span> mrgsolve<span class="sc">::</span><span class="fu">mread</span>(<span class="at">model =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/mrgsolve/amox_Fournier.cpp"</span>))</span>
+<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>  path_parameters <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/model_parameters.csv"</span>)</span>
+<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>  eta_CL <span class="ot">&lt;-</span> <span class="fu">log</span>(<span class="fl">0.373</span><span class="sc">^</span><span class="dv">2</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>  omega_mat <span class="ot">&lt;-</span> mrgsolve<span class="sc">::</span><span class="fu">dmat</span>(eta_CL)</span>
+<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### Simulation time parameters ####</span></span>
+<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>  sim_dur <span class="ot">&lt;-</span> <span class="dv">288</span> <span class="co"># hours</span></span>
+<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>  sim_step <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">6</span> <span class="co"># 1 every 10 min</span></span>
+<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### PK/PD targets and PTA parameters ####</span></span>
+<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>  from <span class="ot">&lt;-</span> <span class="dv">264</span></span>
+<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>  to <span class="ot">&lt;-</span> <span class="dv">288</span></span>
+<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a>  targets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)</span>
+<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### Setting up the loop for simulations ####</span></span>
+<span id="cb10-85"><a href="#cb10-85" aria-hidden="true" tabindex="-1"></a>  regimen_cov_grid <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a>    <span class="at">dosing_reg_id =</span> dosing_regimens_ids,</span>
+<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a>    <span class="at">CLCR =</span> clcr_values, <span class="co"># defined in an earlier chunk</span></span>
+<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>    <span class="at">WT =</span> <span class="dv">70</span>, <span class="co"># need a default value, but real value for each patient will be pulled from patients table</span></span>
+<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a>    <span class="at">MIC =</span> mics, <span class="co"># defined in an earlier chunk</span></span>
+<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a>    <span class="at">SEX =</span> <span class="dv">0</span>,</span>
+<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>    <span class="at">AGE =</span> <span class="dv">60</span>,</span>
+<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a>    <span class="at">BSA =</span> <span class="fl">1.73</span></span>
+<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a>  dosing_reg_ids <span class="ot">&lt;-</span> regimen_cov_grid<span class="sc">$</span>dosing_reg_id</span>
+<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a>  cov_list <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(regimen_cov_grid, <span class="sc">-</span>dosing_reg_id) <span class="sc">|&gt;</span></span>
+<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a>    <span class="fu">split</span>(<span class="at">x =</span> _, <span class="at">f =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(regimen_cov_grid))</span>
+<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a>  model_cov_CLCR <span class="ot">&lt;-</span>  mrgsolve<span class="sc">::</span><span class="fu">mread</span>(<span class="at">model =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/mrgsolve/amox_Fournier_cov_CLCR.cpp"</span>))</span>
+<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a>  <span class="do">#### Perform the simulations and compute PTA ####</span></span>
+<span id="cb10-101"><a href="#cb10-101" aria-hidden="true" tabindex="-1"></a>  pta_results <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">map2</span>(</span>
+<span id="cb10-102"><a href="#cb10-102" aria-hidden="true" tabindex="-1"></a>    <span class="at">.x =</span> dosing_reg_ids,</span>
+<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a>    <span class="at">.y =</span> cov_list,</span>
+<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>    <span class="at">.f =</span> <span class="sc">~</span> <span class="fu">wrapper_compute_pta</span>(</span>
+<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>      <span class="at">dosing_reg_id =</span> .x,</span>
+<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a>      <span class="at">path_dosing_regimens =</span> path_dosing_regimens,</span>
+<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a>      <span class="at">sim_dur =</span> sim_dur,</span>
+<span id="cb10-108"><a href="#cb10-108" aria-hidden="true" tabindex="-1"></a>      <span class="at">sim_step =</span> sim_step,</span>
+<span id="cb10-109"><a href="#cb10-109" aria-hidden="true" tabindex="-1"></a>      <span class="at">model =</span> model_cov_CLCR,</span>
+<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a>      <span class="at">patients =</span> patients,</span>
+<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>      <span class="at">path_parameters =</span> path_parameters,</span>
+<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>      <span class="at">cov_default =</span> .y,</span>
+<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>      <span class="at">omega_mat =</span> omega_mat,</span>
+<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>      <span class="at">from =</span> from,</span>
+<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a>      <span class="at">to =</span> to,</span>
+<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>      <span class="at">targets =</span> targets</span>
+<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">bind_cols</span>(cov_list <span class="sc">|&gt;</span> purrr<span class="sc">::</span><span class="fu">list_rbind</span>() <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>MIC,<span class="sc">-</span>CLCR)) </span>
+<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">write_csv</span>(</span>
+<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> pta_results,</span>
+<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(</span>
+<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span></span>
+<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># regimen_id_pta_05 and regimen_id_pta_1 are lists of regimen_id</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fig_4_plot_row <span class="ot">&lt;-</span> <span class="cf">function</span>(path_to_results, selected_clcr, regimen_id_pta_05, regimen_id_pta_1) {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  fig_4_row_pta_05_data <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> path_to_results,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> F</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">cols =</span> tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">"PTA"</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_to =</span> <span class="st">"PTA"</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">target =</span> <span class="fu">gsub</span>(<span class="st">"PTA_"</span>, <span class="st">""</span>, <span class="at">x =</span> name), <span class="at">.keep =</span> <span class="st">"unused"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(target <span class="sc">==</span> <span class="st">"0.5"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(CLCR <span class="sc">==</span> selected_clcr <span class="sc">&amp;</span> regimen_id <span class="sc">%in%</span> regimen_id_pta_05) <span class="sc">|&gt;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  fig_4_row_pta_1_data <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> fig4_pta_twelve_days_result_path,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> F</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">cols =</span> tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">"PTA"</span>),</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_to =</span> <span class="st">"PTA"</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">target =</span> <span class="fu">gsub</span>(<span class="st">"PTA_"</span>, <span class="st">""</span>, <span class="at">x =</span> name), <span class="at">.keep =</span> <span class="st">"unused"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(target <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(CLCR <span class="sc">==</span> selected_clcr <span class="sc">&amp;</span> regimen_id <span class="sc">%in%</span> regimen_id_pta_1) <span class="sc">|&gt;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  row_data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">full_join</span>(fig_4_row_pta_05_data, fig_4_row_pta_1_data) <span class="sc">|&gt;</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">target =</span> forcats<span class="sc">::</span><span class="fu">fct_relevel</span>(target, <span class="st">"0.5"</span>, <span class="st">"1"</span>))</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>  row_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(row_data, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> MIC, <span class="at">y =</span> PTA, <span class="at">color =</span> <span class="fu">as.factor</span>(regimen_id))) <span class="sc">+</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">facet_grid</span>(CLCR <span class="sc">~</span> target,</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>      <span class="at">labeller =</span> ggplot2<span class="sc">::</span><span class="fu">labeller</span>(<span class="at">.default =</span> ggplot2<span class="sc">::</span>label_both)</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_x_continuous</span>(<span class="st">"MIC (mg/L)"</span>,</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      <span class="at">transform =</span> <span class="st">"log2"</span>,</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> mics</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="st">"Probability of target attainment"</span>,</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_color_brewer</span>(</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Dosing regimen"</span>,</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>      <span class="at">palette =</span> <span class="st">"Dark2"</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>  row_plot</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr200 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr200 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_200 <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>fig_4_1st_row_12_days <span class="ot">&lt;-</span> <span class="fu">fig_4_plot_row</span>(</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path_to_results =</span> fig4_pta_twelve_days_result_path,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">selected_clcr =</span> selected_clcr_200,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr200,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr200</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>fig_4_1st_row_12_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fig-4-top-row" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -682,241 +1113,467 @@ Figure&nbsp;5.1: Attempt at reproducing the first row of figure 4
 </div>
 </div>
 </div>
+<p><a href="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_first_row.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_first_row.jpeg" class="img-fluid" style="width:100.0%" data-fig-cap="Original paper first row of figure 4" data-label="fig-original-fig-4-top-row"></a></p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-original-fig-4-top-row" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-original-fig-4-top-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_first_row.jpeg" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;5.2: Original paper first row of figure 4"><img src="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_first_row.jpeg" class="img-fluid figure-img" style="width:100.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-fig-4-top-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.2: Original paper first row of figure 4
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr150 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr150 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_150 <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>fig_4_2nd_row_12_days <span class="ot">&lt;-</span> <span class="fu">fig_4_plot_row</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path_to_results =</span> fig4_pta_twelve_days_result_path,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">selected_clcr =</span> selected_clcr_150,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr150,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr150</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>fig_4_2nd_row_12_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fig-4-second-row-sim_12-days" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-fig-4-second-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-second-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;5.3: Attempt at reproducing the second row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-second-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-second-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;5.2: Attempt at reproducing the second row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-second-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-fig-4-second-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.3: Attempt at reproducing the second row of figure 4, twelve days of simulation
+Figure&nbsp;5.2: Attempt at reproducing the second row of figure 4, twelve days of simulation
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p><a href="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_second_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5"><img src="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_second_row.png" class="img-fluid" style="width:100.0%" data-fig-cap="Original paper second row of figure 4" data-label="fig-original-fig-4-second-row"></a></p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-original-fig-4-second-row" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-original-fig-4-second-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_second_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-5" title="Figure&nbsp;5.4: Original paper second row of figure 4"><img src="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_second_row.png" class="img-fluid figure-img" style="width:100.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-fig-4-second-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.4: Original paper second row of figure 4
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr100 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q6h IT = 2h"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr100 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>, <span class="st">"2g 6h IT = 2h"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_100 <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>fig_4_3rd_row_12_days <span class="ot">&lt;-</span> <span class="fu">fig_4_plot_row</span>(</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path_to_result =</span> fig4_pta_twelve_days_result_path,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">selected_clcr =</span> selected_clcr_100,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr100,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr100</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>fig_4_3rd_row_12_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fig-4-third-row-sim_12-days" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-fig-4-third-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-third-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;5.5: Attempt at reproducing the third row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-third-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-third-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-6" title="Figure&nbsp;5.3: Attempt at reproducing the third row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-third-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-fig-4-third-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.5: Attempt at reproducing the third row of figure 4, twelve days of simulation
+Figure&nbsp;5.3: Attempt at reproducing the third row of figure 4, twelve days of simulation
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p><a href="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_third_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7"><img src="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_third_row.png" class="img-fluid" style="width:100.0%" data-fig-cap="Original paper third row of figure 4" data-label="fig-original-fig-4-third-row"></a></p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-original-fig-4-third-row" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-original-fig-4-third-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_third_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-7" title="Figure&nbsp;5.6: Original paper third row of figure 4"><img src="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_third_row.png" class="img-fluid figure-img" style="width:100.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-fig-4-third-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.6: Original paper third row of figure 4
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr60 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q6h IT = 2h"</span>, <span class="st">"2g q8h IT = 2h"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr60 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"2g 8h IT = 2h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q6h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_60 <span class="ot">&lt;-</span> <span class="dv">60</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>fig_4_4th_row_12_days <span class="ot">&lt;-</span> <span class="fu">fig_4_plot_row</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path_to_result =</span> fig4_pta_twelve_days_result_path,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">selected_clcr =</span> selected_clcr_60,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr60,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr60</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>fig_4_4th_row_12_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fig-4-fourth-row-sim_12-days" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-fig-4-fourth-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fourth-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;5.7: Attempt at reproducing the fourth row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fourth-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fourth-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;5.4: Attempt at reproducing the fourth row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fourth-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-fig-4-fourth-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.7: Attempt at reproducing the fourth row of figure 4, twelve days of simulation
+Figure&nbsp;5.4: Attempt at reproducing the fourth row of figure 4, twelve days of simulation
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p><a href="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fourth_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9"><img src="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fourth_row.png" class="img-fluid" style="width:100.0%" data-fig-cap="Original paper fourth row of figure 4" data-label="fig-original-fig-4-fourth-row"></a></p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-original-fig-4-fourth-row" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-original-fig-4-fourth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fourth_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;5.8: Original paper fourth row of figure 4"><img src="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fourth_row.png" class="img-fluid figure-img" style="width:100.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-fig-4-fourth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.8: Original paper fourth row of figure 4
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr30 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g q6h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"0.5g q4h"</span>, <span class="st">"1g q4h"</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr30 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g 6h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"0.5g q4h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_30 <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>fig_4_5th_row_12_days <span class="ot">&lt;-</span> <span class="fu">fig_4_plot_row</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path_to_result =</span> fig4_pta_twelve_days_result_path,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">selected_clcr =</span> selected_clcr_30,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr30,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr30</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>fig_4_5th_row_12_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fig-4-fifth-row-sim_12-days" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-fig-4-fifth-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fifth-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;5.9: Attempt at reproducing the fifth row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fifth-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fifth-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;5.5: Attempt at reproducing the fifth row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-fifth-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-fig-4-fifth-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.9: Attempt at reproducing the fifth row of figure 4, twelve days of simulation
+Figure&nbsp;5.5: Attempt at reproducing the fifth row of figure 4, twelve days of simulation
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
+<p><a href="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fifth_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11"><img src="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fifth_row.png" class="img-fluid" style="width:100.0%" data-fig-cap="Original paper fifth row of figure 4" data-label="fig-original-fig-4-fifth-row"></a></p>
 <div class="cell">
-<div class="cell-output-display">
-<div id="fig-original-fig-4-fifth-row" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-original-fig-4-fifth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fifth_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-11" title="Figure&nbsp;5.10: Original paper fifth row of figure 4"><img src="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fifth_row.png" class="img-fluid figure-img" style="width:100.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-fig-4-fifth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.10: Original paper fifth row of figure 4
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr15 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q12h"</span>, <span class="st">"1g q12h"</span>, <span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g q6h"</span>, <span class="st">"1g q6h"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr15 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q12h"</span>, <span class="st">"1g q12h"</span>, <span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g q6h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_15 <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>fig_4_5th_row_12_days <span class="ot">&lt;-</span> <span class="fu">fig_4_plot_row</span>(</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">path_to_result =</span> fig4_pta_twelve_days_result_path,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">selected_clcr =</span> selected_clcr_15,</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr15,</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr15</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>fig_4_5th_row_12_days</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fig-4-sixth-row-sim_12-days" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-fig-4-sixth-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-sixth-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;5.11: Attempt at reproducing the sixth row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-sixth-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-sixth-row-sim_12-days-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-12" title="Figure&nbsp;5.6: Attempt at reproducing the sixth row of figure 4, twelve days of simulation"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fig-4-sixth-row-sim_12-days-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-fig-4-sixth-row-sim_12-days-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.11: Attempt at reproducing the sixth row of figure 4, twelve days of simulation
+Figure&nbsp;5.6: Attempt at reproducing the sixth row of figure 4, twelve days of simulation
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="fig-original-fig-4-sixth-row" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-original-fig-4-sixth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_sixth_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13" title="Figure&nbsp;5.12: Original paper sixth row of figure 4"><img src="C:/Users/Vincent-Travail/Documents/travail/amoxicillinOpenMIPDpaper/Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_sixth_row.png" class="img-fluid figure-img" style="width:100.0%"></a>
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-original-fig-4-sixth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.12: Original paper sixth row of figure 4
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
+<p><a href="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_sixth_row.png" class="lightbox" data-gallery="quarto-lightbox-gallery-13"><img src="../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_sixth_row.png" class="img-fluid" style="width:100.0%" data-fig-cap="Original paper sixth row of figure 4" data-label="fig-original-fig-4-sixth-row"></a></p>
 <p>Regarding over or under estimation of PTA in relation to MIC, compared with PTAs of the original article, no trend can be distinguished. Differences are of the order of 5%. Our simulations line up well with the published figures.</p>
 <p>To facilitate comparison between our simulations and the article figure 4, results of our simulations were plotted with article data. Data from the original figure 4 of the article were digitalized. They are the dashed lines in the following figures.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create csv files containing data from article's figure 4 </span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># for each row, one file for PTA 0.5 and one for PTA 1 </span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="do">#### function ####</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="co"># wanted_pattern has to be written inside quotes </span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># and is the pattern common to the downloaded files joined to form one csv </span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co"># # csv to write inside data_fig_4</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4 = function(wanted_pattern, path_to_new_file) {</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   files = list.files(path = here::here("../../../Downloads"),</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co">#                      pattern = wanted_pattern)</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   </span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   pta = purrr::map(.x = files,</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co">#                    .f = ~readr::read_csv(file.path(here::here("../../../Downloads"), .x))) |&gt;</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="co">#     dplyr::bind_rows() |&gt;</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="co">#     write.csv(file = path_to_new_file)</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a><span class="co"># #### create files ####</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="co"># # run only if the folder containing digitalized data doesn't exist</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a><span class="co"># if(!file.exists(here::here("Model_implementation_validation/data/fournier_2018/data_fig_4"))) {</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co"># # 1st row, left</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "left_1st_row",</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_top_row.csv"))</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a><span class="co"># # 1st row, right </span></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "right_1st_row",</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_top_row.csv"))</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co"># # 2nd row, left</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "left_2nd_row",</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_2nd_row.csv"))</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="co"># # 2nd row, right </span></span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "right_2nd_row",</span></span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_2nd_row.csv"))</span></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="co"># # 3rd row, left</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "left_3rd_row",</span></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_3rd_row.csv"))</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a><span class="co"># # 3rd row, right </span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "right_3rd_row",</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_3rd_row.csv"))</span></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="co"># # 4th row, left</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "left_4th_row",</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_4th_row.csv"))</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a><span class="co"># # 4th row, right</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "right_4th_row",</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_4th_row.csv"))</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a><span class="co"># # 5th row, left</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "left_5th_row",</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_5th_row.csv"))</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a><span class="co"># # 5th row, right</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "right_5th_row",</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_5th_row.csv"))</span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a><span class="co"># # 6th row, left</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "left_6th_row",</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_6th_row.csv"))</span></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="co"># # 6th row, right</span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a><span class="co"># csv_pta_fig_4(wanted_pattern = "right_6th_row",</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a><span class="co">#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_6th_row.csv"))</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># regimen_id_pta_05 and regimen_id_pta_1 are character vectors containing dosing regimens for a given creatinin clearance/row and target</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># path_to_pta_05_article, path_to_pta_1_article are files containing digitalized pTA from figure 4 for this given creatinin clearance/row and target</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>fig_4_new_plot_row <span class="ot">=</span> <span class="cf">function</span>(path_to_pta_05_article, path_to_pta_1_article, path_to_results, selected_clcr, regimen_id_pta_05, regimen_id_pta_1) {</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  article_pta_0<span class="fl">.5</span> <span class="ot">=</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="at">file =</span> path_to_pta_05_article, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(regimen_id <span class="sc">%in%</span> regimen_id_pta_05) <span class="sc">|&gt;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(y, regimen_id) <span class="sc">|&gt;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">PTA_article =</span> y)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># add MICs for all dosing regimens to join article and simulated data later </span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># work because digitalized data were sorted by x (MIC) before their export</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  article_pta_0<span class="fl">.5</span>_2 <span class="ot">=</span> article_pta_0<span class="fl">.5</span> <span class="sc">|&gt;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">MIC =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>), <span class="at">times =</span> (<span class="fu">nrow</span>(article_pta_0<span class="fl">.5</span>)<span class="sc">/</span><span class="dv">7</span>)))</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>article_pta_1 <span class="ot">=</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="at">file =</span> path_to_pta_1_article, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(regimen_id <span class="sc">%in%</span> regimen_id_pta_1) <span class="sc">|&gt;</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(y, regimen_id) <span class="sc">|&gt;</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="at">PTA_article =</span> y)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>article_pta_1_2 <span class="ot">=</span> article_pta_1 <span class="sc">|&gt;</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">MIC =</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>), <span class="at">times =</span> (<span class="fu">nrow</span>(article_pta_1)<span class="sc">/</span><span class="dv">7</span>)))</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>fig_4_row_pta_05_data <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> path_to_results,</span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> F</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">cols =</span> tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">"PTA"</span>),</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_to =</span> <span class="st">"PTA"</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">target =</span> <span class="fu">gsub</span>(<span class="st">"PTA_"</span>, <span class="st">""</span>, <span class="at">x =</span> name), <span class="at">.keep =</span> <span class="st">"unused"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(target <span class="sc">==</span> <span class="fl">0.5</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(CLCR <span class="sc">==</span> selected_clcr <span class="sc">&amp;</span> regimen_id <span class="sc">%in%</span> regimen_id_pta_05) <span class="sc">|&gt;</span></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">merge</span>(<span class="at">y =</span> article_pta_0<span class="fl">.5</span>_2, <span class="at">.by =</span> MIC) </span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>fig_4_row_pta_05_data</span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>fig_4_row_pta_1_data <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> path_to_results,</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> F</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">pivot_longer</span>(</span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">cols =</span> tidyselect<span class="sc">::</span><span class="fu">starts_with</span>(<span class="st">"PTA"</span>),</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">values_to =</span> <span class="st">"PTA"</span></span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb19-47"><a href="#cb19-47" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">target =</span> <span class="fu">gsub</span>(<span class="st">"PTA_"</span>, <span class="st">""</span>, <span class="at">x =</span> name), <span class="at">.keep =</span> <span class="st">"unused"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-48"><a href="#cb19-48" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(target <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">filter</span>(CLCR <span class="sc">==</span> selected_clcr <span class="sc">&amp;</span> regimen_id <span class="sc">%in%</span> regimen_id_pta_1) <span class="sc">|&gt;</span></span>
+<span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.data.frame</span>()<span class="sc">|&gt;</span></span>
+<span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">merge</span>(<span class="at">y =</span> article_pta_1_2, <span class="at">.by =</span> MIC)</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a>  row_data <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">full_join</span>(fig_4_row_pta_05_data, fig_4_row_pta_1_data) <span class="sc">|&gt;</span></span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">target =</span> forcats<span class="sc">::</span><span class="fu">fct_relevel</span>(target, <span class="st">"0.5"</span>, <span class="st">"1"</span>))</span>
+<span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a>  row_data</span>
+<span id="cb19-56"><a href="#cb19-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-57"><a href="#cb19-57" aria-hidden="true" tabindex="-1"></a>  mics <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>)</span>
+<span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a>  row_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(row_data, ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> MIC, <span class="at">y =</span> PTA, <span class="at">color =</span> <span class="fu">as.factor</span>(regimen_id))) <span class="sc">+</span></span>
+<span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(<span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> MIC, <span class="at">y =</span> PTA)) <span class="sc">+</span></span>
+<span id="cb19-60"><a href="#cb19-60" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> MIC, <span class="at">y =</span> PTA)) <span class="sc">+</span></span>
+<span id="cb19-61"><a href="#cb19-61" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_point</span>(<span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> MIC, <span class="at">y =</span> PTA_article)) <span class="sc">+</span></span>
+<span id="cb19-62"><a href="#cb19-62" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">geom_line</span>(<span class="at">mapping =</span> ggplot2<span class="sc">::</span><span class="fu">aes</span>(<span class="at">x =</span> MIC, <span class="at">y =</span> PTA_article), <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb19-63"><a href="#cb19-63" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">facet_grid</span>(CLCR <span class="sc">~</span> target,</span>
+<span id="cb19-64"><a href="#cb19-64" aria-hidden="true" tabindex="-1"></a>      <span class="at">labeller =</span> ggplot2<span class="sc">::</span><span class="fu">labeller</span>(<span class="at">.default =</span> ggplot2<span class="sc">::</span>label_both)</span>
+<span id="cb19-65"><a href="#cb19-65" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-66"><a href="#cb19-66" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_x_continuous</span>(<span class="st">"MIC (mg/L)"</span>,</span>
+<span id="cb19-67"><a href="#cb19-67" aria-hidden="true" tabindex="-1"></a>      <span class="at">transform =</span> <span class="st">"log2"</span>,</span>
+<span id="cb19-68"><a href="#cb19-68" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> mics</span>
+<span id="cb19-69"><a href="#cb19-69" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-70"><a href="#cb19-70" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_y_continuous</span>(<span class="st">"Probability of target attainment"</span>,</span>
+<span id="cb19-71"><a href="#cb19-71" aria-hidden="true" tabindex="-1"></a>      <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.1</span>)</span>
+<span id="cb19-72"><a href="#cb19-72" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">scale_color_brewer</span>(</span>
+<span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a>      <span class="at">name =</span> <span class="st">"Dosing regimen"</span>,</span>
+<span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a>      <span class="at">palette =</span> <span class="st">"Dark2"</span></span>
+<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">+</span></span>
+<span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a>    ggplot2<span class="sc">::</span><span class="fu">theme_bw</span>(<span class="at">base_size =</span> <span class="dv">18</span>)</span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a>  row_plot</span>
+<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr200 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr200 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_200 <span class="ot">&lt;-</span> <span class="dv">200</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plot_top_row <span class="ot">=</span> <span class="fu">fig_4_new_plot_row</span>(<span class="at">path_to_pta_05_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_top_row.csv"</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_pta_1_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_top_row.csv"</span>),</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_results =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span>), </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">selected_clcr =</span> selected_clcr_200, </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr200, </span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr200)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>plot_top_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-top-row" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-top-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-top-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;5.13: Reproduction of the first row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-top-row-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-top-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-14" title="Figure&nbsp;5.7: Reproduction of the first row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-top-row-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-top-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.13: Reproduction of the first row of figure 4
+Figure&nbsp;5.7: Reproduction of the first row of figure 4
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr150 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr150 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_150 <span class="ot">&lt;-</span> <span class="dv">150</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>plot_2nd_row <span class="ot">=</span> <span class="fu">fig_4_new_plot_row</span>(<span class="at">path_to_pta_05_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_2nd_row.csv"</span>),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_pta_1_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_2nd_row.csv"</span>),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_results =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span>), </span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">selected_clcr =</span> selected_clcr_150, </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr150, </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr150)</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>plot_2nd_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-second-row" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-second-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-second-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figure&nbsp;5.14: Reproduction of the 2nd row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-second-row-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-second-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-15" title="Figure&nbsp;5.8: Reproduction of the 2nd row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-second-row-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-second-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.14: Reproduction of the 2nd row of figure 4
+Figure&nbsp;5.8: Reproduction of the 2nd row of figure 4
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr100 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q6h IT = 2h"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr100 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q4h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>, <span class="st">"2g 6h IT = 2h"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_100 <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>plot_3rd_row <span class="ot">=</span> <span class="fu">fig_4_new_plot_row</span>(<span class="at">path_to_pta_05_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_3rd_row.csv"</span>),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_pta_1_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_3rd_row.csv"</span>),</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_results =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span>), </span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">selected_clcr =</span> selected_clcr_100, </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr100, </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr100)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>plot_3rd_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-third-row" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-third-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-third-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16" title="Figure&nbsp;5.15: Reproduction of the 3rd row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-third-row-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-third-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-16" title="Figure&nbsp;5.9: Reproduction of the 3rd row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-third-row-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-third-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.15: Reproduction of the 3rd row of figure 4
+Figure&nbsp;5.9: Reproduction of the 3rd row of figure 4
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr60 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q6h IT = 2h"</span>, <span class="st">"2g q8h IT = 2h"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr60 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1g q8h"</span>, <span class="st">"2g q8h"</span>, <span class="st">"2g 8h IT = 2h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>, <span class="st">"1g q6h IT = 2h"</span>, <span class="st">"2g q4h IT = 2h"</span>)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_60 <span class="ot">&lt;-</span> <span class="dv">60</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>plot_4th_row <span class="ot">=</span> <span class="fu">fig_4_new_plot_row</span>(<span class="at">path_to_pta_05_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_4th_row.csv"</span>),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_pta_1_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_4th_row.csv"</span>),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_results =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span>), </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">selected_clcr =</span> selected_clcr_60, </span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr60, </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr60)</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>plot_4th_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fourth-row" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-fourth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fourth-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="Figure&nbsp;5.16: Reproduction of the 4th row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fourth-row-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fourth-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-17" title="Figure&nbsp;5.10: Reproduction of the 4th row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fourth-row-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-fourth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.16: Reproduction of the 4th row of figure 4
+Figure&nbsp;5.10: Reproduction of the 4th row of figure 4
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr30 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g q6h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"0.5g q4h"</span>, <span class="st">"1g q4h"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr30 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g 6h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"0.5g q4h"</span>, <span class="st">"1g q4h"</span>, <span class="st">"2g q4h"</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_30 <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>plot_5th_row <span class="ot">=</span> <span class="fu">fig_4_new_plot_row</span>(<span class="at">path_to_pta_05_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_5th_row.csv"</span>),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_pta_1_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_5th_row.csv"</span>),</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_results =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span>), </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">selected_clcr =</span> selected_clcr_30, </span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr30, </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr30)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>plot_5th_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-fifth-row" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-fifth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fifth-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18" title="Figure&nbsp;5.17: Reproduction of the 5th row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fifth-row-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-fifth-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-18" title="Figure&nbsp;5.11: Reproduction of the 5th row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-fifth-row-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-fifth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.17: Reproduction of the 5th row of figure 4
+Figure&nbsp;5.11: Reproduction of the 5th row of figure 4
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_05_clcr15 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q12h"</span>, <span class="st">"1g q12h"</span>, <span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g q6h"</span>, <span class="st">"1g q6h"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>regimen_id_pta_1_clcr15 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"0.5g q12h"</span>, <span class="st">"1g q12h"</span>, <span class="st">"0.5g q8h"</span>, <span class="st">"1g q8h"</span>, <span class="st">"0.5g q6h"</span>, <span class="st">"1g q6h"</span>, <span class="st">"1g q4h"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>selected_clcr_15 <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>plot_6th_row <span class="ot">=</span> <span class="fu">fig_4_new_plot_row</span>(<span class="at">path_to_pta_05_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_6th_row.csv"</span>),</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_pta_1_article =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_6th_row.csv"</span>),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">path_to_results =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"</span>), </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">selected_clcr =</span> selected_clcr_15, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_05 =</span> regimen_id_pta_05_clcr15, </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">regimen_id_pta_1 =</span> regimen_id_pta_1_clcr15)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>plot_6th_row</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="fig-reprod-sixth-row" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reprod-sixth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-sixth-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19" title="Figure&nbsp;5.18: Reproduction of the 6th row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-sixth-row-1.png" class="img-fluid figure-img"></a>
+<a href="valid_amox_fournier_2018_files/figure-html/fig-reprod-sixth-row-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-19" title="Figure&nbsp;5.12: Reproduction of the 6th row of figure 4"><img src="valid_amox_fournier_2018_files/figure-html/fig-reprod-sixth-row-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reprod-sixth-row-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5.18: Reproduction of the 6th row of figure 4
+Figure&nbsp;5.12: Reproduction of the 6th row of figure 4
 </figcaption>
 </figure>
 </div>
@@ -927,8 +1584,191 @@ Figure&nbsp;5.18: Reproduction of the 6th row of figure 4
 <section id="reproduction-of-table-4" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="reproduction-of-table-4"><span class="header-section-number">5.3</span> Reproduction of table 4</h2>
 <p>Table 4 represents the influence of bodyweight and creatinin clearance on fT&gt;MIC means and PTAs for two targets. Four bodyweight (50, 70, 100, 150 kg) and 3 creatinin clearance were studied. Dosing regimen was 1g infused over 30 minutes every eight hours and MIC was 8 mg/L. For each condition, 500 patients were simulated.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>patients_tbl_4 <span class="ot">=</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">ID =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">500</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>patients_tbl_4</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="at">x =</span> patients_tbl_4, <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/patients_tbl_4.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>wrapper_compute_pta_bw <span class="ot">&lt;-</span> <span class="cf">function</span>(dosing_reg_id,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                                path_dosing_regimens,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                                sim_dur,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                                sim_step,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                                model,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                                patients,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                                <span class="at">path_parameters =</span> <span class="cn">NULL</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                                cov_default,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                                omega_mat,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sigma_mat =</span> <span class="cn">NULL</span>,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                                from,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                                to,</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                                targets) {</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  dosing_reg <span class="ot">&lt;-</span> <span class="fu">select_dosing_regimens</span>(</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">selected_regimen =</span> dosing_reg_id,</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">path_to_the_file =</span> path_dosing_regimens</span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>  sim <span class="ot">&lt;-</span> <span class="fu">simulate_mrgsolve</span>(</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">dosing_regimen =</span> dosing_reg,</span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">sim_dur =</span> sim_dur,</span>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> model,</span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">patients =</span> patients,</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">sim_step =</span> sim_step,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">param_file =</span> path_parameters,</span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">cov_default =</span> cov_default,</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">omega_mat =</span> omega_mat,</span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">sigma_mat =</span> sigma_mat</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>  pta <span class="ot">&lt;-</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">map</span>(</span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>      targets,</span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">compute_ft_over_mic</span>(</span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>        <span class="at">sim_tbl =</span> sim,</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>        <span class="at">from =</span> from,</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">to =</span> to</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>      ) <span class="sc">|&gt;</span></span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>        <span class="fu">compute_pta_t_over_mic</span>(<span class="at">target =</span> .x)</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    purrr<span class="sc">::</span><span class="fu">reduce</span>(dplyr<span class="sc">::</span>left_join) <span class="sc">|&gt;</span></span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>      <span class="at">regimen_id =</span> dosing_reg_id,</span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">BW =</span> cov_default<span class="sc">$</span>WT,</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">CRCL =</span> cov_default<span class="sc">$</span>CLCR)</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>  pta</span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="do">#### List of covariates ####</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">=</span> <span class="fu">expand.grid</span>(<span class="at">CLCR =</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">200</span>),</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">WT =</span> <span class="fu">c</span>(<span class="dv">50</span>, <span class="dv">70</span>, <span class="dv">100</span>, <span class="dv">150</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">MIC =</span> <span class="dv">8</span>,</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">SEX =</span> <span class="dv">0</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">AGE =</span> <span class="dv">60</span>,</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">BSA =</span> <span class="fl">1.73</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>list_clcr_bw  <span class="ot">=</span> <span class="fu">split</span>(tbl, <span class="fu">seq</span>(<span class="fu">nrow</span>(tbl)))</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>list_clcr_bw</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="do">#### Dosing regimen to be simulated ####</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  path_dosing_regimens <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv"</span>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  dose <span class="ot">=</span> <span class="st">"1g q8h"</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a><span class="do">#### Patients ####</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>  patients_id <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(</span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/patients_tbl_4.csv"</span>),</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">show_col_types =</span> F</span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a><span class="do">#### Simulation time parameters ####</span></span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>  sim_dur <span class="ot">&lt;-</span> <span class="dv">288</span> <span class="co"># hours</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  sim_step <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="dv">6</span> <span class="co"># 1 every 10 min</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a><span class="do">#### PK/PD targets and PTA parameters ####</span></span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>  from <span class="ot">&lt;-</span> <span class="dv">264</span></span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>  to <span class="ot">&lt;-</span> <span class="dv">288</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>  targets <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="dv">1</span>)</span>
+<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>  model_cov_CLCR <span class="ot">&lt;-</span>  mrgsolve<span class="sc">::</span><span class="fu">mread</span>(<span class="at">model =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/mrgsolve/amox_Fournier_cov_CLCR.cpp"</span>))</span>
+<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a><span class="do">#### Simulations ####</span></span>
+<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>sim_tbl_4 <span class="ot">=</span> purrr<span class="sc">::</span><span class="fu">map</span>(<span class="at">.x =</span> list_clcr_bw,</span>
+<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>                  <span class="at">.f =</span> <span class="sc">~</span><span class="fu">wrapper_compute_pta_bw</span>(<span class="at">dosing_reg_id =</span> dose,</span>
+<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>                                <span class="at">path_dosing_regimens =</span> path_dosing_regimens,</span>
+<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sim_dur =</span> sim_dur,</span>
+<span id="cb28-38"><a href="#cb28-38" aria-hidden="true" tabindex="-1"></a>                                <span class="at">sim_step =</span> sim_step,</span>
+<span id="cb28-39"><a href="#cb28-39" aria-hidden="true" tabindex="-1"></a>                                <span class="at">model =</span> model_cov_CLCR,</span>
+<span id="cb28-40"><a href="#cb28-40" aria-hidden="true" tabindex="-1"></a>                                <span class="at">patients =</span> patients_id,</span>
+<span id="cb28-41"><a href="#cb28-41" aria-hidden="true" tabindex="-1"></a>                                <span class="at">cov_default =</span> .x,</span>
+<span id="cb28-42"><a href="#cb28-42" aria-hidden="true" tabindex="-1"></a>                                <span class="at">omega_mat =</span> <span class="cn">NULL</span>,</span>
+<span id="cb28-43"><a href="#cb28-43" aria-hidden="true" tabindex="-1"></a>                                <span class="at">from =</span> <span class="dv">264</span>,</span>
+<span id="cb28-44"><a href="#cb28-44" aria-hidden="true" tabindex="-1"></a>                                <span class="at">to =</span> <span class="dv">288</span>,</span>
+<span id="cb28-45"><a href="#cb28-45" aria-hidden="true" tabindex="-1"></a>                                <span class="at">targets =</span> targets)) <span class="sc">|&gt;</span></span>
+<span id="cb28-46"><a href="#cb28-46" aria-hidden="true" tabindex="-1"></a>  purrr<span class="sc">::</span><span class="fu">list_rbind</span>()</span>
+<span id="cb28-47"><a href="#cb28-47" aria-hidden="true" tabindex="-1"></a>sim_tbl_4 </span>
+<span id="cb28-48"><a href="#cb28-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-49"><a href="#cb28-49" aria-hidden="true" tabindex="-1"></a><span class="do">#### Display the results ####</span></span>
+<span id="cb28-50"><a href="#cb28-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-51"><a href="#cb28-51" aria-hidden="true" tabindex="-1"></a>pretty_sim_tbl_4_2 <span class="ot">=</span> sim_tbl_4 <span class="sc">|&gt;</span></span>
+<span id="cb28-52"><a href="#cb28-52" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(mean_ft_over_mic, sd_ft_over_mic, PTA_0<span class="fl">.5</span>, PTA_1, CRCL , BW) <span class="sc">|&gt;</span></span>
+<span id="cb28-53"><a href="#cb28-53" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(CRCL) <span class="sc">|&gt;</span></span>
+<span id="cb28-54"><a href="#cb28-54" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(BW, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb28-55"><a href="#cb28-55" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">ungroup</span>() <span class="sc">|&gt;</span></span>
+<span id="cb28-56"><a href="#cb28-56" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(CRCL, BW) <span class="sc">|&gt;</span></span>
+<span id="cb28-57"><a href="#cb28-57" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">rename</span>(<span class="st">"fT&gt;MIC, mean"</span> <span class="ot">=</span> mean_ft_over_mic,</span>
+<span id="cb28-58"><a href="#cb28-58" aria-hidden="true" tabindex="-1"></a>                <span class="st">"fT&gt;MIC, SD"</span> <span class="ot">=</span> sd_ft_over_mic,</span>
+<span id="cb28-59"><a href="#cb28-59" aria-hidden="true" tabindex="-1"></a>                <span class="st">"PTA fT&gt;MIC ≥ 50%"</span> <span class="ot">=</span> PTA_0<span class="fl">.5</span>,</span>
+<span id="cb28-60"><a href="#cb28-60" aria-hidden="true" tabindex="-1"></a>                <span class="st">"PTA fT&gt;MIC ≥ 100%"</span> <span class="ot">=</span> PTA_1)</span>
+<span id="cb28-61"><a href="#cb28-61" aria-hidden="true" tabindex="-1"></a>pretty_sim_tbl_4_2 <span class="sc">|&gt;</span></span>
+<span id="cb28-62"><a href="#cb28-62" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span>
+<span id="cb28-63"><a href="#cb28-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-64"><a href="#cb28-64" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(<span class="at">x =</span> sim_tbl_4, <span class="at">file =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/tbl_4_reproduction.csv"</span>))</span>
+<span id="cb28-65"><a href="#cb28-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-66"><a href="#cb28-66" aria-hidden="true" tabindex="-1"></a><span class="do">#### Article values####</span></span>
+<span id="cb28-67"><a href="#cb28-67" aria-hidden="true" tabindex="-1"></a>article_mean_ft_over_mic <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.65</span>, <span class="fl">0.34</span>, <span class="fl">0.18</span>,</span>
+<span id="cb28-68"><a href="#cb28-68" aria-hidden="true" tabindex="-1"></a>                             <span class="fl">0.68</span>, <span class="fl">0.36</span>, <span class="fl">0.19</span>,</span>
+<span id="cb28-69"><a href="#cb28-69" aria-hidden="true" tabindex="-1"></a>                             <span class="fl">0.72</span>, <span class="fl">0.38</span>, <span class="fl">0.21</span>,</span>
+<span id="cb28-70"><a href="#cb28-70" aria-hidden="true" tabindex="-1"></a>                             <span class="fl">0.76</span>, <span class="fl">0.42</span>, <span class="fl">0.23</span>)</span>
+<span id="cb28-71"><a href="#cb28-71" aria-hidden="true" tabindex="-1"></a>article_sd_ft_over_mic <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.24</span>, <span class="fl">0.18</span>, <span class="fl">0.10</span>,</span>
+<span id="cb28-72"><a href="#cb28-72" aria-hidden="true" tabindex="-1"></a>                           <span class="fl">0.24</span>, <span class="fl">0.19</span>, <span class="fl">0.10</span>,</span>
+<span id="cb28-73"><a href="#cb28-73" aria-hidden="true" tabindex="-1"></a>                           <span class="fl">0.24</span>, <span class="fl">0.20</span>, <span class="fl">0.11</span>,</span>
+<span id="cb28-74"><a href="#cb28-74" aria-hidden="true" tabindex="-1"></a>                           <span class="fl">0.23</span>, <span class="fl">0.21</span>, <span class="fl">0.12</span>)</span>
+<span id="cb28-75"><a href="#cb28-75" aria-hidden="true" tabindex="-1"></a>article_pta_0<span class="fl">.5</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.69</span>, <span class="fl">0.16</span>, <span class="fl">0.012</span>,</span>
+<span id="cb28-76"><a href="#cb28-76" aria-hidden="true" tabindex="-1"></a>                    <span class="fl">0.73</span>, <span class="fl">0.19</span>, <span class="fl">0.018</span>,</span>
+<span id="cb28-77"><a href="#cb28-77" aria-hidden="true" tabindex="-1"></a>                    <span class="fl">0.77</span>, <span class="fl">0.22</span>, <span class="fl">0.03</span>,</span>
+<span id="cb28-78"><a href="#cb28-78" aria-hidden="true" tabindex="-1"></a>                    <span class="fl">0.82</span>, <span class="fl">0.27</span>, <span class="fl">0.04</span>)</span>
+<span id="cb28-79"><a href="#cb28-79" aria-hidden="true" tabindex="-1"></a>article_pta_1 <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.17</span>, <span class="fl">0.008</span>, <span class="dv">0</span>,</span>
+<span id="cb28-80"><a href="#cb28-80" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">0.21</span>, <span class="fl">0.01</span>, <span class="dv">0</span>,</span>
+<span id="cb28-81"><a href="#cb28-81" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">0.26</span>, <span class="fl">0.02</span>, <span class="dv">0</span>,</span>
+<span id="cb28-82"><a href="#cb28-82" aria-hidden="true" tabindex="-1"></a>                  <span class="fl">0.32</span>, <span class="fl">0.04</span>, <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
 <p>Simulated results are rounded to three significant digits. fT&gt;MIC and PTA were computed between the 11th and 12th day of simulation.</p>
 <div class="cell">
+<details class="code-fold">
+<summary>Show the code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>sim_tbl_4_2 <span class="ot">=</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"Model_implementation_validation/data/fournier_2018/sim_results/tbl_4_reproduction.csv"</span>), <span class="at">show_col_types =</span> F)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>pretty_sim_tbl_4 <span class="ot">=</span> sim_tbl_4_2 <span class="sc">|&gt;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate_if</span>(is.numeric, round, <span class="at">digits=</span><span class="dv">3</span>)<span class="sc">|&gt;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(mean_ft_over_mic, sd_ft_over_mic, PTA_0<span class="fl">.5</span>, PTA_1, CRCL, BW) <span class="sc">|&gt;</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">article_mean_ft_over_mic =</span> article_mean_ft_over_mic,</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">article_sd_ft_over_mic =</span> article_sd_ft_over_mic,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">article_pta_0.5 =</span> article_pta_0<span class="fl">.5</span>,</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">article_pta_1 =</span> article_pta_1) <span class="sc">|&gt;</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">pretty_crcl =</span> <span class="fu">paste</span>(<span class="st">"CRCL "</span>,CRCL, <span class="st">" mL/min"</span>, <span class="at">sep =</span> <span class="st">""</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">relocate</span>(CRCL, BW) <span class="sc">|&gt;</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">gt</span>(<span class="at">groupname_col =</span> <span class="st">'pretty_crcl'</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">tab_spanner</span>(<span class="at">label =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="st">'fT&gt;MIC, mean'</span>),</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'mean_ft_over_mic'</span>, <span class="st">'article_mean_ft_over_mic'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">tab_spanner</span>(<span class="at">label =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="st">'fT&gt;MIC, sd'</span>),</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'sd_ft_over_mic'</span>, <span class="st">'article_sd_ft_over_mic'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">tab_spanner</span>(<span class="at">label =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="st">'PTA fT&gt;MIC ≥ 50%'</span>),</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'PTA_0.5'</span>, <span class="st">'article_pta_0.5'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">tab_spanner</span>(<span class="at">label =</span> gt<span class="sc">::</span><span class="fu">md</span>(<span class="st">'PTA fT&gt;MIC ≥ 100%'</span>),</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">'PTA_1'</span>, <span class="st">'article_pta_1'</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">cols_label</span>(<span class="at">mean_ft_over_mic =</span> <span class="st">"fT&gt;MIC, mean"</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>                 <span class="at">sd_ft_over_mic =</span> <span class="st">"fT&gt;MIC, SD"</span>,</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>                 <span class="at">PTA_0.5 =</span> <span class="st">"PTA fT&gt;MIC ≥ 50%"</span>,</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>                 <span class="at">PTA_1 =</span> <span class="st">"PTA fT&gt;MIC ≥ 100%"</span>,</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>                 <span class="at">article_mean_ft_over_mic =</span> <span class="st">"Article fT&gt;MIC, mean"</span>,</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">article_sd_ft_over_mic =</span> <span class="st">"Article fT&gt;MIC, SD"</span>,</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>                 <span class="at">article_pta_0.5 =</span> <span class="st">"Article PTA fT&gt;MIC ≥ 50%"</span>,</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>                 <span class="at">article_pta_1 =</span> <span class="st">"Article PTA fT&gt;MIC ≥ 100%"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>  gt<span class="sc">::</span><span class="fu">opt_stylize</span>(<span class="at">style =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"gray"</span>)</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>pretty_sim_tbl_4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output-display">
 <div id="xizwisajgx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#xizwisajgx table {

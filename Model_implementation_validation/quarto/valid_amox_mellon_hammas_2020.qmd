@@ -6,7 +6,6 @@ format:
     fig-dpi: 300
 execute-dir: project
 bibliography: bibliography.bib
-echo: FALSE
 warning: FALSE
 editor_options: 
   chunk_output_type: console
@@ -196,11 +195,8 @@ sim_iv_8h_27_patients
 
 ```
 
+::: {#fig1a layout-ncol="2"}
 ```{r plot to reproduce fig 1a total concentrations displayed}
-#| label: fig1a
-#| layout-ncol: 2
-#| fig-cap: Article's figure 1a, IV administration, compared with simulations 
-
 
 # plot IV administration
 plot_iv_8h_27_patients = sim_iv_8h_27_patients |> 
@@ -216,19 +212,20 @@ plot_iv_8h_27_patients = sim_iv_8h_27_patients |>
                 y = "Amoxicillin concentration (mg/L)",
                 x = "Time (h)")
 plot_iv_8h_27_patients
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/mellon_hammas_2020/fig_1_a_iv.png"))
 ```
+
+![](../published_figures_tables/amoxicillin/mellon_hammas_2020/fig_1_a_iv.png)
+
+Article's figure 1a, IV administration, compared with simulations
+:::
 
 For amoxicillin IV administration, Cmax and the most of the time-concentration
 profiles look similar. However, for a lot of the simulated "patients"
 concentrations decrease quicker or to lower values than the real patient's of
 the article.
 
+::: {#fig1b layout-ncol="2"}
 ```{r plot to reproduce fig 1b total concentrations displayed}
-#| label: fig1b
-#| layout-ncol: 2
-#| fig-cap: Article's figure 1b, oral administration, compared with simulations 
 # plot oral administration: 
 plot_oral_8h_27_patients = sim_oral_8h_27_patients |> 
   dplyr::filter(time != 0) |>
@@ -243,10 +240,12 @@ plot_oral_8h_27_patients = sim_oral_8h_27_patients |>
                 y = "Amoxicillin concentration (mg/L)",
                 x = "Time (h)")
 plot_oral_8h_27_patients
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/mellon_hammas_2020/fig_1_b_oral.png"))
-
 ```
+
+![](../published_figures_tables/amoxicillin/mellon_hammas_2020/fig_1_b_oral.png)
+
+Article's figure 1b, oral administration, compared with simulations
+:::
 
 For amoxicillin oral administration, Tmax and Cmax of our simulations and the
 original article looks the same and overall profile seems similar. However, like
@@ -689,11 +688,8 @@ sim_oral_1000_patients = simulate_mrgsolve(dosing_regimen = oral_1g_q8h,
 sim_oral_1000_patients
 ```
 
+::: {#fig-4a layout-ncol="2"}
 ```{r plot to reproduce fig 4a}
-#| label: fig-4a
-#| layout-ncol: 2
-#| fig-cap: Figure 4a and reproduction 
-
 # plot IV
 plot_iv_fig_4 = all_mics_iv |>
   dplyr::summarise(
@@ -728,10 +724,14 @@ plot_iv_fig_4 = all_mics_iv |>
                 color = "Percentiles")
 
 plot_iv_fig_4
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/mellon_hammas_2020/fig_4_a_iv.png"))
 ```
 
+![](../published_figures_tables/amoxicillin/mellon_hammas_2020/fig_4_a_iv.png)
+
+Figure 4a and reproduction
+:::
+
+::: {#fig-4b layout-ncol="2"}
 ```{r plot to reproduce figure 4b}
 #| label: fig-4b
 #| layout-ncol: 2
@@ -772,8 +772,11 @@ plot_oral_fig_4 = all_mics_oral |>
   
 
 plot_oral_fig_4
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/mellon_hammas_2020/fig_4_b_oral.png"))
 ```
+
+![](../published_figures_tables/amoxicillin/mellon_hammas_2020/fig_4_b_oral.png)
+
+Figure 4b and reproduction
+:::
 
 Our simulations seems to match figure 4 well.

@@ -6,7 +6,6 @@ format:
     fig-dpi: 300
 execute-dir: project
 bibliography: bibliography.bib
-echo: FALSE
 warning: FALSE
 editor_options: 
   chunk_output_type: console
@@ -478,13 +477,8 @@ fig_4_1st_row_12_days <- fig_4_plot_row(
 fig_4_1st_row_12_days
 ```
 
-```{r fig_4_orig_top_row}
-#| label: fig-original-fig-4-top-row
-#| fig-cap: Original paper first row of figure 4
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_first_row.jpeg"))
-```
+![](../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_first_row.jpeg){fig-cap="Original paper first row of figure 4"
+label="fig-original-fig-4-top-row" width="100%"}
 
 ```{r reproduce_figure_4_second_row_twelve_days_of_sim}
 #| label: fig-reprod-fig-4-second-row-sim_12-days
@@ -505,13 +499,8 @@ fig_4_2nd_row_12_days <- fig_4_plot_row(
 fig_4_2nd_row_12_days
 ```
 
-```{r fig_4_orig_second_row}
-#| label: fig-original-fig-4-second-row
-#| fig-cap: Original paper second row of figure 4
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_second_row.png"))
-```
+![](../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_second_row.png){fig-cap="Original paper second row of figure 4"
+label="fig-original-fig-4-second-row" width="100%"}
 
 ```{r reproduce_figure_4_third_row_twelve_days_of_sim}
 #| label: fig-reprod-fig-4-third-row-sim_12-days
@@ -532,13 +521,8 @@ fig_4_3rd_row_12_days <- fig_4_plot_row(
 fig_4_3rd_row_12_days
 ```
 
-```{r fig_4_orig_third_row}
-#| label: fig-original-fig-4-third-row
-#| fig-cap: Original paper third row of figure 4
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_third_row.png"))
-```
+![](../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_third_row.png){fig-cap="Original paper third row of figure 4"
+label="fig-original-fig-4-third-row" width="100%"}
 
 ```{r reproduce_figure_4_fourth_row_twelve_days_of_sim}
 #| label: fig-reprod-fig-4-fourth-row-sim_12-days
@@ -559,13 +543,8 @@ fig_4_4th_row_12_days <- fig_4_plot_row(
 fig_4_4th_row_12_days
 ```
 
-```{r fig_4_orig_fourth_row}
-#| label: fig-original-fig-4-fourth-row
-#| fig-cap: Original paper fourth row of figure 4
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fourth_row.png"))
-```
+![](../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fourth_row.png){fig-cap="Original paper fourth row of figure 4"
+label="fig-original-fig-4-fourth-row" width="100%"}
 
 ```{r reproduce_figure_4_fifth_row_twelve_days_of_sim}
 #| label: fig-reprod-fig-4-fifth-row-sim_12-days
@@ -586,13 +565,8 @@ fig_4_5th_row_12_days <- fig_4_plot_row(
 fig_4_5th_row_12_days
 ```
 
-```{r fig_4_orig_fifth_row}
-#| label: fig-original-fig-4-fifth-row
-#| fig-cap: Original paper fifth row of figure 4
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fifth_row.png"))
-```
+![](../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fifth_row.png){fig-cap="Original paper fifth row of figure 4"
+label="fig-original-fig-4-fifth-row" width="100%"}
 
 ```{r reproduce_figure_4_sixth_row_twelve_days_of_sim}
 #| label: fig-reprod-fig-4-sixth-row-sim_12-days
@@ -613,13 +587,8 @@ fig_4_5th_row_12_days <- fig_4_plot_row(
 fig_4_5th_row_12_days
 ```
 
-```{r fig_4_orig_sixth_row}
-#| label: fig-original-fig-4-sixth-row
-#| fig-cap: Original paper sixth row of figure 4
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_sixth_row.png"))
-```
+![](../published_figures_tables/amoxicillin/fournier_2018/original_figure_4_sixth_row.png){fig-cap="Original paper sixth row of figure 4"
+label="fig-original-fig-4-sixth-row" width="100%"}
 
 Regarding over or under estimation of PTA in relation to MIC, compared with PTAs
 of the original article, no trend can be distinguished. Differences are of the

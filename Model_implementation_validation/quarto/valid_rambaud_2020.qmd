@@ -320,12 +320,8 @@ plot <- ggplot(GFR_data, aes(x = CRCL, y = Y)) +
 print(plot)
 ```
 
-```{r}
-#| fig-cap: "Figure 4 - original. Open circles are observed amoxicillin concentrations at steady-state. Solid lines represent the 5th, 50th and 95th percentiles for observed concentrations. Dashed lines represent the 5th, 50th and 95th percentiles for simulated concentrations."
-#| out-width: "100%"
-
-knitr::include_graphics(here::here("Model_implementation_validation/published_figures_tables/amoxicillin/rambaud_2020/Figure_4_original.png"))
-```
+![](../published_figures_tables/amoxicillin/rambaud_2020/Figure_4_original.png){fig-cap="Figure 4 - original. Open circles are observed amoxicillin concentrations at steady-state. Solid lines represent the 5th, 50th and 95th percentiles for observed concentrations. Dashed lines represent the 5th, 50th and 95th percentiles for simulated concentrations."
+label="fig4-original" width="100%"}
 
 ## Checking parameter distributions
 

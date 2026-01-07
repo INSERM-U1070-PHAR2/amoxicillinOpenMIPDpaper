@@ -6,7 +6,6 @@ format:
     fig-dpi: 300
 bibliography : bibliography.bib
 warning : false
-echo : false
 editor_options: 
   chunk_output_type: console
   markdown:
@@ -314,13 +313,8 @@ table_5_sim <- readr::read_csv(table_5_pta_results_path)
 table_5_data_paper <- readr::read_csv(here::here("Model_implementation_validation/data/carlier_2013/data_table_5_paper.csv"))
 ```
 
-```{r original table 5}
-#| label: fig-original-table-5
-#| fig-cap: Original paper table 5
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/carlier_2013/table_5.png"))
-```
+![](../published_figures_tables/amoxicillin/carlier_2013/table_5.png){fig-cap="Original paper table 5"
+label="fig-original-table-5" width="100%"}
 
 ```{r create_comparison_table}
 #| label: tbl-at-ss
@@ -537,21 +531,11 @@ implementation, careful consideration of the plot makes us suspect that
 technical errors happened while preparing the figure. Therefore, no attempt at
 reproducing the figure will be made.
 
-```{r original-fig-2a}
-#| label: fig-original-fig-2a
-#| fig-cap: Article figure 2a
-#| out-width: "100%"
+![](../published_figures_tables/amoxicillin/carlier_2013/fig_2a.png){fig-cap="Article figure 2a"
+label="fig-original-fig-2a" width="100%"}
 
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/carlier_2013/fig_2a.png"))
-```
-
-```{r original-fig-2a-zoom}
-#| label: fig-original-fig-2a-zoom
-#| fig-cap: Zoom on a strange section of figure 2a
-#| out-width: "100%"
-
-knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/carlier_2013/fig_2a_zoom.png"))
-```
+![](../published_figures_tables/amoxicillin/carlier_2013/fig_2a_zoom.png){fig-cap="Zoom on a strange section of figure 2a"
+label="fig-original-fig-2a-zoom" width="100%"}
 
 ## Conclusion
 

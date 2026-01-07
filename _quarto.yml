@@ -9,7 +9,7 @@ execute:
 knitr:
   opts_chunk: 
     R.options:
-      knitr.graphics.rel_path: false
+      knitr.graphics.rel_path: true
 
 book:
   title: "STP-BRIOCHE : A priori MIPD - Amoxicillin"
