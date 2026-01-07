@@ -1,0 +1,27 @@
+project:
+  type: book
+  execute-dir: project
+
+book:
+  title: "STP-BRIOCHE : A priori MIPD - Amoxicillin"
+  date: "28/05/2025"
+  chapters:
+    - index.qmd
+    - Objectives.qmd
+    - Precision_dosing_methods.qmd
+    - Machine_Learning.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+    code-summary: "Show the code"
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
+lightbox: true

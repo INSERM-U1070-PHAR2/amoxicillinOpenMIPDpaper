@@ -1,0 +1,5 @@
+column_name,column_description
+DOI,Digital object identifier of the paper
+structural_model,Short description of the structural model
+variability_model,Short description of the variability model
+covariate_effects,Short description of the covariate effects

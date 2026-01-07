@@ -1,0 +1,25 @@
+﻿Cohort;Method;Carlier;Fournier;Mellon;Rambaud
+All patients (intermittent infusion, TID);CT informed ens;32,5;45;22,5;0
+All patients (intermittent infusion, TID);RT informed ens;38;51;9;2
+All patients (intermittent infusion, TID);FAMD;29;7;1;63
+All patients (intermittent infusion, TID);WME;2;21;6;71
+All patients (ci);CT informed ens;13;18;25;44
+All patients (ci);RT informed ens;2;23;5;70
+All patients (ci);FAMD;38;6;1;55
+All patients (ci);WME;5;26;5;64
+Kidney failure (ci);CT informed ens;17;23;2;58
+Kidney failure (ci);RT informed ens;3;4;2;91
+Kidney failure (ci);FAMD;47;11;2;40
+Kidney failure (ci);WME;5;27;5;64
+Chronic kidney disease stage 1-3 (ci);CT informed ens;13;18;23;46
+Chronic kidney disease stage 1-3 (ci);RT informed ens;2;23;4;71
+Chronic kidney disease stage 1-3 (ci);FAMD;40;4;1;55
+Chronic kidney disease stage 1-3 (ci);WME;5;27;5;64
+Augmented renal clearance (ci);CT informed ens;11;15;37;37
+Augmented renal clearance (ci);RT informed ens;2;31;7;60
+Augmented renal clearance (ci);FAMD;31;5;1;63
+Augmented renal clearance (ci);WME;5;26;5;64
+Obese (ci);CT informed ens;12;17;28,5;42,5
+Obese (ci);RT informed ens;2;24;6;68
+Obese (ci);FAMD;18;8;1;73
+Obese (ci);WME;5;26;5;64

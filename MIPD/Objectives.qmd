@@ -1,0 +1,23 @@
+---
+bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html:
+    code-fold: true
+---
+
+# Objectives
+
+To compare the capacity of different MIPD approaches to predict (first) dose to obtain target concentrations of 40-80 mg.$L^{-1}$ based on the patient's covariates.
+
+# Judgement criteria
+
+The proportion of subjects whose predicted dose allows for obtaining concentrations in the target interval of 40-80 mg.$L^{-1}$ (target interval is based on the guidelines of SFPT - the French Society of Pharmacology and Therapeutics @Guilhaumou2019-eh). For patients, whose extrapolated dose to reach 40 mg/L was higher than 20 g, the ability to predict the fact that the dose is above 20 g was evaluated. 
+
+# Context
+
+Numerous MIPD approaches have already been developed to predict *a posteriori* concentrations. Application of the *a priori* approaches developed in this project could help certain patients to reach target concentrations interval faster this way improving clinical results and to reduce the number of necessary blood samples.

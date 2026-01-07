@@ -1,0 +1,28 @@
+infusion_type,loading_dose,regimen_id,time,tinf,amt,ii,ss,evid,cmt
+intermittent,no,ii 0.5g q4h,0,0.5,500,4,0,1,1
+intermittent,no,ii 0.5g q6h,0,0.5,500,6,0,1,1
+intermittent,no,ii 0.5g q8h,0,0.5,500,8,0,1,1
+intermittent,no,ii 1g q4h,0,0.5,1000,4,0,1,1
+intermittent,no,ii 1g q6h,0,0.5,1000,6,0,1,1
+intermittent,no,ii 1g q8h,0,0.5,1000,8,0,1,1
+intermittent,no,ii 2g q6h,0,0.5,2000,6,0,1,1
+intermittent,no,ii 2g q8h,0,0.5,2000,8,0,1,1
+extended,no,ei 0.5g q4h,0,2,500,4,0,1,1
+extended,no,ei 0.5g q6h,0,3,500,6,0,1,1
+extended,no,ei 0.5g q8h,0,4,500,8,0,1,1
+extended,no,ei 1g q4h,0,2,1000,4,0,1,1
+extended,no,ei 1g q6h,0,3,1000,6,0,1,1
+extended,no,ei 1g q8h,0,4,1000,8,0,1,1
+extended,no,ei 2g q6h,0,3,2000,6,0,1,1
+extended,no,ei 2g q8h,0,4,2000,8,0,1,1
+extended,no,ei 3g q6h,0,3,3000,6,0,1,1
+continuous,yes 1g over 0.5h ,ci 6g q24h,0,0.5,1000,0,0,1,1
+continuous,yes 1g over 0.5h ,ci 6g q24h,0.5,24,6000,24,0,1,1
+continuous,yes 1g over 0.5h ,ci 4g q24h,0,0.5,1000,0,0,1,1
+continuous,yes 1g over 0.5h ,ci 4g q24h,0.5,24,4000,24,0,1,1
+continuous,yes 1g over 0.5h ,ci 3g q24h,0,0.5,1000,0,0,1,1
+continuous,yes 1g over 0.5h ,ci 3g q24h,0.5,24,3000,24,0,1,1
+continuous,yes 1g over 0.5h ,ci 8g q24h,0,0.5,1000,0,0,1,1
+continuous,yes 1g over 0.5h ,ci 8g q24h,0.5,24,8000,24,0,1,1
+continuous,yes 1g over 0.5h ,ci 12g q24h,0,0.5,1000,0,0,1,1
+continuous,yes 1g over 0.5h ,ci 12g q24h,0.5,24,12000,24,0,1,1

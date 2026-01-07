@@ -1,0 +1,48 @@
+project:
+  type: book
+  execute-dir: project
+  output-dir: docs
+
+execute:
+    freeze: auto
+    
+knitr:
+  opts_chunk: 
+    R.options:
+      knitr.graphics.rel_path: false
+
+book:
+  title: "STP-BRIOCHE : A priori MIPD - Amoxicillin"
+  date: "07/01/2025"
+  chapters:
+    - index.qmd
+    - part: "Validation of implementation from articles"
+      chapters:
+        - Model_implementation_validation/quarto/valid_amox_carlier_2013.qmd
+        - Model_implementation_validation/quarto/valid_amox_fournier_2018.qmd
+        - Model_implementation_validation/quarto/valid_rambaud_2020.qmd
+        - Model_implementation_validation/quarto/valid_amox_mellon_hammas_2020.qmd
+    - part: "Simulations"
+      chapters:
+        - Simulations/covariate_simulation.qmd
+        - Simulations/concentrations_simulation.qmd
+        - Simulations/references.qmd
+    - part: "MIPD"
+      chapters:
+        - MIPD/Objectives.qmd
+        - MIPD/Precision_dosing_methods.qmd
+        - MIPD/Machine_Learning.qmd
+        - MIPD/references.qmd
+    - part: "Sensitivity analysis"
+      chapters:
+        - Sensitivity_analysis/Sensitivity_analysis_explication.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+    code-summary: "Show the code"
+
+lightbox: true

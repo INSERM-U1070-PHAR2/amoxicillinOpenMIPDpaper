@@ -1,0 +1,392 @@
+---
+title: "Validation of mrgsolve implementation of Rambaud amoxicillin PopPK model developed on a population of endocarditis patients"
+format: 
+  html:
+    fig-format: png
+    fig-dpi: 300
+execute-dir: project
+bibliography: bibliography.bib
+echo: FALSE
+warning: FALSE
+editor_options: 
+  chunk_output_type: console
+  markdown:
+    wrap: 80
+    canonical: true
+lightbox: true
+---
+
+## Article
+
+Rambaud A, Gaborit BJ, Deschanvres C, Le Turnier P, Lecomte R, Asseray-Madani N,
+Leroy AG, Deslandes G, Dailly É, Jolliet P, Boutoille D, Bellouard R, Gregoire
+M; Nantes Anti-Microbial Agents PK/PD (NAMAP) study group. Development and
+validation of a dosing nomogram for amoxicillin in infective endocarditis. J
+Antimicrob Chemother. 2020 Oct 1;75(10):2941-2950. doi: 10.1093/jac/dkaa232.
+PMID: 32601687.
+
+## Model description
+
+**Route of administration:** Continuous infusion.\
+**Population size:** 107 patients for model development and 53 for validation.
+There are no significant differences between the characteristics of the two
+populations.\
+**Free or total concentrations:** Total concentrations.\
+**Structural model:** 2 compartment model with linear elimination,
+inter-individual variability (IIV) on all of the parameters\
+**Error model** The original residual error model where the standard deviation
+of each observation modelled by a polynomial equation is weighted by process
+noise is approximated with a combined proportional and additive error model.\
+**Covariate model:** Creatinine clearance (CRCL) estimated using the CKD-EPI
+formula on the elimination constant ($K_e$)\
+$$ 
+K\_{e_i} = TVKe \cdot \left( \frac{CLCR_{i}}{64.92} \right)^{\beta} \cdot e^{\eta*{i}} \
+$$with\
+$Ke{i}$ : Amoxicillin elimination constant for subject *i* ($h^{-1}$)\
+$TVKe$ : Typical amoxicillin elimination constant ($h^{-1}$)\
+$\beta$ : Typical effect of CRCL on $Ke_{i}$\
+$\eta_{i}$ : individual deviation from typical value with normal distribution
+centered on 0\
+$64.92$ : population's median creatinine clearance ($mL.min^{-1}$)
+
+## Conversion from non-parametric to parametric
+
+The original model is non-parametric. Inter-individual variability given in the
+form of mean absolute weighted deviation (MAWD) of parameters was converted to
+log normal inter-individual variability by $$
+\sigma \approx MAWD \cdot 1.4826
+$$ $$
+CV = \frac{\sigma}{\theta}
+$$ $$
+\omega^2 = ln(CV^2 + 1)
+$$with\
+$\sigma$: standard deviation\
+CV : coefficient of variation\
+$\theta$: typical parameter value\
+$\omega^2$: variance of $\eta_{i}$
+
+## Parameters and mrgsolve implementation
+
+::: tbl-cap
+**Table 1.** Model parameter values where $K_{12}$ is the diffusion rate
+constant from the central to the peripheral compartment, $K_{21}$ is the
+diffusion rate constant from the peripheral to the central compartment, $K_e$ is
+the elimination constant, $V_1$ is the volume of distribution of the central
+compartment, $\beta$ is the effect of CRCL on the elimination constant.
+:::
+
+|    **Parameter**    | $\theta$ | $\omega^2$ |
+|:-------------------:|:--------:|:----------:|
+|      $V_1$ (L)      |   5.70   |   0.0615   |
+| $K_{12}$ ($h^{-1}$) |  0.247   |    1.11    |
+| $K_{21}$ ($h^{-1}$) |  11.43   |   0.194    |
+|  $K_e$ ($h^{-1}$)   |   1.69   |   0.0367   |
+|       $\beta$       |  0.946   |   0.0964   |
+
+A standard value of 0.05 is used for proportional residual error and 1
+$mg.L^{-1}$ for additive residual unexplained variability (RUV).
+
+## Subject and observation simulation
+
+107 subjects with the characteristics of the model development dataset are
+simulated. 4 steady-state concentrations are simulated for each subject with the
+time grid of 72, 96, 120, and 144 h.
+
+## Covariate simulation
+
+Creatinine clearance was simulated with a log-normal distribution using the
+median (80 $mL.min^{-1}$) and interquantile range (52.6 - 106). As the obtained
+distribution is too narrow compared to the minimum and maximum values read from
+the figures ($\approx$ 10 and 160) a small proportion of extra values are
+simulated in the ranges 10-30 and 140-160. The simulations are iterated until
+the desired interquantile range is obtained with a maximum difference of 2.
+
+```{r CRCL-simulation}
+
+library(ggplot2)
+library(dplyr)
+
+#CRCL
+
+set.seed(130)
+# Parameters
+n <- 107           # Number of subjects
+target_median <- 80
+iqr_lower <- 52.6   # Lower bound of the IQR
+iqr_upper <- 100.6  # Upper bound of the IQR
+min_value <- 10     # Minimum value
+max_value <- 160    # Maximum value
+
+# Log-normal distribution parameters
+mu <- log(target_median)
+sigma <- (log(iqr_upper) - log(iqr_lower)) / 1.349  
+
+# Define a function to simulate CCL with extra values around 10-30 and 140-160
+simulate_crcl <- function(n, mu, sigma, min_value, max_value, extra_values_proportion = 0.05) {
+  # Main log-normal distribution (adjust n to account for extra values)
+  original_n <- floor(n * (1 - extra_values_proportion))
+  CCL <- rlnorm(original_n, meanlog = mu, sdlog = sigma)
+  
+  # Add proportionally some extra values between 10-30 and 140-160 to match the minimum and maximum in the article
+  extra_values_n <- floor(n * extra_values_proportion)
+  extra_values_lower <- runif(extra_values_n, min = 10, max = 30)
+  extra_values_upper <- runif(extra_values_n, min = 140, max = 160)
+  
+  # Combine the extra values with the original values
+  CCL <- c(CCL, extra_values_lower, extra_values_upper)
+  
+  CCL[CCL > max_value] <- runif(sum(CCL > max_value), min = min_value, max = max_value)
+  CCL <- pmin(pmax(CCL, min_value), max_value)
+  
+  list(CCL = CCL, median = median(CCL), iqr = IQR(CCL))
+}
+
+# Have several iterations if simulated IQR is not correct
+tolerance <- 2  # Tolerance level for IQR difference
+max_iterations <- 100
+iteration <- 1
+current_median <- 0
+current_iqr <- 0
+
+while (iteration <= max_iterations) {
+  result <- simulate_crcl(n, mu, sigma, min_value, max_value)
+  current_median <- result$median
+  current_iqr <- result$iqr
+  
+  if (abs(current_median - target_median) < tolerance && abs(current_iqr - (iqr_upper - iqr_lower)) < tolerance) {
+    break
+  } else if (current_median < target_median) {
+    mu <- mu + 0.01
+  } else {
+    mu <- mu - 0.01
+  }
+  
+  if (current_iqr < (iqr_upper - iqr_lower)) {
+    sigma <- sigma + 0.01
+  } else {
+    sigma <- sigma - 0.01
+  }
+  
+  iteration <- iteration + 1
+}
+
+CCL <- as.data.frame(result$CCL)
+colnames(CCL) <- "CCL"
+
+# Make sure that there are 107 CRCL values
+CCL <- CCL[1:n, ] 
+
+CCL <- as.data.frame(CCL)
+
+# Check the distribution with a plot
+hist(CCL$CCL, main = "Simulated creatinine clearance distribution", 
+     xlab = "CRCL (mL/min)", col = "lightblue", breaks = 20)
+
+```
+
+## Dose simulation
+
+Doses are simulated with a normal distribution between 2000 mg and 20000 mg with
+a median of 12000 mg. The doses are rounded to the nearest 500 mg.
+
+```{r dose-simulation}
+#AMT
+
+n <- 107                # Number of subjects
+target_median <- 12000  # Target median (also the mean)
+lower_bound <- 2000     # Lower bound of the distribution
+upper_bound <- 20000    # Upper bound of the distribution
+
+# Calculate the standard deviation required to fit the 2.5th and 97.5th percentile bounds
+z_025 <- qnorm(0.025)  # Z-score for 2.5th percentile
+z_975 <- qnorm(0.975)  # Z-score for 97.5th percentile
+
+# Calculate SD based on these bounds
+sd <- (upper_bound - target_median) / abs(z_975)
+
+# Simulate with normal distribution
+set.seed(123)
+amt <- rnorm(n, mean = target_median, sd = sd)
+
+# Check simulated values
+hist(amt, main = "Simulated daily doses", xlab = "AMT (mg)", col = "lightblue", breaks = 20)
+
+amt <- as.data.frame(amt)
+
+ID <- c(1:107)
+
+#Round to the nearest 500 mg
+sim <- data.frame(ID,amt,CCL)
+sim$amt <- round(sim$amt / 500) * 500
+
+```
+
+The events table is generated with adding the times, CMT and EVID
+
+```{r events-table}
+time <- rep(c(0, 24, 48, 72, 96, 120, 144, 168), times = 107)
+time <- as.data.frame(time)
+
+
+#repeat the rows to match the time data
+sim_repeated <- sim[rep(1:nrow(sim), each = 8), ]
+
+# Merge the two dataframes (time and dose + CRCL)
+SIM <- cbind(sim_repeated,time)  
+
+#add rate column for continuous infusion
+SIM$rate <- SIM$amt/24
+
+#Add CMT column
+SIM$cmt <- "CENTRAL"
+
+#Add EVID
+SIM$evid <- 1
+```
+
+## Model validation by figure reproduction
+
+In the article there are three figures representing the results of the PopPK
+analysis. The goodness of fit plots of observed concentrations as a function of
+PRED or IPRED are less relevant to be reproduced without the observed values.
+There is not enough information concerning RUV to reproduce the plots with
+weighted residual errors. Figure 4 is selected to reproduce which represents
+VPCs of amoxicillin concentrations against aGFR (CRCL). To reproduce the figure,
+the previsously described 4 concentrations per subject are simulated and plotted
+agains the respective CRCL values. The data is binned (using 4 bins) as on the
+original figure. The 5th, 50th and 95th percentiles are calculated.
+
+```{r figure-reproduction}
+#| fig-cap: "Figure 4 - reproduced. Open circles are observed amoxicillin concentrations at steady-state. Solid lines represent the 5th, 50th and 95th percentiles for simulated concentrations."
+
+library(mrgsolve)
+library(here)
+CRCL_to_creat <- function(CRCL,
+                          AGE = 60){
+creat_low <- ((CRCL/142 * (1/0.9938^AGE)) ^ (-1/0.302)) * 0.9 
+creat_high <- ((CRCL/142 * (1/0.9938^AGE)) ^ (-1/1.4)) * 0.9
+
+if(creat_low <= 0.9) return(creat_low) else return(creat_high)
+}
+
+events_data <- SIM |> 
+  mutate(CREAT =  purrr::map_dbl(CCL,~CRCL_to_creat(CRCL = .x)))
+
+# Simulate using the Rambaud model
+set.seed(9916)
+Rambaud <- mread(here("Model_implementation_validation/mrgsolve/amox_Rambaud"))
+sim_results <- mrgsim(Rambaud, events_data)
+
+sim_results_df <- as.data.frame(sim_results)
+
+# Choose 4 concentrations per subject
+GFR_data <- sim_results_df[sim_results_df$time %in% c(72, 96, 120, 144), c("ID", "time", "CRCL", "CENTRAL", "PERIPHERIQUE", "Y")]
+
+GFR_data <- GFR_data[,-1]
+GFR_data <- GFR_data[,-1]
+GFR_data <- GFR_data[,-2]
+GFR_data <- GFR_data[,-2]
+
+percentiles_data <- GFR_data %>%
+  mutate(bin = ntile(CRCL, 10)) %>% #4 bins
+  group_by(bin) %>%
+  summarize(
+    CRCL_mean = mean(CRCL), 
+    p5 = quantile(Y, 0.05),  # 5th percentile
+    p50 = quantile(Y, 0.50), # median
+    p95 = quantile(Y, 0.95)  # 95th percentile
+  )
+
+plot <- ggplot(GFR_data, aes(x = CRCL, y = Y)) +
+  geom_point(shape = 1, alpha = 1, size = 1) +
+  geom_smooth(data = percentiles_data, aes(x = CRCL_mean, y = p5), 
+              method = "loess", color = "black", linetype = "solid", size = 0.6, se = FALSE, span = 1) +
+  geom_smooth(data = percentiles_data, aes(x = CRCL_mean, y = p50), 
+              method = "loess", color = "black", linetype = "solid", size = 0.6, se = FALSE, span = 1) +
+  geom_smooth(data = percentiles_data, aes(x = CRCL_mean, y = p95), 
+              method = "loess", color = "black", linetype = "solid", size = 0.6, se = FALSE, span = 1) +
+  labs(x = "aGFR (mL/min)", y = "Amoxicillin concentration (mg/L)") +
+  scale_x_continuous(breaks = c(0, 40, 80, 120, 160)) +
+  coord_cartesian(xlim = c(0, 160),
+                  ylim = c(0.9, 1200 ))+
+  scale_y_log10() +
+  theme_minimal() +
+  theme(
+     axis.line = element_line(color = "black", size = 1),
+     axis.title = element_text(size = 12),  
+     axis.text = element_text(size = 12)    
+  )
+
+print(plot)
+```
+
+```{r}
+#| fig-cap: "Figure 4 - original. Open circles are observed amoxicillin concentrations at steady-state. Solid lines represent the 5th, 50th and 95th percentiles for observed concentrations. Dashed lines represent the 5th, 50th and 95th percentiles for simulated concentrations."
+#| out-width: "100%"
+
+knitr::include_graphics(here::here("Model_implementation_validation/published_figures_tables/amoxicillin/rambaud_2020/Figure_4_original.png"))
+```
+
+## Checking parameter distributions
+
+Since we relied on approximations to convert the MAWD to log-normal standard
+deviations, we will check whether the MAWD computed from simulated parameter
+distributions are close to the ones reported in the paper
+
+```{r check-mawd}
+library(tidyverse)
+tmp <- events_data
+for(i in 1:9){
+tmp1 <- events_data |> 
+  mutate(ID = ID + max(tmp$ID))
+
+tmp <- bind_rows(tmp,tmp1)
+}
+
+sim_results <- mrgsim(Rambaud, tmp)
+
+sim_results_df <- as.data.frame(sim_results)
+
+ind_param_df <- sim_results_df |> 
+  select(K12,K21,CCRCL,KE1,Vc,ID) |> 
+  distinct()
+
+compare_mawd_df <- ind_param_df |> 
+  pivot_longer(c(K12,K21,CCRCL,KE1,Vc)) |> 
+  mutate(.by = name,
+         abs_diff_median = abs(value - median(value))) |> 
+  summarise(.by = name,
+            MAWD_sim = median(abs_diff_median)) |> 
+  mutate(MAWD_paper = case_match(name,
+                                 "K12" ~ 0.237,
+                                 "K21" ~ 3.57,
+                                 "CCRCL" ~ 0.203,
+                                 "KE1" ~ 0.22,
+                                 "Vc" ~ 0.968),
+         rel_diff_MAWD = (MAWD_paper - MAWD_sim) / MAWD_paper)
+
+compare_mawd_df |> 
+  mutate(rel_diff_MAWD = paste0(round((rel_diff_MAWD * 100),1)," %")) |> 
+  rename(`Simulated MAWD` = MAWD_sim,
+         `Publised MAWD` = MAWD_paper,
+         `Relative difference` =  rel_diff_MAWD) |> 
+  knitr::kable()
+
+```
+
+The relative difference is below 10% for all parameters but K12 (KCP in the
+paper). This is not of concern because K12 and K21 are not of importance in this
+specific case.
+
+Indeed when we compute the peripheral volume of this bi-compartmental model we
+realize that it is negligible when compared with the central compartment volume.
+$$
+Vp = K12/K21 \times Vc = 0.247 / 11.427 \times 5.698 = 0.123 L $$
+
+Thus having a bad representation of transfer to (and from) the peripheral
+compartment will not cause any problems.
+
+It is worthwhile to note that the data used in the paper only includes
+concentrations measured after continuous infusions of amoxicillin. In this case,
+the PK parameters describing peripheral distribution are not identifiable which
+explains the very low $Vp$ value.

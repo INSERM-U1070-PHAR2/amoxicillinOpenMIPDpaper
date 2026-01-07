@@ -1,0 +1,5 @@
+amt,tinf,ii,regimen_id,time,ss,evid,cmt
+1000,0.5,0,IV,0,0,1,2
+1000,0,0,oral,0,0,1,1
+1000,0.5,8,IV 1000 mg q8h,0,0,1,2
+1000,0,8,oral 1000 mg q8h,0,0,1,1

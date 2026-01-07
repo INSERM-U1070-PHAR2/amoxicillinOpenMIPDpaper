@@ -1,0 +1,8 @@
+DOI,parameter_name,parameter_description,unit,mean
+10.1093/jac/dkt240,CLpop,Typical clearance (for a patient with creatinin clearance of 102 mL/min),L/h,10
+10.1093/jac/dkt240,Q,Intercompartmental clearance,L/h,15.6
+10.1093/jac/dkt240,Vcpop,Typical central volume of distribution (for a patient with creatinin clearance of 102 mL/min),L,13.7
+10.1093/jac/dkt240,Vp,Peripheral volume of distribution,L,13.7
+10.1093/jac/dkt240,cv_iiv_CL,Coefficient of variation of the inter individual variability on clearance (%),unitless,39.9
+10.1093/jac/dkt240,cv_iiv_Vc,Coefficient of variation of the inter individual variability on central volume of distribution (%),unitless,38.7
+10.1093/jac/dkt240,ruv,Coefficient of variation of the residual variability,unitless,22

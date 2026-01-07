@@ -1,0 +1,1537 @@
+---
+bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html:
+    code-fold: true
+---
+
+# Precision dosing approaches
+
+```{r packages, warning=FALSE, message=FALSE}
+library(here)
+here::i_am("MIPD/Precision_dosing_methods.qmd")
+
+library(openMIPD)
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(tidyr)
+library(rpart.plot)
+library(ggplot2)
+library(patchwork)
+library(mrgsolve)
+library(kernlab)
+library(purrr)
+
+set.seed(1991)
+```
+
+# Generate predictions with each model
+
+```{r import-observed-data, warning=FALSE, message=FALSE}
+AMOX_CMIN_OBS_TRAIN <- read.csv(here("Data/AMOX_CMIN_OBS_TRAIN.csv"), quote = "") |> 
+  mutate(
+    SEX_CAT = case_when(
+      SEX == 0 ~ "M",
+      SEX == 1 ~ "F"
+    )
+  ) |>
+  rowwise() |> 
+  mutate(CRCL_CKD_EPI_BSA_NORM = estimate_GFR(AGE,CREAT,SEX_CAT)) |> 
+  ungroup() |> 
+  mutate(CRCL_CKD_EPI_ABSOLUTE = CRCL_CKD_EPI_BSA_NORM * (BSA/1.73))
+
+AMOX_CMIN_OBS_TEST <- read.csv(here("Data/AMOX_CMIN_OBS_TEST.csv"), quote = "") |> 
+  mutate(
+    SEX_CAT = case_when(
+      SEX == 0 ~ "M",
+      SEX == 1 ~ "F"
+    )
+  ) |>
+  rowwise() |> 
+  mutate(CRCL_CKD_EPI_BSA_NORM = estimate_GFR(AGE,CREAT,SEX_CAT)) |> 
+  ungroup() |> 
+  mutate(CRCL_CKD_EPI_ABSOLUTE = CRCL_CKD_EPI_BSA_NORM * (BSA/1.73))
+```
+
+```{r func-perform-mrgsolve-prediction, warning=FALSE, message=FALSE}
+perform_mrgsolve_prediction <- function(input_data,
+                                        mrgsolve_model_path,
+                                        model_name,
+                                        cmin_target) {
+  
+  full_data <- select(input_data,-MODEL) #MODEL column identifies the model with which the prediction was made thus we have to drop it to be able to join later on
+
+data_for_mrgsolve <- input_data |>
+  select(
+    ID,
+    TIME,
+    CREAT,
+    BURN,
+    ICU,
+    OBESE,
+    AGE,
+    SEX,
+    HT,
+    BSA,
+    DOSE_ADM,
+    FREQ,
+    DUR,
+    CMIN_IND,
+    MODEL_COHORT
+  ) |> distinct()
+
+mrgsolve_model <- mread_cache(mrgsolve_model_path)
+
+mrgsolve_dose_data <- 
+      rename(data_for_mrgsolve,
+           AMT = DOSE_ADM,
+           II = FREQ
+           ) |> 
+  mutate(RATE = AMT/DUR,
+         ADDL = TIME/II - 1,
+         TIME = 0,
+         EVID = 1,
+         CMT = 1)
+
+mrgsolve_obs_data <- rename(data_for_mrgsolve,
+           AMT = DOSE_ADM,
+           II = FREQ
+           ) |> 
+  mutate(RATE = NA,
+         ADDL = NA,
+         EVID = 0,
+         CMT = 1)
+  
+mrgsolve_input_data <- bind_rows(mrgsolve_dose_data,
+                                        mrgsolve_obs_data) |> 
+  arrange(ID,-EVID)
+
+mrgsolve_model |> 
+  data_set(mrgsolve_input_data) |> 
+  zero_re() |>  
+  mrgsim(obsonly = TRUE,
+         recover = colnames(mrgsolve_input_data)) |>
+  as_tibble() |> 
+  rename(CMIN_PRED = IPRED) |> 
+  mutate(MODEL = model_name) |> 
+  select(ID,MODEL,CMIN_PRED) |> 
+  right_join(full_data) |> 
+  mutate(DOSE_PRED = cmin_target/CMIN_PRED * DOSE_ADM)
+  
+}
+```
+
+## CARLIER
+
+```{r create-predictions-carlier, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TRAIN_CARLIER <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TRAIN ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Carlier"
+  ),
+  model_name = "CARLIER",
+  cmin_target = 60 #mg/L
+) 
+
+AMOX_CMIN_PRED_TEST_CARLIER <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TEST ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Carlier"
+  ),
+  model_name = "CARLIER",
+  cmin_target = 60 #mg/L
+) 
+
+```
+
+## FOURNIER
+
+```{r create-predictions-fournier, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TRAIN_FOURNIER <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TRAIN ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Fournier"
+  ),
+  model_name = "FOURNIER",
+  cmin_target = 60 #mg/L
+) 
+
+AMOX_CMIN_PRED_TEST_FOURNIER <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TEST ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Fournier"
+  ),
+  model_name = "FOURNIER",
+  cmin_target = 60 #mg/L
+) 
+
+```
+
+## MELLON
+
+```{r create-predictions-mellon, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TRAIN_MELLON <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TRAIN ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Mellon"
+  ),
+  model_name = "MELLON",
+  cmin_target = 60 #mg/L
+) 
+
+AMOX_CMIN_PRED_TEST_MELLON <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TEST ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Mellon"
+  ),
+  model_name = "MELLON",
+  cmin_target = 60 #mg/L
+) 
+
+```
+
+## RAMBAUD
+
+```{r create-predictions-rambaud, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TRAIN_RAMBAUD <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TRAIN ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Rambaud"
+  ),
+  model_name = "RAMBAUD",
+  cmin_target = 60 #mg/L
+) 
+
+AMOX_CMIN_PRED_TEST_RAMBAUD <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TEST ,
+  mrgsolve_model_path = here(
+    "Simulations/amox_Rambaud"
+  ),
+  model_name = "RAMBAUD",
+  cmin_target = 60 #mg/L
+) 
+
+```
+
+## Pool all predictions and save them
+
+```{r pool-and-save, warning=FALSE, message=FALSE}
+AMOX_CMIN_TRAIN <- bind_rows(
+  AMOX_CMIN_PRED_TRAIN_CARLIER,
+  AMOX_CMIN_PRED_TRAIN_FOURNIER,
+  AMOX_CMIN_PRED_TRAIN_MELLON,
+  AMOX_CMIN_PRED_TRAIN_RAMBAUD
+  ) |> 
+  arrange(ID,MODEL) |> 
+  mutate(REFERENCE = if_else(MODEL == MODEL_COHORT, 1, 0)) # Add a variable called REFERENCE which is 1 for the the line where the model used for simulation is the same as the model cohort (otherwise 0) and take only observed values
+
+write.csv(AMOX_CMIN_TRAIN, here("Data/AMOX_CMIN_TRAIN.csv"), row.names = FALSE, quote = FALSE)
+
+AMOX_CMIN_TEST <- bind_rows(
+  AMOX_CMIN_PRED_TEST_CARLIER,
+  AMOX_CMIN_PRED_TEST_FOURNIER,
+  AMOX_CMIN_PRED_TEST_MELLON,
+  AMOX_CMIN_PRED_TEST_RAMBAUD
+  ) |> 
+  arrange(ID,MODEL) |> 
+  mutate(REFERENCE = if_else(MODEL == MODEL_COHORT, 1, 0)) # Add a variable called REFERENCE which is 1 for the the line where the model used for simulation is the same as the model cohort (otherwise 0) and take only observed values
+
+write.csv(AMOX_CMIN_TEST, here("Data/AMOX_CMIN_TEST.csv"), row.names = FALSE, quote = FALSE)
+
+```
+
+## Global inspection of model predictions
+
+### Within-cohort performance (inter-individual variability)
+
+Visualization of the inter-individual variability of models by dividing
+PRED (predicted) values by IPRED (observed) both generated by the same
+model.
+
+```{r Ratios-var, warning=FALSE, message=FALSE}
+# CMIN
+# Divide each PRED by the IPRED reference 
+AMOX_CMIN2 <- bind_rows(AMOX_CMIN_TRAIN,AMOX_CMIN_TEST) %>%
+  filter(REFERENCE == 1) |> 
+  group_by(ID, MODEL) %>%
+  mutate(
+    ratio = (CMIN_PRED / CMIN_IND) * 100
+  ) %>%
+  ungroup()
+
+# Boxplot of ratios stratified by model
+stratified_ratios_CMIN <- ggplot(AMOX_CMIN2, aes(x = MODEL, y = ratio, fill = MODEL)) +
+  geom_boxplot() +
+  geom_hline(yintercept = 80, linetype = "dashed", color = "red") + 
+  geom_hline(yintercept = 125, linetype = "dashed", color = "red") +
+  labs(
+    title = "Predicted/observed ratios for the same model (Cmax)",
+    x = "MODEL",
+    y = "Ratio (%)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  theme(
+    axis.text.x = element_text(angle = 20, hjust = 1, size = 16),
+    axis.text = element_text(size = 16),    
+    axis.title = element_text(size = 20), 
+    plot.title = element_text(size=20),
+  )
+
+stratified_ratios_CMIN + scale_y_log10()
+```
+
+### Full dataset performance (model performance)
+
+In this section, the focus is no longer solely on observed
+concentrations (IPRED), but the performance of the models is explored by
+illustrating how the predicted concentrations (PRED) for **all** the
+cohorts (not just for covariates on which the model was developed)
+compare the the observed concentration. Visualization of PRED/IPRED
+ratios. In all cases we compare PRED (predicted) values to a reference
+IPRED (observed), which is the IPRED of the model whose cohort was used
+to simulate a particular set of covariates. Red lines indicate the
+bioequivalence range of 80-125 %.
+
+```{r Ratios, warning=FALSE, message=FALSE}
+# CMIN
+# Divide each PRED by the IPRED reference 
+AMOX_CMIN3 <- bind_rows(AMOX_CMIN_TRAIN,AMOX_CMIN_TEST) %>%
+  group_by(ID) %>%
+  mutate(
+    ref_CMIN = first(CMIN_IND[REFERENCE == 1], default = NA),
+    ratio = (CMIN_PRED / ref_CMIN) * 100
+  ) %>%
+  ungroup()
+
+# Boxplot of ratios stratified by model
+perf_CMIN <- ggplot(AMOX_CMIN3, aes(x = MODEL, y = ratio, fill = MODEL)) +
+  geom_boxplot() +
+  scale_y_log10() +
+  geom_hline(yintercept = 80, linetype = "dashed", color = "red") + 
+  geom_hline(yintercept = 125, linetype = "dashed", color = "red") +
+  labs(
+    title = "Boxplots of predicted/observed ratios (CMIN)",
+    x = "MODEL",
+    y = "Ratio (%)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  theme(
+    axis.text.x = element_text(angle = 20, hjust = 1, size = 16),
+    axis.text = element_text(size = 16),    
+    axis.title = element_text(size = 20), 
+    plot.title = element_text(size=20),
+  )
+
+perf_CMIN
+```
+
+# Single model approach
+
+```{r func-explore-predictions, warning=FALSE, message=FALSE}
+explore_predictions <- function(data, conc_inf = 40, conc_sup = 80, freq_column = "FREQ") {
+  # Calculate true dose range and prediction correctness
+  data <- data %>%
+    mutate(
+      DOSE_inf = (conc_inf / CMIN_IND) * DOSE_ADM,
+      DOSE_sup = (conc_sup / CMIN_IND) * DOSE_ADM
+    ) %>%
+    mutate(
+      Prediction_correctness = ifelse(
+        (DOSE_PRED >= DOSE_inf & DOSE_PRED <= DOSE_sup),
+        "Correct", "Incorrect"
+      )
+    ) %>%
+    drop_na(Prediction_correctness) %>%
+    mutate(
+      Dosing = case_when(
+        Prediction_correctness == "Correct" ~ "On target",
+        DOSE_PRED < DOSE_inf ~ "Underdosed",
+        DOSE_PRED > DOSE_sup ~ "Overdosed"
+      )
+    )
+
+  # Proportions of under- and overdosing
+  dosing <- data %>%
+    count(Dosing) %>%
+    mutate(
+      Proportion = n / sum(n) * 100,
+      Dosing = factor(Dosing, levels = c("Overdosed", "On target", "Underdosed")),
+      Label = paste0(Dosing, "\n", round(Proportion), "%")
+    )
+
+  # Over/underdosed graph
+  p1 <- ggplot(dosing, aes(x = "", y = Proportion, fill = Dosing)) +
+    geom_bar(stat = "identity", width = 0.5) +
+    geom_text(aes(label = Label), position = position_stack(vjust = 0.5), color = "white", size = 5) +
+    scale_fill_manual(values = c("Underdosed" = "darkorange", "On target" = "chartreuse4", "Overdosed" = "#A91A27")) +
+    labs(y = "%", x = NULL, title = "Target attainment", fill = "Dosing Category") +
+    theme_minimal() +
+    theme(
+      axis.text.x = element_blank(),
+      axis.ticks.x = element_blank(),
+      plot.title = element_text(size = 20),
+      axis.text = element_text(size = 16),
+      axis.title = element_text(size = 20),
+      legend.position = "none"
+    ) +
+    scale_y_continuous(breaks = seq(0, 100, by = 10)) + 
+        coord_cartesian(ylim = c(0, 100))
+
+  # CREAT binning (based on the American Kidney Fund's categories)
+data <- data %>%
+  mutate(
+    CREAT_bin = case_when(# males
+      SEX == 0 ~ cut(
+        CREAT,
+        breaks = c(0, 0.7, 1.3, Inf),
+        labels = c("Below normal", "Normal", "Above normal"),
+        right = FALSE
+      ),
+      SEX == 1 ~ cut( # females
+        CREAT,
+        breaks = c(0, 0.6, 1.1, Inf),
+        labels = c("Below normal", "Normal", "Above normal"),
+        right = FALSE
+      )
+    )
+  )
+
+  # Binning stats
+  bin_summary <- data %>%
+    group_by(CREAT_bin, Prediction_correctness) %>%
+    summarise(Count = n(), .groups = "drop") %>%
+    pivot_wider(names_from = Prediction_correctness, values_from = Count, values_fill = 0) %>%
+    mutate(Proportion_Correct = (Correct / (Correct + Incorrect)) * 100)
+
+  # Binning graph
+  p2 <- ggplot(bin_summary, aes(x = CREAT_bin, y = Proportion_Correct)) +
+    geom_bar(stat = "identity", fill = "chartreuse4", color = "chartreuse4", size = 1) +
+    geom_text(aes(label = round(Proportion_Correct)), vjust = -0.5, size = 5, color = "black") +
+    labs(title = "Target attainement by serum creatinine level", x = "Serum creatinine", y = "Correct predictions (%)") +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 24),
+      axis.text = element_text(size = 14),
+      axis.title = element_text(size = 16)
+    ) +
+    scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 20))
+  
+    # CRCL binning for chronic kidney disease categories
+data <- data %>%
+  mutate(
+    CRCL_bin = cut(
+        CRCL_CKD_EPI_ABSOLUTE,
+        breaks = c(0, 30, 60, 90, 130, Inf),
+        labels = c("0-30", "31-60", "61-90",  "90-130",  "> 130"),
+        right = FALSE
+      )
+    )
+
+  # Binning stats
+  bin_summary <- data %>%
+    group_by(CRCL_bin, Prediction_correctness) %>%
+    summarise(Count = n(), .groups = "drop") %>%
+    pivot_wider(names_from = Prediction_correctness, values_from = Count, values_fill = 0) %>%
+    mutate(Proportion_Correct = (Correct / (Correct + Incorrect)) * 100)
+
+  # Binning graph
+  p3 <- ggplot(bin_summary, aes(x = CRCL_bin, y = Proportion_Correct)) +
+    geom_bar(stat = "identity", fill = "chartreuse4", color = "chartreuse4", size = 1) +
+    geom_text(aes(label = round(Proportion_Correct)), vjust = -0.5, size = 5, color = "black") +
+    labs(title = "Target attainement by creatinine clearance category", x = "Creatinine clearance (mL/min)", y = "Correct predictions (%)") +
+    theme_minimal() +
+    theme(
+      plot.title = element_text(size = 24),
+      axis.text = element_text(size = 14),
+      axis.title = element_text(size = 16)
+    ) +
+    scale_y_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 20))
+
+  # Summary statistics
+  summary_stats <- data %>%
+    group_by(Prediction_correctness) %>%
+    summarise(
+      mean_CREAT = mean(CREAT, na.rm = TRUE),
+      sd_CREAT = sd(CREAT, na.rm = TRUE),
+      mean_WT = mean(WT, na.rm = TRUE),
+      sd_WT = sd(WT, na.rm = TRUE),
+      mean_AGE = mean(AGE, na.rm = TRUE),
+      sd_AGE = sd(AGE, na.rm = TRUE),
+      Count = n()
+    ) %>%
+    mutate(Proportion = Count / sum(Count))
+
+  correct_proportion <- summary_stats %>%
+    filter(Prediction_correctness == "Correct") %>%
+    pull(Proportion)
+
+  message(sprintf("Proportion of 'correct' predictions: %.2f%%", correct_proportion * 100))
+
+  return(list(
+    target_attainment = p1,
+    creat_plot = p2,
+    crcl_plot = p3,
+    summary_stats = summary_stats
+  ))
+}
+```
+
+## CARLIER
+
+```{r predict-carlier, warning=FALSE, message=FALSE}
+# In this specific case predictions were already
+# created before, thus "making predictions"
+# simply involve loading them and filtering for the correct model
+AMOX_CMIN_PRED_TRAIN_CARLIER <- read_csv(
+  here("Data/AMOX_CMIN_TRAIN.csv")
+  ) |> 
+  filter(MODEL == "CARLIER")
+
+AMOX_CMIN_PRED_TEST_CARLIER <- read_csv(
+  here("Data/AMOX_CMIN_TEST.csv")
+  ) |> 
+  filter(MODEL == "CARLIER")
+
+```
+
+
+```{r evaluate-predictions-carlier-train, warning=FALSE, message=FALSE}
+
+results_carlier_train <- explore_predictions(AMOX_CMIN_PRED_TRAIN_CARLIER)
+results_carlier_train$target_attainment 
+creat_plot_carlier_train <- results_carlier_train$creat_plot
+creat_plot_carlier_train
+crcl_plot_carlier_train <- results_carlier_train$crcl_plot
+crcl_plot_carlier_train
+results_carlier_train$summary_stats 
+```
+
+```{r evaluate-predictions-carlier-test, warning=FALSE, message=FALSE}
+
+results_carlier_test <- explore_predictions(AMOX_CMIN_PRED_TEST_CARLIER)
+results_carlier_test$target_attainment 
+creat_plot_carlier_test <- results_carlier_test$creat_plot
+creat_plot_carlier_test
+crcl_plot_carlier_test <- results_carlier_test$crcl_plot
+crcl_plot_carlier_test
+results_carlier_test$summary_stats 
+```
+
+## FOURNIER
+
+```{r predict-fournier, warning=FALSE, message=FALSE}
+# In this specific case predictions were already
+# created before, thus "making predictions"
+# simply involve loading them and filtering for the correct model
+AMOX_CMIN_PRED_TRAIN_FOURNIER <- read_csv(
+  here("Data/AMOX_CMIN_TRAIN.csv")
+  ) |> 
+  filter(MODEL == "FOURNIER")
+
+AMOX_CMIN_PRED_TEST_FOURNIER <- read_csv(
+  here("Data/AMOX_CMIN_TEST.csv")
+  ) |> 
+  filter(MODEL == "FOURNIER")
+
+```
+
+
+```{r evaluate-predictions-fournier-train, warning=FALSE, message=FALSE}
+
+results_fournier_train <- explore_predictions(AMOX_CMIN_PRED_TRAIN_FOURNIER)
+results_fournier_train$target_attainment 
+creat_plot_fournier_train <- results_fournier_train$creat_plot
+creat_plot_fournier_train
+crcl_plot_fournier_train <- results_fournier_train$crcl_plot
+crcl_plot_fournier_train
+results_fournier_train$summary_stats 
+```
+
+```{r evaluate-predictions-fournier-test, warning=FALSE, message=FALSE}
+
+results_fournier_test <- explore_predictions(AMOX_CMIN_PRED_TEST_FOURNIER)
+results_fournier_test$target_attainment 
+creat_plot_fournier_test <- results_fournier_test$creat_plot
+creat_plot_fournier_test
+crcl_plot_fournier_test <- results_fournier_test$crcl_plot
+crcl_plot_fournier_test
+results_fournier_test$summary_stats 
+```
+
+## MELLON
+
+```{r predict-mellon, warning=FALSE, message=FALSE}
+# In this specific case predictions were already
+# created before, thus "making predictions"
+# simply involve loading them and filtering for the correct model
+AMOX_CMIN_PRED_TRAIN_MELLON <- read_csv(
+  here("Data/AMOX_CMIN_TRAIN.csv")
+  ) |> 
+  filter(MODEL == "MELLON")
+
+AMOX_CMIN_PRED_TEST_MELLON <- read_csv(
+  here("Data/AMOX_CMIN_TEST.csv")
+  ) |> 
+  filter(MODEL == "MELLON")
+
+```
+
+
+```{r evaluate-predictions-mellon-train, warning=FALSE, message=FALSE}
+
+results_mellon_train <- explore_predictions(AMOX_CMIN_PRED_TRAIN_MELLON)
+results_mellon_train$target_attainment 
+creat_plot_mellon_train <- results_mellon_train$creat_plot
+creat_plot_mellon_train
+crcl_plot_mellon_train <- results_mellon_train$crcl_plot
+crcl_plot_mellon_train
+results_mellon_train$summary_stats 
+```
+
+```{r evaluate-predictions-mellon-test, warning=FALSE, message=FALSE}
+
+results_mellon_test <- explore_predictions(AMOX_CMIN_PRED_TEST_MELLON)
+results_mellon_test$target_attainment 
+creat_plot_mellon_test <- results_mellon_test$creat_plot
+creat_plot_mellon_test
+crcl_plot_mellon_test <- results_mellon_test$crcl_plot
+crcl_plot_mellon_test
+results_mellon_test$summary_stats 
+```
+
+## RAMBAUD
+
+```{r predict-rambaud, warning=FALSE, message=FALSE}
+# In this specific case predictions were already
+# created before, thus "making predictions"
+# simply involve loading them and filtering for the correct model
+AMOX_CMIN_PRED_TRAIN_RAMBAUD <- read_csv(
+  here("Data/AMOX_CMIN_TRAIN.csv")
+  ) |> 
+  filter(MODEL == "RAMBAUD")
+
+AMOX_CMIN_PRED_TEST_RAMBAUD <- read_csv(
+  here("Data/AMOX_CMIN_TEST.csv")
+  ) |> 
+  filter(MODEL == "RAMBAUD")
+
+```
+
+
+```{r evaluate-predictions-rambaud-train, warning=FALSE, message=FALSE}
+
+results_rambaud_train <- explore_predictions(AMOX_CMIN_PRED_TRAIN_RAMBAUD)
+results_rambaud_train$target_attainment 
+creat_plot_rambaud_train <- results_rambaud_train$creat_plot
+creat_plot_rambaud_train
+crcl_plot_rambaud_train <- results_rambaud_train$crcl_plot
+crcl_plot_rambaud_train
+results_rambaud_train$summary_stats 
+```
+
+```{r evaluate-predictions-rambaud-test, warning=FALSE, message=FALSE}
+results_rambaud_test <- explore_predictions(AMOX_CMIN_PRED_TEST_RAMBAUD)
+results_rambaud_test$target_attainment 
+creat_plot_rambaud_test <- results_rambaud_test$creat_plot
+creat_plot_rambaud_test
+crcl_plot_rambaud_test <- results_rambaud_test$crcl_plot
+crcl_plot_rambaud_test
+results_rambaud_test$summary_stats 
+```
+
+
+## Meta model
+
+This is an ensembling method where a PopPK model is
+built based on data simulated with the four models (Carlier, Fournier,
+Mellon, and Rambaud).
+
+The model is built on the training set used for the ensembling
+algorithms and tested on the test set. The data is rich and does not
+contain below quantification limit concentrations. The 3 three compartment structural model was a better fit than a two compartment one (OFV drop < 0.1 %), however as the estimate of the second peripheral volume was negligeable (< 1 L), the two-compartment model was preferred. The
+pharmacostatistical model is developed using the automatic statistical model building tool in Monolix 2024R1. The best model has IIV on all parameters with no covariance between them. The error model is combined with log-normal distribution.
+
+The covariate model is built using the automatic SCM tool of Monolix
+with respective forward and backward p values of 5 and 1 % (Likelihood Ratio Test). CREAT and WT were added on the clearance. 
+
+```{r meta-predict, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TEST_META <- perform_mrgsolve_prediction(
+  input_data = AMOX_CMIN_OBS_TEST ,
+  mrgsolve_model_path = here(
+    "MIPD/amox_Meta"
+  ),
+  model_name = "META",
+  cmin_target = 60 #mg/L
+) 
+```
+
+```{r evaluate-predictions-meta, warning=FALSE, message=FALSE}
+results_meta_test <- explore_predictions(AMOX_CMIN_PRED_TEST_META)
+results_meta_test$target_attainment 
+creat_plot_meta_test <- results_meta_test$creat_plot
+creat_plot_meta_test
+crcl_plot_meta_test <- results_meta_test$crcl_plot
+crcl_plot_meta_test
+results_meta_test$summary_stats 
+```
+
+# Standard dose
+
+Based on the our standard dose screening, out of five potential dosing regimens guided by the
+[SPILF](https://www.infectiologie.com/UserFiles/File/spilf/recos/doses-spilf-sfpt-casfm-2023.pdf)
+recommendation and hospital practices, 200 mg/kg is selected as standard dose reference as it gave the highest target attainment on clinical data.
+
+```{r predict-standard-dose, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TRAIN_STD <- AMOX_CMIN_TRAIN %>%
+  mutate(DOSE_PRED = (200 * WT) / (24/FREQ)) %>%
+  dplyr::select(ID, CREAT, WT, BURN, SEX, AGE, HT, FREQ, DOSE_ADM, DOSE_PRED, CMIN_IND, SEX, BSA, CRCL_CKD_EPI_ABSOLUTE) %>%
+  distinct()
+
+AMOX_CMIN_PRED_TEST_STD <- AMOX_CMIN_TEST %>%
+  mutate(DOSE_PRED = (200 * WT) / (24/FREQ)) %>%
+  dplyr::select(ID, CREAT, WT, BURN, SEX, AGE, HT, FREQ, DOSE_ADM, DOSE_PRED, CMIN_IND, SEX, BSA, CRCL_CKD_EPI_ABSOLUTE) %>%
+  distinct()
+```
+
+```{r evaluate-prediction-standard-dose-train, warning=FALSE, message=FALSE}
+results_standard_train <- explore_predictions(AMOX_CMIN_PRED_TRAIN_STD)
+results_standard_train$target_attainment 
+results_standard_train$creat_plot
+results_standard_train$summary_stats 
+```
+
+```{r evaluate-prediction-standard-dose-test, warning=FALSE, message=FALSE}
+results_standard_test <- explore_predictions(AMOX_CMIN_PRED_TEST_STD)
+results_standard_test$target_attainment 
+results_standard_test$creat_plot
+results_standard_test$summary_stats 
+```
+
+# Uninformed model ensembling
+
+All the models are given the same weight (one quarter in this case). The
+performance of the models or the development cohort characteristics are
+not taken into account.
+
+```{r predict-uninf-mod-ens, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TRAIN_UNINF_MOD_ENS <-  AMOX_CMIN_TRAIN %>%
+  mutate(WEIGHT = 0.25) %>% # Add uniform weight
+  mutate(WEIGHTED_PRED = CMIN_PRED * WEIGHT) %>% # Weigh prediction
+  group_by(ID) %>%
+  mutate(WEIGHTED_PREDICTION = sum(WEIGHTED_PRED)) %>% # Ensemble weighted predictions
+  ungroup() %>%
+  dplyr::select(ID, CREAT, WT, BURN, SEX, AGE, HT, FREQ, DOSE_ADM, WEIGHTED_PREDICTION, CMIN_IND, SEX, CRCL_CKD_EPI_ABSOLUTE) %>%
+  distinct() %>%
+  dplyr::mutate(DOSE_PRED = (60/WEIGHTED_PREDICTION) * DOSE_ADM) # Administered dose extrapolation to reach 60 mg/L
+
+AMOX_CMIN_PRED_TEST_UNINF_MOD_ENS <- AMOX_CMIN_TEST %>%
+  mutate(WEIGHT = 0.25) %>% # Add uniform weight
+  mutate(WEIGHTED_PRED = CMIN_PRED * WEIGHT) %>% # Weigh prediction
+  group_by(ID) %>%
+  mutate(WEIGHTED_PREDICTION = sum(WEIGHTED_PRED)) %>% # Ensemble weighted predictions
+  ungroup() %>%
+  dplyr::select(ID, CREAT, WT, BURN, SEX, AGE, HT, FREQ, DOSE_ADM, WEIGHTED_PREDICTION, CMIN_IND, SEX, CRCL_CKD_EPI_ABSOLUTE) %>%
+  distinct() %>%
+  dplyr::mutate(DOSE_PRED = (60/WEIGHTED_PREDICTION) * DOSE_ADM) # Administered dose extrapolation to reach 60 mg/L
+```
+
+```{r evaluate-prediction-uninf-mod-ens-train, warning=FALSE, message=FALSE}
+results_uninf_mod_ens_train <- explore_predictions(AMOX_CMIN_PRED_TRAIN_UNINF_MOD_ENS)
+results_uninf_mod_ens_train$target_attainment 
+results_uninf_mod_ens_train$creat_plot
+results_uninf_mod_ens_train$summary_stats 
+```
+
+```{r evaluate-prediction-uninf-mod-ens-test, warning=FALSE, message=FALSE}
+results_uninf_mod_ens_test <- explore_predictions(AMOX_CMIN_PRED_TEST_UNINF_MOD_ENS)
+results_uninf_mod_ens_test$target_attainment 
+results_uninf_mod_ens_test$creat_plot
+results_uninf_mod_ens_test$summary_stats 
+```
+
+# Nomogram
+
+The nomogram developed by @rambaud2020 in Nantes which predicts the dose
+in endocarditis patients based solely on absolute glomerular filtration
+rate.
+
+The daily dose in g to reach 20 mg/L is predicted by the nomogram based on
+CRCL in mL/min (x) estimated using the CKD-EPI equation $$
+\text{Dose} = 0.0001x^2 + 0.0613x + 1.157
+$$ and then extrapolated to attain 60 mg/L.
+
+Although the nomogram has been validated only for CRCL between 30 and 120 mL/min and continuous infusion, in this study, it was also evaluated in patients with CRCL outside of this range and applied to intermittent infusion.
+
+```{r predict-nomogram, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TRAIN_NOMOGRAM <-  AMOX_CMIN_TRAIN %>%
+    dplyr::select(ID, CREAT, WT, BURN, SEX, AGE, HT, FREQ, DOSE_ADM, CMIN_IND, SEX, CRCL_CKD_EPI_ABSOLUTE) %>%
+  mutate(DOSE_PRED = ((0.0001 * CRCL_CKD_EPI_ABSOLUTE^2 + 0.0613 * CRCL_CKD_EPI_ABSOLUTE + 1.157) * 3000) / (24/FREQ)) |> 
+  distinct()
+
+AMOX_CMIN_PRED_TEST_NOMOGRAM <- AMOX_CMIN_TEST %>%
+  dplyr::select(ID, CREAT, WT, BURN, SEX, AGE, HT, FREQ, DOSE_ADM, CMIN_IND, SEX, CRCL_CKD_EPI_ABSOLUTE) %>%
+  mutate(DOSE_PRED = ((0.0001 * CRCL_CKD_EPI_ABSOLUTE^2 + 0.0613 * CRCL_CKD_EPI_ABSOLUTE + 1.157) * 3000) / (24/FREQ)) |> 
+  distinct() 
+```
+
+```{r evaluate-prediction-nomogram-train, warning=FALSE, message=FALSE}
+results_nomogram_train <- explore_predictions(AMOX_CMIN_PRED_TRAIN_NOMOGRAM)
+results_nomogram_train$target_attainment 
+results_nomogram_train$creat_plot
+results_nomogram_train$summary_stats 
+```
+
+```{r evaluate-prediction-nomogram-test, warning=FALSE, message=FALSE}
+results_nomogram_test <- explore_predictions(AMOX_CMIN_PRED_TEST_NOMOGRAM)
+results_nomogram_test$target_attainment 
+results_nomogram_test$creat_plot
+results_nomogram_test$summary_stats 
+```
+
+# Classification tree informed ensembling
+
+This method is used to attribute weights to models based on their
+probability to give correct predictions for a set of covariates.
+
+The method is based on @Agema2024-cf.
+
+Bioequivalence ratios between $Cmin_{\text{pred}}$ and
+$Cmin_{\text{ind}}$ are calculated and transformed to a binary variable
+based on if the ratio is in the bioequivalence range \[0.80-1.25\] or
+not. This categorical variable is called CORRECT.
+
+First, for each set of covariates, the ratios between the predicted
+values of the 4 models are compared to the *true* value. Then, we add
+the variable CORRECT which takes the value of YES if the ratio is in the
+bioequivalence range, and the value of NO, if not.
+
+Then, decision tree is developed where the predictors are the seven covariates and a binary variable indicating continuous or intermittent infusion (CON),
+and the target variable is the categorical variable named CORRECT. A
+decision tree is fitted separately for each MODEL where the following
+parameters need to be defined
+
+\- **Complexity** – a penalty that the information gain has to overcome
+to add a split. A higher complexity value leads to a smaller tree
+meaning that subjects are divided into smaller number of categories, so
+their scores will be less diverse. Comlexity is found by automatic
+hyperparameter tuning based on cross-validation error.\
+**Minsplit** – minimum number of samples to split a node (smaller value,
+deeper tree).\
+**Minbucket** – minimum number of samples in the terminal node (smaller
+value, deeper tree). Minsplit and minbucket in the range of 2-30 range
+does not affect the results , so 4 is fixed as a value to have deeper
+trees.\
+- **xval** – number of cross validations. 10-fold cross validation is
+used (the same number as for the ML methods).\
+- **splitting criterion** - entropy or Gini impurity. Gini meausures the
+frequency (f) with which an element is misclassified:
+
+$$ 
+  Gini\ impurity = 2 \cdot f \cdot \left(1 - f \right) \
+$$ Entropy (called information in rpart) measures the disorder of the
+predictors as a function of the target:
+
+$$ 
+  Entropy = f \cdot log_2(f)
+$$
+
+Normally, the two splitting criteria give similar results. Entropy is
+more computationally complex as it uses logarithms.
+
+For certain models, the root node is not split any further (same model
+score for all subjects).\
+In the obtained leaf_results table, only the leaf nodes are included
+with the following columns
+
+-   **node** - node number
+
+-   **var** - splitting variable (it always says leaf, as only leaves
+    are included in the table)
+
+-   **n**- number of subjects per node
+
+-   **wt** - subject weight (all the subject have the same weight)
+
+-   **dev** - Gini index
+
+-   **yval** - the predicted class
+
+-   **ncompete** - Alternative splitting variables that were not
+    selected for a node but give slightly worse performance than the
+    selected variable. As only leaves are included, there are no
+    competing splitting variables.
+
+-   **nsurrogate** - Used for missing values. Not applicable to leaves.
+
+-   **yval2\[, 2\]** - number of NO for the CORRECT variable
+
+-   **yval2\[, 3\]** - number of YES
+
+-   **yval2\[, 4\]** - proportion of NO
+
+-   **yval2\[, 5\]** - proportion of YES
+
+-   **prob_yes** - same as yval2\[, 5\], this column is used later to
+    attribute model weights
+
+-   **n_obs** - number of observations
+
+To this table, in the path column is added containing all the decisions
+that led to that particular leaf. Then, this string is transformed to
+lower and upper limits for continuous and categories for categorical
+covariates. If there are no upper or lower limits or selected
+categories, NA is added.
+
+In the original method ( @Agema2024-cf), the leaves are selected with at
+least a YES proportion of 0.5 and then the selected models are taken
+into account with equal weight. Here, all models are used with their
+respective YES proportions. This way, no subject will end up without a
+model, and the weights will be more nuancedly calculated. Then, for each
+subject, the four corresponding nodes are found based on its covariates
+(one for each model). The probabilites (proportions) of having YES
+(=prob_yes or score) are normalized by their sum for each subject, so
+that the scores of the models for a subject will always add up to 1.
+These normalized scores (=weights) are used to ensemble the model
+predictions.
+
+Finally, the method is tested by ensembling the predictions of the test
+data using the weights calibrated base on the training data. The
+administered dose is extrapolated by dividing the weighted concentration
+prediction by the target concentration (= 60 mg/L).
+
+Our *openMIPD* package is used to apply this method.
+
+```{r train-ct, warning=FALSE, message=FALSE}
+AMOX_CMIN_TRAINED_CT <- classification_tree_model_ensembling_train(
+  data = AMOX_CMIN_TRAIN, 
+  target_variable = "CMIN", 
+  continuous_cov = c("WT", "CREAT", "AGE"), 
+  categorical_cov = c("OBESE", "ICU", "BURN", "SEX", "CON"))
+```
+
+To evaluate the method training, the decision trees and their corresponding confusion matrices are visualized. On the visualized nodes, the first line indicates the target variable majority class in that node (YES/NO), the second line the proportion of correct predictions (= proportion of YES), and the third line the percentage of subjects in that particular node.
+
+```{r evaluate-prediction-ct-train, warning=FALSE, message=FALSE}
+AMOX_CMIN_TRAINED_CT$plot
+AMOX_CMIN_TRAINED_CT_confusion_matrix <- AMOX_CMIN_TRAINED_CT$confusion_matrix
+print(AMOX_CMIN_TRAINED_CT_confusion_matrix)
+
+cfit_list <- AMOX_CMIN_TRAINED_CT$cfit_list
+
+# Export the plot of the four trees
+jpeg(here("Figures/S7.jpg"), width = 7, height = 7, units = "in", res = 300)
+n_trees <- length(cfit_list)
+par(mfrow = c(ceiling(n_trees / 2), 2))
+
+for (model_name in names(cfit_list)) {
+  rpart.plot(cfit_list[[model_name]],
+             main = model_name,
+             roundint = FALSE)
+}
+dev.off()
+# Export the plot of the four confusion matrices
+confusion_plot <-
+  (AMOX_CMIN_TRAINED_CT_confusion_matrix$CARLIER  + ggtitle("Carlier"))  +
+  (AMOX_CMIN_TRAINED_CT_confusion_matrix$FOURNIER + ggtitle("Fournier")) +
+  (AMOX_CMIN_TRAINED_CT_confusion_matrix$MELLON   + ggtitle("Mellon"))   +
+  (AMOX_CMIN_TRAINED_CT_confusion_matrix$RAMBAUD  + ggtitle("Rambaud"))  +
+  plot_layout(ncol = 2)
+ggsave(here("Figures/S8.jpg"),
+       plot = confusion_plot,
+       width = 7, height = 7, units = "in", dpi = 600)
+
+```
+
+```{r predict-ct, warning=FALSE, message=FALSE}
+AMOX_CMIN_PRED_TEST_CT <- classification_tree_model_ensembling_test(
+  test_data = AMOX_CMIN_TEST, 
+  train_results = AMOX_CMIN_TRAINED_CT) 
+
+```
+
+To evaluate the method, a predictions as a function of observed concentrations goodness of fit plot is presented as well a boxplot indicating the predicted/observed ratios in %. Then, the average model weights are plotted, stratified by covariate categories/quantiles.
+
+```{r evaluate-prediction-ct-test, warning=FALSE, message=FALSE}
+test_data_CT <- AMOX_CMIN_PRED_TEST_CT$test_results
+AMOX_CMIN_PRED_TEST_CT$GOF_plot
+AMOX_CMIN_PRED_TEST_CT$Boxplot
+
+# Plots showing the average attributed weight stratified by covariates
+weight_BURN_CT <- generate_weight_plot(test_data_CT, "BURN", is_categorical = TRUE)
+weight_ICU_CT <- generate_weight_plot(test_data_CT, "ICU", is_categorical = TRUE)
+weight_OBESE_CT <- generate_weight_plot(test_data_CT, "OBESE", is_categorical = TRUE)
+weight_CREAT_CT <- generate_weight_plot(test_data_CT, "CREAT", is_categorical = FALSE)
+weight_WT_CT <- generate_weight_plot(test_data_CT, "WT", is_categorical = FALSE)
+weight_AGE_CT <- generate_weight_plot(test_data_CT, "AGE", is_categorical = FALSE)
+weight_SEX_CT <- generate_weight_plot(test_data_CT, "SEX", is_categorical = TRUE)
+weight_CON_CT <- generate_weight_plot(test_data_CT, "CON", is_categorical = TRUE)
+weight_BURN_CT
+weight_ICU_CT
+weight_OBESE_CT
+weight_CREAT_CT
+weight_WT_CT
+weight_AGE_CT
+weight_SEX_CT
+weight_CON_CT
+
+# Print overall average weight
+test_data_CT %>%
+  group_by(MODEL) %>%
+  summarise(avg_weight = mean(WEIGHT, na.rm = TRUE))
+     
+# Extrapolate dose based on the ensembled concentrations and compare it to the true simulated dose.
+test_data_CT <- test_data_CT %>%
+  dplyr::filter(REFERENCE == 1) %>%
+  dplyr::mutate(DOSE_PRED = (60/WEIGHTED_PREDICTION) * DOSE_ADM) # Administered dose extrapolation to reach 60 mg/L
+
+final_results_CT <- explore_predictions(test_data_CT)
+final_results_CT$target_attainment 
+crcl_plot_CT <- final_results_CT$crcl_plot
+crcl_plot_CT
+final_results_CT$summary_stats 
+
+# Keep data for method ensembling
+test_data_CT_ens <- test_data_CT %>%
+  dplyr::mutate(CT = DOSE_PRED) %>% 
+  dplyr::select("ID","CT")
+
+```
+
+# Regression tree informed ensembling
+
+This method is similar to the previous decision tree-based method, with the difference that not
+prediction correctness is used as a target variable, but the log-transformed prediction/observation ratio:
+
+$$
+\text{Ratio} = \left( log (\frac{predicted}{true}) \right)
+$$
+
+Therefore these are not classification, but regression trees.
+
+Our *openMIPD* package is used to apply this method.
+
+```{r train-RT, warning=FALSE, message=FALSE}
+train_results_RT <- regression_tree_model_ensembling_train(
+  data = AMOX_CMIN_TRAIN, 
+  target_variable = "CMIN", 
+   continuous_cov = c("WT", "CREAT", "AGE"), 
+  categorical_cov = c("OBESE", "ICU", "BURN", "SEX", "CON"))
+```
+
+To evaluate the method training, the regression trees are visualized. On the visualized nodes, the first line indicates average log-transformed prediction/observation ratio and the second line, percentage of subjects in that particular node.
+
+```{r evaluate-RT-train, warning=FALSE, message=FALSE}
+model_trees <- train_results_RT$model_trees
+print(model_trees)
+
+# Export the plot of the four trees
+jpeg(here("Figures/S9.jpg"), width = 7, height = 7, units = "in", res = 300)
+n_trees <- length(model_trees)
+par(mfrow = c(ceiling(n_trees / 2), 2))
+
+for (model_name in names(model_trees)) {
+  rpart.plot(model_trees[[model_name]],
+             main = model_name,
+             roundint = FALSE)
+}
+dev.off()
+```
+
+```{r predict-RT, warning=FALSE, message=FALSE}
+test_results_RT <- regression_tree_model_ensembling_test(
+  test_data = AMOX_CMIN_TEST, 
+  train_results = train_results_RT) 
+
+```
+
+To evaluate the method, a predictions as a function of observed concentrations goodness of fit plot is presented as well a boxplot indicating the predicted/observed ratios in %. Then, the average model weights are plotted, stratified by covariate categories/quantiles.
+
+```{r evaluate-prediction-RT, warning=FALSE, message=FALSE}
+test_data_RT <- test_results_RT$test_results
+test_results_RT$GOF_plot
+test_results_RT$Boxplot
+
+# Plots showing the average attributed weight stratified by covariates
+weight_BURN_RT <- generate_weight_plot(test_data_RT, "BURN", is_categorical = TRUE)
+weight_ICU_RT <- generate_weight_plot(test_data_RT, "ICU", is_categorical = TRUE)
+weight_OBESE_RT <- generate_weight_plot(test_data_RT, "OBESE", is_categorical = TRUE)
+weight_CREAT_RT <- generate_weight_plot(test_data_RT, "CREAT", is_categorical = FALSE)
+weight_WT_RT <- generate_weight_plot(test_data_RT, "WT", is_categorical = FALSE)
+weight_AGE_RT <- generate_weight_plot(test_data_RT, "AGE", is_categorical = FALSE)
+weight_SEX_RT <- generate_weight_plot(test_data_RT, "SEX", is_categorical = TRUE)
+weight_CON_RT <- generate_weight_plot(test_data_RT, "CON", is_categorical = TRUE)
+weight_BURN_RT
+weight_ICU_RT
+weight_OBESE_RT <- weight_OBESE_RT + 
+  labs(title = "RT inf ens weight attribution, stratified by OBESE")
+ggsave(filename = here("Figures/S10b.jpg"),
+       plot = weight_OBESE_RT,
+       width = 8, height = 6, dpi = 600)
+weight_CREAT_RT
+weight_WT_RT
+weight_AGE_RT
+weight_SEX_RT
+weight_CON_RT
+
+test_data_RT %>%
+  group_by(MODEL) %>%
+  summarise(avg_weight = mean(WEIGHT, na.rm = TRUE))
+     
+# Extrapolate dose based on the ensembled concentrations and compare it to the true simulated dose.
+test_data_RT <- test_data_RT %>%
+  dplyr::filter(REFERENCE == 1) %>%
+  dplyr::mutate(DOSE_PRED = (60/WEIGHTED_PREDICTION) * DOSE_ADM) # Administered dose extrapolation to reach 60 mg/L
+
+final_results_RT <- explore_predictions(test_data_RT)
+final_results_RT$target_attainment 
+crcl_plot_RT <- final_results_RT$crcl_plot
+crcl_plot_RT
+final_results_RT$summary_stats 
+
+# Keep data for method ensembling
+test_data_RT_ens <- test_data_RT %>%
+  dplyr::mutate(RT = DOSE_PRED) %>% 
+  dplyr::select("ID","RT")
+```
+
+# Weighed model ensembling
+
+This method is used to attribute weights to models based on their
+performance in different subgroups and on the overall performance of
+models in different subgroups.
+
+The method is based on @Agema2024-cf.
+
+### Model influence
+
+To calculate model influence, first, differences are calculated between
+$Cmin_{\text{pred}}$ and $Cmin_{\text{ind}}$ for a particular set of
+covariates. Then we use this difference to calculate pooled MPE and RMSE
+values for each model. MPE and rRMSE will be used to calculate scores as
+discussed in a later section.
+
+![](images/clipboard-1093848730.png)
+
+### Subgroup influence
+
+The data is divided into subgroups. For categorical covariates (ICU,
+BURN, OBESE, SEX, CON (indicating continuous infusion)), a subgroup is a category, thus we have
+two-two-two-two-two subgroups for ICU, BURN, SEX, OBESE, and CON. Continuous
+covariates (WT, CREAT, AGE) are divided into four quantiles, and each
+quantile will represent a subgroup.\
+First, ratios are calculated between$Cmin_{\text{pred}}$ and the
+$Cmin_{\text{ind}}$ for a particular set of covariates. For each
+sugbroup we will calculate the proportion of ratios **outside** the
+bioequivalence range of \[0.80-1.25\]. This proportion will represent
+subgroup influence. The logic behind giving more influence to subgroups
+with more ratios outside the bioequivalence range is that sugbroup
+having overall good predictions (many ratios inside the bioequivalence
+range), means that we can use any of the models for that subgroup, thus
+its influence will be lower in attributing model weights. A model having
+a good performance in a sugbroup with bad predictions (many ratios
+outside the bioequivalence range) will be preferred to a model having
+good performance in a subgroup having overall good predictions.
+
+![](images/clipboard-2578669345.png)
+
+### Score calculation
+
+Scores are calculated with a negative exponential function: $$
+\text{Score}_{\text{MPE}} = e^{\text{penalty} \cdot |\text{MPE}|}
+$$ $$
+\text{Score}_{\text{RMSE}} = e^{\text{penalty} \cdot |\text{RMSE}|}
+$$Model score is the product of RMSE and MPE scores. $$
+\text{Score}_{\text{Carlier}} = \text{Score}_{\text{RMSE}} \cdot \text{Score}_{\text{MPE}}
+$$ Model score is normalized by the sum of scores. $$
+\text{Influence}_{\text{Carlier}} = \frac{\text{Score}_{\text{Carlier}}}{\sum \text{Score}}
+$$ For this negative exponential calculation, the two penalties have to
+be defined
+
+![](images/clipboard-106276185.png)
+
+To test the algorithm we check to which 8 subgroups (ICU, BURN, WT,
+CREAT, OBESE, SEX, AGE, CON (= continuous or intermittant infusion)) a
+subject belongs, and we add the obtain the corresponding model and
+influence scores from the all_scores table. We normalize the four
+subgroup influences by their sum (so they add up to 1 for that subject).
+Then, for each subgroup we multiply the model influences with the
+normalized subgroup influence. As a product of this multiplication we
+have a model weights for each of the four models for each of the four
+subgroups. For each model, we add the four weights (for example Carlier
+weight for ICU = 0, Carlier weight for BURN = 1 etc). As a final step,
+we normalize the weights of the models by their sum so they add up to 1
+for each subject. Then, we ensemble the separate Cmax predictions of the
+four models based on their weight. The administered dose is extrapolated
+by dividing the weighted concentration prediction by the target
+concentration (= 60 mg/L).
+
+The penalties are automatically tuned based on the percentage of
+correct dose predictions.
+
+Our *openMIPD* package is used to apply this method.
+
+```{r tune-WME, warning=FALSE, message=FALSE}
+AMOX_CMIN_TRAIN <- AMOX_CMIN_TRAIN %>%
+  mutate(dosing_reg_strata = paste0(DOSE_ADM,FREQ,DUR))
+
+wme_tuning <- weighed_model_ensembling_tuning(
+    train_data = AMOX_CMIN_TRAIN,
+    target_variable = "CMIN",
+    continuous_cov = c("WT", "CREAT", "AGE"),
+    categorical_cov = c("OBESE", "ICU", "BURN", "SEX","CON"),
+    penalties_grid = NULL,
+    conc_inf = 40, conc_sup = 80, conc_target = 60,
+    freq_column = "FREQ",
+    cv_stratification_col = "dosing_reg_strata",
+    target_log_dose = TRUE)
+
+wme_tuning$best_pen_RMSE
+wme_tuning$best_pen_MPE
+```
+
+To visualize method training, the mean percentage error (MPE) and relative root mean squared error (RMSE) for each model in each covariate quantile/category is plotted as well as subgroup influences (the proportion of incorrect predictions for each covariate quantile/category, all models included).
+
+```{r WME-train, warning=FALSE, message=FALSE}
+training_results_WME <- weighed_model_ensembling_train(
+  data = AMOX_CMIN_TRAIN, 
+  target_variable = "CMIN", 
+  pen_RMSE = wme_tuning$best_pen_RMSE,
+  pen_MPE = wme_tuning$best_pen_MPE,
+  continuous_cov = c("WT", "CREAT", "AGE"), 
+  categorical_cov = c("OBESE", "ICU", "BURN", "SEX", "CON"))
+
+```
+
+```{r evaluate-WME-training, warning=FALSE, message=FALSE}
+all_scores <- training_results_WME$all_scores
+print(all_scores)
+MPE_plot <- training_results_WME$MPE_plot 
+MPE_plot
+ggsave(filename = here("Figures/S13.jpg"),
+       plot = MPE_plot,
+       width = 8, height = 6, dpi = 600)
+RMSE_plot <- training_results_WME$RMSE_plot
+RMSE_plot
+ggsave(filename = here("Figures/S14.jpg"),
+       plot = RMSE_plot,
+       width = 8, height = 6, dpi = 600)
+SUBGROUP_INFLUENCE_plot <- training_results_WME$SUBGROUP_INFLUENCE_plot
+SUBGROUP_INFLUENCE_plot
+ggsave(filename = here("Figures/S15.jpg"),
+       plot = SUBGROUP_INFLUENCE_plot,
+       width = 8, height = 6, dpi = 600)
+```
+
+```{r WME-predict, warning=FALSE, message=FALSE}
+test_results_WME <-  weighed_model_ensembling_test(
+  train_results = training_results_WME, 
+  test_data = AMOX_CMIN_TEST)
+
+```
+
+To evaluate the method, a predictions as a function of observed concentrations goodness of fit plot is presented as well a boxplot indicating the predicted/observed ratios in %. Then, the average model weights are plotted, stratified by covariate categories/quantiles.
+
+```{r evaluate-WME-prediction, warning=FALSE, message=FALSE}
+test_data_WME <- test_results_WME$test_results
+test_results_WME$GOF_plot
+test_results_WME$Boxplot
+
+# Plots showing the average attributed weight stratified by covariates
+weight_BURN_WME <- generate_weight_plot(test_data_WME, "BURN", is_categorical = TRUE)
+weight_ICU_WME <- generate_weight_plot(test_data_WME, "ICU", is_categorical = TRUE)
+weight_OBESE_WME <- generate_weight_plot(test_data_WME, "OBESE", is_categorical = TRUE)
+weight_CREAT_WME <- generate_weight_plot(test_data_WME, "CREAT", is_categorical = FALSE)
+weight_WT_WME <- generate_weight_plot(test_data_WME, "WT", is_categorical = FALSE)
+weight_AGE_WME <- generate_weight_plot(test_data_WME, "AGE", is_categorical = FALSE)
+weight_SEX_WME <- generate_weight_plot(test_data_WME, "SEX", is_categorical = TRUE)
+weight_CON_WME <- generate_weight_plot(test_data_WME, "CON", is_categorical = TRUE)
+weight_BURN_WME
+weight_ICU_WME
+weight_OBESE_WME
+weight_CREAT_WME
+weight_WT_WME
+weight_AGE_WME
+weight_SEX_WME
+weight_CON_WME
+weight_OBESE_WME
+
+test_data_WME %>%
+  group_by(MODEL) %>%
+  summarise(avg_weight = mean(WEIGHT, na.rm = TRUE))
+
+# Extrapolate dose based on the ensembled concentrations and compare it to the true simulated dose.
+test_data_WME <- test_data_WME %>%
+  dplyr::filter(REFERENCE == 1) %>%
+  dplyr::mutate(DOSE_PRED = (60/WEIGHTED_PREDICTION) * DOSE_ADM) # Administered dose extrapolation to reach 60 mg/L
+
+final_results_WME <- explore_predictions(test_data_WME)
+final_results_WME$target_attainment 
+crcl_plot_WME <- final_results_WME$crcl_plot
+crcl_plot_WME
+final_results_WME$summary_stats 
+
+# Keep data for method ensembling
+test_data_WME_ens <- test_data_WME %>%
+  dplyr::mutate(WME = DOSE_PRED) %>% 
+  dplyr::select("ID","WME")
+```
+
+# Factor Analysis of Mixed Data (FAMD)
+
+In FAMD, Principal Component Analyisis (PCA) is applied to continuous
+covariates and multiple correspondence analysis (MCA) to categorical
+covariates. FAMD is an unsupervised machine learning algorithm which is
+based on dimensionality reduction. Principal components are uncorrelated
+linear combinations of initial variables. They are directions in the
+variable space, perpendicular to each other that explain a maximum
+variance of the data. The first principal component explains most of the
+variance, as it has most of the dispersion of the data points along it,
+then the subsequent ones explain less and less and if a certain
+percentage (in this case, 90 %) of the data variance is explained, no
+more principal components are added. This process simplifies the dataset
+while retaining most of the relevant information.
+
+Nearest neighbors is a classification technique that relies on the
+proximity of a data point to different classes in a variable space. To
+measure proximity, we can use euclidean distance, which is the length of
+a straight line connecting to points, or the Mahalanobis distance which
+accounts for variance and correlation between the variables as well.
+Mahalanobis distances are calculated between the centroids (geometric
+means) of model cohorts and a new subject. Model weights were calculated
+by taking the normalized reciprocal of these distances.
+
+Our *openMIPD* package is used to apply this method.
+
+```{r FAMD-train, warning=FALSE, message=FALSE}
+train_result_FAMD <- famd_train(
+  train = AMOX_CMIN_TRAIN, 
+  continuous_cov = c("WT", "CREAT", "AGE"), 
+  categorical_cov = c("OBESE", "ICU", "BURN", "SEX"), 
+  target_variable = "CMIN")
+
+```
+
+To visualize the model, the contribution of covariates to the first (left) and second (right) principal component ar visualized for FAMD. Notably, BURN contributed the least to the first dimension, and the most to the second. The contribution of continuous covariates to the first and second principal components in PCA is also plotted. WT contributes the most to the results, and CREAT the least (out of the continuous covariates). CREAT and age are positively correlated as the angle between them is smaller, while between CREAT and WT there is an important negative correlation.
+
+```{r evaluate-FAMD-training, warning=FALSE, message=FALSE}
+train_result_FAMD$principal_components
+contrib_dim1 <- train_result_FAMD$contrib_dim1
+contrib_dim1 
+ggsave(filename = here("Figures/S11a.jpg"),
+       plot = contrib_dim1,
+       width = 8, height = 6, dpi = 600)
+contrib_dim2 <- train_result_FAMD$contrib_dim2
+contrib_dim2 
+ggsave(filename = here("Figures/S11b.jpg"),
+       plot = contrib_dim2,
+       width = 8, height = 6, dpi = 600)
+contrib_quant_var <- train_result_FAMD$contrib_quant_var
+contrib_quant_var
+ggsave(filename = here("Figures/S12.jpg"),
+       plot = contrib_quant_var,
+       width = 8, height = 6, dpi = 600)
+
+```
+
+```{r FAMD-predict, warning=FALSE, message=FALSE}
+test_result_FAMD <- famd_test(
+  test = AMOX_CMIN_TEST, 
+  train_results = train_result_FAMD)
+```
+
+To evaluate the method, a predictions as a function of observed concentrations goodness of fit plot is presented as well as the average model weights are plotted, stratified by covariate categories/quantiles.
+
+```{r evaluate-FAMD-prediction, warning=FALSE, message=FALSE}
+test_data_FAMD <- test_result_FAMD$test_results
+test_result_FAMD$GOF_plot
+
+weight_BURN_FAMD <- generate_weight_plot(test_data_FAMD, "BURN", is_categorical = TRUE)
+weight_ICU_FAMD <- generate_weight_plot(test_data_FAMD, "ICU", is_categorical = TRUE)
+weight_OBESE_FAMD <- generate_weight_plot(test_data_FAMD, "OBESE", is_categorical = TRUE)
+weight_CREAT_FAMD <- generate_weight_plot(test_data_FAMD, "CREAT", is_categorical = FALSE)
+weight_WT_FAMD <- generate_weight_plot(test_data_FAMD, "WT", is_categorical = FALSE)
+weight_AGE_FAMD <- generate_weight_plot(test_data_FAMD, "AGE", is_categorical = FALSE)
+weight_SEX_FAMD <- generate_weight_plot(test_data_FAMD, "SEX", is_categorical = TRUE)
+weight_BURN_FAMD
+weight_ICU_FAMD
+weight_OBESE_FAMD
+weight_CREAT_FAMD
+weight_AGE_FAMD
+weight_SEX_FAMD
+weight_OBESE_FAMD <- weight_OBESE_FAMD + 
+  labs(title = "FAMD weight attribution, stratified by OBESE")
+ggsave(filename = here("Figures/S10a.jpg"),
+       plot = weight_OBESE_FAMD,
+       width = 8, height = 6, dpi = 600)
+
+test_data_FAMD %>%
+  group_by(MODEL) %>%
+  summarise(avg_weight = mean(WEIGHT, na.rm = TRUE))
+
+# Extrapolate dose based on the ensembled concentrations and compare it to the true simulated dose.
+test_data_FAMD <- test_data_FAMD %>%
+  dplyr::filter(REFERENCE == 1) %>%
+  dplyr::mutate(DOSE_PRED = (60/WEIGHTED_PREDICTION) * DOSE_ADM) # Administered dose extrapolation to reach 60 mg/L
+
+final_results_FAMD <- explore_predictions(test_data_FAMD)
+final_results_FAMD$target_attainment 
+crcl_plot_FAMD <- final_results_FAMD$crcl_plot
+crcl_plot_FAMD
+final_results_FAMD$summary_stats 
+
+# Keep data for method ensembling
+test_data_FAMD_ens <- test_data_FAMD %>%
+  dplyr::mutate(FAMD = DOSE_PRED) %>% 
+ dplyr::select("ID","FAMD")
+```
+
+# Method ensembling
+
+Ensembling for machine learning (XGBoost, Random forest, k nearest neighobrs, support vector machine) and PopPK ensembling (classification tree informed ensembling, regression tree informed ensembling, weighed model ensembling, FAMD). A dose prediction
+to reach 60 mg/L is made for each subject and the method with the dose
+prediction closest to the true dose is selected. A classification tree is
+trained to predict the most suited dose for each subject.
+
+```{r ML, warning=FALSE, message=FALSE}
+# First prediction for the four single ML algorithms
+# For ML, take only one line per patient (the true concentration)
+train <- AMOX_CMIN_TRAIN %>%
+  dplyr::filter(REFERENCE == 1) %>%
+  mutate(II = FREQ) %>%
+  mutate(INF = 24/FREQ)
+
+test <- AMOX_CMIN_TEST %>%
+  dplyr::filter(REFERENCE == 1) %>%
+  mutate(II = FREQ) %>%
+  mutate(INF = 24/FREQ)
+
+test_data_ML <- machine_learning(train = train, test = test,  continuous_cov = c("WT", "CREAT", "AGE"), 
+                                 categorical_cov = c("OBESE", "ICU", "BURN", "SEX", "INF"), target_variable = "CMIN", target_concentration = 60)
+```
+
+```{r method-ens-tune, warning=FALSE, message=FALSE}
+set.seed(1991)
+conflicted::conflicts_prefer(dplyr::filter)
+
+# Put together the predictions of the 8 methods
+datasets <- list(test_data_ML, test_data_WME_ens, test_data_FAMD_ens, test_data_RT_ens, test_data_CT_ens)
+# Merge the datasets
+data <- reduce(datasets, full_join, by = "ID") %>% arrange(ID)
+
+# Divide the data to training and test data (50-50)
+idx <- seq_len(nrow(data)) %% 2 == 1
+
+train_data  <- data[idx, ]
+test_data <- data[!idx, ]
+
+# Add the name of the best method (whose dose prediction is the closest to the target dose) in a new column called Method
+methods <- c("RF", "XGB", "KNN", "SVM", "WME", "CT", "RT", "FAMD")
+
+train_data <- train_data %>%
+  rowwise() %>%
+  dplyr::mutate(
+    Method = methods[which.min(abs(c_across(all_of(methods)) - DOSE_TARGET))]
+  ) %>%
+  ungroup()
+
+# Range for complexity parameter to test (based on cross-validation)
+cp_values <- seq(0.001, 0.04, by = 0.001) 
+
+# Convert categorical variables to factors
+train_data <- train_data %>%
+  dplyr::mutate(across(c(Method, ICU, BURN, OBESE, SEX), as.factor))
+
+# Perform cross-validation for each complexity value
+cv_results <- sapply(cp_values, function(cp) {
+  ensfit <- rpart(
+    Method ~ WT + CREAT + ICU + BURN + OBESE + AGE + SEX,
+    data = train_data,
+    method = 'class',
+    parms = list(split = "information"),
+    control = rpart.control(
+      cp = cp,
+      xval = 10,
+      minsplit = 4,
+      minbucket = 4
+    )
+  )
+  min(ensfit$cptable[, "xerror"]) 
+})
+
+# Get the minimal cross validation error
+min_error <- min(cv_results)
+
+# Choose largest complexity parameter among those achieving the minimum error
+best_cp <- max(cp_values[cv_results == min_error])
+```
+
+```{r method-ens-train, warning=FALSE, message=FALSE}
+# Refit the tree
+ensfit <- rpart(
+  Method ~ WT + CREAT + ICU + BURN + OBESE + AGE + SEX,
+  data = train_data,
+  method = 'class',
+  parms = list(split = "information"),
+  control = rpart.control(
+    cp = best_cp,
+    xval = 10,
+    minsplit = 4,
+    minbucket = 4
+  )
+)
+
+saveRDS(ensfit, file = "ensfit.rds")
+```
+
+The classification tree is plotted indicating the best-suited method for each subject group.
+
+```{r evaluate-ens-training, warning=FALSE, message=FALSE}
+# Plot the tree
+ens_plot <- rpart.plot(ensfit, type = 3, extra = 0, cex.main = 1.25, cex = 1, box.palette = "Blues", main = paste("Method ensembling", "(cp =", best_cp, ")"))
+print(ens_plot)
+
+jpeg(here("Figures/S18.jpg"), width = 8, height = 6, units = "in", res = 400)
+rpart.plot(ensfit, type = 3, extra = 0, cex = 1, cex.main = 1.25, box.palette = "Blues", main = "Method ensembling")
+dev.off()
+
+# Get for which patient which method is the best
+leaves <- rownames(ensfit$frame)[ensfit$frame$var == "<leaf>"]
+paths <- path.rpart(ensfit, leaves, print.it = FALSE)
+leaf_classes <- ensfit$frame$yval[which(ensfit$frame$var == "<leaf>")]
+leaf_labels <- as.character(attr(ensfit, "ylevels")[leaf_classes])
+leaf_summary <- data.frame(
+  Method = leaf_labels,
+  Path = sapply(paths, function(path) paste(path, collapse = " & "))
+)
+print(leaf_summary)
+```
+
+```{r ens-predict, warning=FALSE, message=FALSE}
+# Make predictions for the test data
+test_data <- test_data %>%
+  mutate(across(c(ICU, BURN, OBESE, SEX), as.factor))
+
+test_data$Method <- predict(ensfit, newdata = test_data, type = "class")
+
+# Add the dose prediction of the best predicted method
+test_data_results <- test_data %>%
+  rowwise() %>%
+  dplyr::mutate(DOSE_PRED = cur_data()[[Method]]) %>%
+  ungroup()
+```
+
+```{r evaluate-ens-predict, warning=FALSE, message=FALSE}
+results_ens <- explore_predictions(test_data_results)
+results_ens$target_attainment 
+crcl_plot_ens <- results_ens$crcl_plot
+crcl_plot_ens
+results_ens$summary_stats 
+```

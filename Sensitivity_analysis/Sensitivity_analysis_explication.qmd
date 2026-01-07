@@ -1,0 +1,26 @@
+---
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html:
+    code-fold: true
+---
+
+# Sensitivity analysis
+
+This folder contains the codes which are necessary to execute a sensitivity analysis combined with the other codes found in this repository (for example, the functions for the different MIPD methods).
+
+## Dosing scheme
+
+Our main approach was to use cohort-based dosing regimens. In this sensitivity analysis, we tested the simulation of the same dosing scheme for every subject. Two dosing regimens were tested, one continuous (10 g/day) and an intermittent (0.5 h infusion of 1000 mg four times daily). In the Dosing_scheme folder the codes can be found to simulate these two dosing schemes, then the same codes can be applied as in the MIPD folder.
+
+## Model exclusion
+
+Instead of using all four PopPK models, all combinations involving the removal of one or two models from the simulated training set were explored. In the Model_exclusion folder the code can be found to create folders with training datasets with the same number of subjects, but with only two or three models and model cohorts.
+
+## Number of subjects
+
+Originally, 1900 subjects were simulated for model training. In this sensitivity analysis, one hundred datasets were generated for each of the following sample sizes: 100, 300, 600, 1200, 1900, 2500, and 3000. In the Number_of_subjects folder, the code can be found to simulate 300000 virtual subjects (to have enough subjects for the 100 replicates of the subject size of 3000), then simulate concentrations for these subjects in the form of a parquet dataset. Finally, 100 non-overlapping datasets are created for each subject size in different subfolders.

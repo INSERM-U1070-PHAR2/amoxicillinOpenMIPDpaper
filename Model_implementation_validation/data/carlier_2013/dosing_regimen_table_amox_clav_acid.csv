@@ -1,0 +1,9 @@
+clcr,dose_type ,regimen_id,amoxicillin_dose,clavulanic_acid_dose,ii,tinf
+30,low dose,500/100 q8h,500,100,8,0.5
+30,high dose,2000/400 q8h,2000,400,8,0.5
+50,low dose,500/100 q6h,500,100,6,0.5
+50,high dose,2000/400 q6h,2000,400,6,0.5
+130,low dose,500/100 q4h,500,100,4,0.5
+130,high dose,2000/400 q4h,2000,400,4,0.5
+190,low dose,500/100 q4h,500,100,4,0.5
+190,high dose,2000/400 q4h,2000,400,4,0.5

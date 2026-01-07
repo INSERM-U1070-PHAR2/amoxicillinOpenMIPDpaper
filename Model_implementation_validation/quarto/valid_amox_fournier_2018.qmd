@@ -1,0 +1,1091 @@
+---
+title: "Validation PKpop Amox Fournier 2018"
+format: 
+  html:
+    fig-format: png
+    fig-dpi: 300
+execute-dir: project
+bibliography: bibliography.bib
+echo: FALSE
+warning: FALSE
+editor_options: 
+  chunk_output_type: console
+  markdown:
+    wrap: 80
+    canonical: true
+lightbox: true
+---
+
+```{r import-functions}
+here::i_am("Model_implementation_validation/quarto/valid_amox_fournier_2018.qmd")
+# Functions used for simulation-----
+
+# export functions contained in the "functions" folder
+list_of_function_path = list.files(
+  path = here::here("Model_implementation_validation/R_functions/"),
+  pattern = ".*\\.R$",
+  full.names = TRUE
+  ) 
+
+purrr::walk(.x=list_of_function_path,.f=source)
+```
+
+# Paper
+
+@fournier2018
+
+# Model description
+
+```{r model_description}
+#| label: tbl-model-desc
+#| tbl-cap: Model description
+doi <- "10.1128/AAC.00505-18"
+readr::read_csv(
+  file = here::here("Model_implementation_validation/data/fournier_2018/model_description.csv"),
+  show_col_types = F
+) |>
+  dplyr::filter(DOI == doi) |>
+    dplyr::rename("Structural model" = structural_model,
+                "Variability model" = variability_model,
+                "Covariates effects" = covariate_effects,
+                "Number of patients" = patients_number,
+                "Free or total concentrations" = free_or_total_concentrations,
+                "Unbound fraction" = unbound_fraction) |>
+  knitr::kable()
+```
+
+## Model parameters
+
+```{r model_parameter_table}
+#| label: tbl-model-param
+#| tbl-cap: Model parameters
+readr::read_csv(
+  file = here::here("Model_implementation_validation/data/fournier_2018/model_parameters.csv"),
+  show_col_types = F
+) |>
+  dplyr::select(-DOI) |>
+  knitr::kable() |>
+  kableExtra::add_footnote(label = "theta_CLCR_CL was wrongly reported as 0.57 
+                           in the publication, email exchanges with the authors 
+                           confirmed that the actual value was 0.0057")
+```
+
+## Inter-individual variability and covariate effects
+
+$$
+CL_{i} = CL_{pop} \times [1 + (\theta_{CLCR-CL} \times (CLCR_{i} - 110))] \times e^{\eta_{i}}
+$$
+
+With :
+
+-   $CL_{i}$ : Amoxicillin clearance for individual *i*
+
+-   $CLCR_i$ : Creatinine clearance for individual *i*
+
+-   $\eta_{i}$ : Normal variable with mean 0 and variance $\omega^2_{CL}$
+
+-   Other parameters defined in @tbl-model-param
+
+Central volume of distribution is allometrically scaled to body weight : $$
+V1_{i} = V1_{pop} \times \frac{BW}{70}
+$$ With :
+
+-   $V1_{i}$ : Central volume of distribution for individual *i*
+
+-   $BW$ : Body weight of the individual *i* in kilograms
+
+# Validation of the mrgsolve implementation
+
+To validate that our implementation of the model is correct we will attempt to
+reproduce figure 4 and table 4 of the original article
+
+## Preliminary testing
+
+First we check that simulations for a single dosing regimen and creatinine
+clearance value make sense.
+
+```{r simulate-patients}
+set.seed(1000)
+simulate_weights <- function(n, mean, sd) {
+  mean * exp(rnorm(n = n, mean = 0, sd = sd))
+}
+
+# run only if the file does not exist
+if (!file.exists(here::here("Model_implementation_validation/data/fournier_2018/simulated_patients.csv"))) {
+  patient_table <-
+    tibble::tibble(ID = 1:500, 
+                   WT = simulate_weights(n = 500, mean = 89, sd = 0.184))
+  
+  metadata_patient_table <- tibble::tibble(
+    column_name = c("ID", "BW"),
+    column_description = c("Patient identifier", "Patient weight"),
+    unit = c("unitless", "kg")
+  )
+  
+  readr::write_csv(
+    x = patient_table,
+    file = here::here("Model_implementation_validation/data/fournier_2018/simulated_patients.csv")
+  )
+  
+  readr::write_csv(
+    x = metadata_patient_table,
+    file = here::here(
+      "Model_implementation_validation/data/fournier_2018/metadata_simulated_patients.csv"
+    )
+  )
+}
+```
+
+```{r perform_pta_sim_clcr_200_q4h}
+path_dosing_regimens <- here::here("Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv")
+
+patients <- readr::read_csv(
+  file = here::here("Model_implementation_validation/data/fournier_2018/simulated_patients.csv"),
+  show_col_types = F
+)
+
+path_parameters <- here::here("Model_implementation_validation/data/fournier_2018/model_parameters.csv")
+
+model <- mrgsolve::mread(model = here::here("Model_implementation_validation/mrgsolve/amox_Fournier.cpp"))
+
+var_eta_CL <- cv_to_var(distribution = "lognormal",
+                    cv = 0.373)
+
+eta_dosing_reg_2g_q4h <- select_dosing_regimens(
+  selected_regimen = "2g q4h",
+  path_to_the_file = path_dosing_regimens
+)
+
+sim_dur <- 96 # hours
+sim_step <- 1 / 6 # 1 every 10 min
+omega_mat <- mrgsolve::dmat(var_eta_CL)
+
+convert_clcr_to_creat_cg <- function(clcr,
+                                  sex = 0,
+                                  bsa = 1.73,
+                                  age = 60,
+                                  wt = 72) {
+  sex_factor <-  ifelse(sex==0, 1, 0.85)
+  creat <- ((140-age)*sex_factor*wt) /(clcr *72) 
+  creat
+}
+
+cov_default <- list(CREAT = convert_clcr_to_creat_cg(200), WT = 72, BSA = 1.73, AGE = 60, SEX = 0, MIC = 1)
+
+# simulation for patients with a CLCR of200 mL/min, dosing regimen : 2g q4h
+set.seed(1000)
+
+sim_2g_q4h_clcr_200 <- simulate_mrgsolve(
+  dosing_regimen = eta_dosing_reg_2g_q4h,
+  sim_dur = sim_dur,
+  model = model,
+  patients = patients,
+  sim_step = sim_step,
+  param_file = path_parameters,
+  cov_default = cov_default,
+  omega_mat = omega_mat
+)
+
+plot_sim_2g_q4h_clcr_200 <- sim_2g_q4h_clcr_200 |>
+  dplyr::summarise(
+    .by = time,
+    q5 = quantile(IPRED, 0.05),
+    q50 = quantile(IPRED, 0.5),
+    q95 = quantile(IPRED, 0.95)
+  ) |>
+  ggplot2::ggplot(mapping = ggplot2::aes(x = time)) +
+  ggplot2::geom_ribbon(mapping = ggplot2::aes(ymin = q5, ymax = q95), alpha = 0.7) +
+  ggplot2::geom_line(mapping = ggplot2::aes(y = q50)) +
+  ggplot2::scale_x_continuous(
+    name = "Time (h)",
+    breaks = seq(0, sim_dur, by = 12)
+  ) +
+  ggplot2::scale_y_continuous(name = "Total concentration (mg/L)") +
+  ggplot2::theme_classic() +
+  ggplot2::ggtitle(label = paste0(nrow(patients), " patients CLCR = 200 mL/min"))
+
+plot_sim_2g_q4h_clcr_200
+
+
+pta_ft_over_mic_72_96_2g_q4h_clcr_200_MIC_1 <- compute_ft_over_mic(
+  sim_tbl = sim_2g_q4h_clcr_200,
+  from = 72,
+  to = 96
+) |>
+  compute_pta_t_over_mic(target = 0.5)
+
+pta_ft_over_mic_72_96_2g_q4h_clcr_200_MIC_1 |>
+  knitr::kable()
+```
+
+Profiles seem to make sense, the implementation looks ok so far.
+
+## Reproduction of Figure 4
+
+The figure represents the probability of target attainment for a population of
+500 virtual patients of various weight and creatinine clearance, receiving
+various dosing regimens of amoxicillin. These dosing regimens are represented in
+the following table :
+
+```{r dosing-regimen-table}
+#| label: tbl-sim-dosing-reg
+#| tbl-cap: Simulated dosing regimen
+
+readr::read_csv(here::here("Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv")) |>
+  dplyr::rename(
+    "Dose (mg)" = amt,
+    "Interdose interval (h)" = ii,
+    "Infusion duration (h)" = tinf,
+    "Dosing regimen" = regimen_id
+  ) |>
+  dplyr::select(-time, -ss, -evid, -cmt) |>
+  knitr::kable()
+```
+
+Patients weights were sampled from a lognormal distribution with mean 89 kg and
+standard deviation of 0.184 ln(kg).
+
+```{r creatinine-clearance}
+clcr_values <- c(15, 30, 60, 100, 150, 200)
+creat_values <- convert_clcr_to_creat_cg(clcr_values,wt=70) #convert using mdrd assuming male, 60 yo, and base size
+
+pretty_clcr_values <- paste0(clcr_values, " mL/min")
+```
+
+Simualtions were performed for 6 creatinine clearance
+values(`r pretty_clcr_values`)
+
+```{r pkpd-targets}
+fu <- 0.82
+pkpd_targets <- c(0.5, 1)
+mics <- 2^seq(-2, 4)
+
+pretty_pkpd_targets <- paste0(pkpd_targets * 100, "%")
+```
+
+Two different fT\>MIC (with unbound fraction = `r fu`) were studied
+(`r pretty_pkpd_targets`). They were computed for a range of MICs (`r mics`
+mg/L).
+
+The PTA when the target is 100% of the time above MIC calculated between 10 and
+11 simulated days of treatment are inferior to those calculated between 9 and 10
+days or 11 and 12 days. In order to reproduce figure 4, PTA were calculated
+between the 11 an 12th days of therapy.
+
+```{r pta sim for all but calculated between the 11 and 12 th days of therapy, results = 'hide'}
+fig4_pta_twelve_days_result_path <-
+  here::here(
+    "Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"
+  )
+
+# run only if results does not exist yet
+if (!file.exists(fig4_pta_twelve_days_result_path)) {
+  # Function to #compute PTA for  1 dosing regimen, 1 CLCR, 1 MIC, enables looping through them
+  wrapper_compute_pta <- function(dosing_reg_id,
+                                  path_dosing_regimens,
+                                  sim_dur,
+                                  sim_step,
+                                  model,
+                                  patients,
+                                  path_parameters,
+                                  cov_default,
+                                  omega_mat,
+                                  from,
+                                  to,
+                                  targets) {
+    
+    dosing_reg <- select_dosing_regimens(
+      selected_regimen = dosing_reg_id,
+      path_to_the_file = path_dosing_regimens
+    )
+
+    sim <- simulate_mrgsolve(
+      dosing_regimen = dosing_reg,
+      sim_dur = sim_dur,
+      model = model,
+      patients = patients,
+      sim_step = sim_step,
+      param_file = path_parameters,
+      cov_default = cov_default,
+      omega_mat = omega_mat
+    )
+
+    pta <-
+      purrr::map(
+        targets,
+        ~ compute_ft_over_mic(
+          sim_tbl = sim,
+          from = from,
+          to = to
+        ) |>
+          compute_pta_t_over_mic(target = .x)
+      ) |>
+      purrr::reduce(dplyr::left_join) |>
+      dplyr::mutate(
+        CLCR = cov_default$CLCR,
+        regimen_id = dosing_reg_id
+      )
+
+    pta
+  }
+
+  #### Dosing regimens to be simulated ####
+  path_dosing_regimens <- here::here("Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv")
+  dosing_regimens_ids <- readr::read_csv(path_dosing_regimens) |>
+    dplyr::pull(regimen_id) |>
+    unique()
+
+  #### Patient level covariates ####
+  patients <- readr::read_csv(
+    file = here::here("Model_implementation_validation/data/fournier_2018/simulated_patients.csv"),
+    show_col_types = F
+  )
+
+  #### PK model, structural and variability parameters ####
+  model <- mrgsolve::mread(model = here::here("Model_implementation_validation/mrgsolve/amox_Fournier.cpp"))
+  path_parameters <- here::here("Model_implementation_validation/data/fournier_2018/model_parameters.csv")
+  eta_CL <- log(0.373^2 + 1)
+  omega_mat <- mrgsolve::dmat(eta_CL)
+
+  #### Simulation time parameters ####
+  sim_dur <- 288 # hours
+  sim_step <- 1 / 6 # 1 every 10 min
+
+  #### PK/PD targets and PTA parameters ####
+  from <- 264
+  to <- 288
+  targets <- c(0.5, 1)
+
+  #### Setting up the loop for simulations ####
+  regimen_cov_grid <- expand.grid(
+    dosing_reg_id = dosing_regimens_ids,
+    CLCR = clcr_values, # defined in an earlier chunk
+    WT = 70, # need a default value, but real value for each patient will be pulled from patients table
+    MIC = mics, # defined in an earlier chunk
+    SEX = 0,
+    AGE = 60,
+    BSA = 1.73
+  )
+  dosing_reg_ids <- regimen_cov_grid$dosing_reg_id
+  cov_list <- dplyr::select(regimen_cov_grid, -dosing_reg_id) |>
+    split(x = _, f = 1:nrow(regimen_cov_grid))
+  
+  model_cov_CLCR <-  mrgsolve::mread(model = here::here("Model_implementation_validation/mrgsolve/amox_Fournier_cov_CLCR.cpp"))
+
+  #### Perform the simulations and compute PTA ####
+  pta_results <- purrr::map2(
+    .x = dosing_reg_ids,
+    .y = cov_list,
+    .f = ~ wrapper_compute_pta(
+      dosing_reg_id = .x,
+      path_dosing_regimens = path_dosing_regimens,
+      sim_dur = sim_dur,
+      sim_step = sim_step,
+      model = model_cov_CLCR,
+      patients = patients,
+      path_parameters = path_parameters,
+      cov_default = .y,
+      omega_mat = omega_mat,
+      from = from,
+      to = to,
+      targets = targets
+    )
+  ) |>
+    purrr::list_rbind() |> dplyr::bind_cols(cov_list |> purrr::list_rbind() |> dplyr::select(-MIC,-CLCR)) 
+
+  readr::write_csv(
+    x = pta_results,
+    file = here::here(
+      "Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"
+    )
+  )
+}
+```
+
+```{r function for plots}
+# regimen_id_pta_05 and regimen_id_pta_1 are lists of regimen_id
+
+fig_4_plot_row <- function(path_to_results, selected_clcr, regimen_id_pta_05, regimen_id_pta_1) {
+  fig_4_row_pta_05_data <- readr::read_csv(
+    file = path_to_results,
+    show_col_types = F
+  ) |>
+    tidyr::pivot_longer(
+      cols = tidyselect::starts_with("PTA"),
+      values_to = "PTA"
+    ) |>
+    dplyr::mutate(target = gsub("PTA_", "", x = name), .keep = "unused") |>
+    dplyr::filter(target == "0.5") |>
+    dplyr::filter(CLCR == selected_clcr & regimen_id %in% regimen_id_pta_05) |>
+    as.data.frame()
+
+  fig_4_row_pta_1_data <- readr::read_csv(
+    file = fig4_pta_twelve_days_result_path,
+    show_col_types = F
+  ) |>
+    tidyr::pivot_longer(
+      cols = tidyselect::starts_with("PTA"),
+      values_to = "PTA"
+    ) |>
+    dplyr::mutate(target = gsub("PTA_", "", x = name), .keep = "unused") |>
+    dplyr::filter(target == 1) |>
+    dplyr::filter(CLCR == selected_clcr & regimen_id %in% regimen_id_pta_1) |>
+    as.data.frame()
+
+  row_data <- dplyr::full_join(fig_4_row_pta_05_data, fig_4_row_pta_1_data) |>
+    dplyr::mutate(target = forcats::fct_relevel(target, "0.5", "1"))
+
+  row_plot <- ggplot2::ggplot(row_data, ggplot2::aes(x = MIC, y = PTA, color = as.factor(regimen_id))) +
+    ggplot2::geom_point() +
+    ggplot2::geom_line() +
+    ggplot2::facet_grid(CLCR ~ target,
+      labeller = ggplot2::labeller(.default = ggplot2::label_both)
+    ) +
+    ggplot2::scale_x_continuous("MIC (mg/L)",
+      transform = "log2",
+      breaks = mics
+    ) +
+    ggplot2::scale_y_continuous("Probability of target attainment",
+      breaks = seq(0, 1, 0.1)
+    ) +
+    ggplot2::scale_color_brewer(
+      name = "Dosing regimen",
+      palette = "Dark2"
+    ) +
+    ggplot2::theme_bw(base_size = 18)
+
+  row_plot
+}
+
+```
+
+```{r reproduce_figure_4_top_row}
+#| label: fig-reprod-fig-4-top-row
+#| fig-cap: Attempt at reproducing the first row of figure 4
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr200 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+regimen_id_pta_1_clcr200 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+selected_clcr_200 <- 200
+
+fig_4_1st_row_12_days <- fig_4_plot_row(
+  path_to_results = fig4_pta_twelve_days_result_path,
+  selected_clcr = selected_clcr_200,
+  regimen_id_pta_05 = regimen_id_pta_05_clcr200,
+  regimen_id_pta_1 = regimen_id_pta_1_clcr200
+)
+fig_4_1st_row_12_days
+```
+
+```{r fig_4_orig_top_row}
+#| label: fig-original-fig-4-top-row
+#| fig-cap: Original paper first row of figure 4
+#| out-width: "100%"
+
+knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_first_row.jpeg"))
+```
+
+```{r reproduce_figure_4_second_row_twelve_days_of_sim}
+#| label: fig-reprod-fig-4-second-row-sim_12-days
+#| fig-cap: Attempt at reproducing the second row of figure 4, twelve days of simulation
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr150 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+regimen_id_pta_1_clcr150 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+selected_clcr_150 <- 150
+
+fig_4_2nd_row_12_days <- fig_4_plot_row(
+  path_to_results = fig4_pta_twelve_days_result_path,
+  selected_clcr = selected_clcr_150,
+  regimen_id_pta_05 = regimen_id_pta_05_clcr150,
+  regimen_id_pta_1 = regimen_id_pta_1_clcr150
+)
+fig_4_2nd_row_12_days
+```
+
+```{r fig_4_orig_second_row}
+#| label: fig-original-fig-4-second-row
+#| fig-cap: Original paper second row of figure 4
+#| out-width: "100%"
+
+knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_second_row.png"))
+```
+
+```{r reproduce_figure_4_third_row_twelve_days_of_sim}
+#| label: fig-reprod-fig-4-third-row-sim_12-days
+#| fig-cap: Attempt at reproducing the third row of figure 4, twelve days of simulation
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr100 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q6h IT = 2h")
+regimen_id_pta_1_clcr100 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h", "2g 6h IT = 2h")
+selected_clcr_100 <- 100
+
+fig_4_3rd_row_12_days <- fig_4_plot_row(
+  path_to_result = fig4_pta_twelve_days_result_path,
+  selected_clcr = selected_clcr_100,
+  regimen_id_pta_05 = regimen_id_pta_05_clcr100,
+  regimen_id_pta_1 = regimen_id_pta_1_clcr100
+)
+fig_4_3rd_row_12_days
+```
+
+```{r fig_4_orig_third_row}
+#| label: fig-original-fig-4-third-row
+#| fig-cap: Original paper third row of figure 4
+#| out-width: "100%"
+
+knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_third_row.png"))
+```
+
+```{r reproduce_figure_4_fourth_row_twelve_days_of_sim}
+#| label: fig-reprod-fig-4-fourth-row-sim_12-days
+#| fig-cap: Attempt at reproducing the fourth row of figure 4, twelve days of simulation
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr60 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q6h IT = 2h", "2g q8h IT = 2h")
+regimen_id_pta_1_clcr60 <- c("1g q8h", "2g q8h", "2g 8h IT = 2h", "1g q6h", "1g q4h", "2g q4h", "1g q6h IT = 2h", "2g q4h IT = 2h")
+selected_clcr_60 <- 60
+
+fig_4_4th_row_12_days <- fig_4_plot_row(
+  path_to_result = fig4_pta_twelve_days_result_path,
+  selected_clcr = selected_clcr_60,
+  regimen_id_pta_05 = regimen_id_pta_05_clcr60,
+  regimen_id_pta_1 = regimen_id_pta_1_clcr60
+)
+fig_4_4th_row_12_days
+```
+
+```{r fig_4_orig_fourth_row}
+#| label: fig-original-fig-4-fourth-row
+#| fig-cap: Original paper fourth row of figure 4
+#| out-width: "100%"
+
+knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fourth_row.png"))
+```
+
+```{r reproduce_figure_4_fifth_row_twelve_days_of_sim}
+#| label: fig-reprod-fig-4-fifth-row-sim_12-days
+#| fig-cap: Attempt at reproducing the fifth row of figure 4, twelve days of simulation
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr30 <- c("0.5g q8h", "1g q8h", "0.5g q6h", "1g q6h", "0.5g q4h", "1g q4h")
+regimen_id_pta_1_clcr30 <- c("0.5g q8h", "1g q8h", "0.5g 6h", "1g q6h", "0.5g q4h", "1g q4h", "2g q4h")
+selected_clcr_30 <- 30
+
+fig_4_5th_row_12_days <- fig_4_plot_row(
+  path_to_result = fig4_pta_twelve_days_result_path,
+  selected_clcr = selected_clcr_30,
+  regimen_id_pta_05 = regimen_id_pta_05_clcr30,
+  regimen_id_pta_1 = regimen_id_pta_1_clcr30
+)
+fig_4_5th_row_12_days
+```
+
+```{r fig_4_orig_fifth_row}
+#| label: fig-original-fig-4-fifth-row
+#| fig-cap: Original paper fifth row of figure 4
+#| out-width: "100%"
+
+knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_fifth_row.png"))
+```
+
+```{r reproduce_figure_4_sixth_row_twelve_days_of_sim}
+#| label: fig-reprod-fig-4-sixth-row-sim_12-days
+#| fig-cap: Attempt at reproducing the sixth row of figure 4, twelve days of simulation
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr15 <- c("0.5g q12h", "1g q12h", "0.5g q8h", "1g q8h", "0.5g q6h", "1g q6h")
+regimen_id_pta_1_clcr15 <- c("0.5g q12h", "1g q12h", "0.5g q8h", "1g q8h", "0.5g q6h", "1g q6h", "1g q4h")
+selected_clcr_15 <- 15
+
+fig_4_5th_row_12_days <- fig_4_plot_row(
+  path_to_result = fig4_pta_twelve_days_result_path,
+  selected_clcr = selected_clcr_15,
+  regimen_id_pta_05 = regimen_id_pta_05_clcr15,
+  regimen_id_pta_1 = regimen_id_pta_1_clcr15
+)
+fig_4_5th_row_12_days
+```
+
+```{r fig_4_orig_sixth_row}
+#| label: fig-original-fig-4-sixth-row
+#| fig-cap: Original paper sixth row of figure 4
+#| out-width: "100%"
+
+knitr::include_graphics(path = here::here("Model_implementation_validation/published_figures_tables/amoxicillin/fournier_2018/original_figure_4_sixth_row.png"))
+```
+
+Regarding over or under estimation of PTA in relation to MIC, compared with PTAs
+of the original article, no trend can be distinguished. Differences are of the
+order of 5%. Our simulations line up well with the published figures.
+
+To facilitate comparison between our simulations and the article figure 4,
+results of our simulations were plotted with article data. Data from the
+original figure 4 of the article were digitalized. They are the dashed lines in
+the following figures.
+
+```{r create csv file containin digitalized data from fig 4, results = 'hide'}
+# create csv files containing data from article's figure 4 
+# for each row, one file for PTA 0.5 and one for PTA 1 
+
+#### function ####
+
+# wanted_pattern has to be written inside quotes 
+# and is the pattern common to the downloaded files joined to form one csv 
+# # csv to write inside data_fig_4
+# csv_pta_fig_4 = function(wanted_pattern, path_to_new_file) {
+#   files = list.files(path = here::here("../../../Downloads"),
+#                      pattern = wanted_pattern)
+#   
+#   pta = purrr::map(.x = files,
+#                    .f = ~readr::read_csv(file.path(here::here("../../../Downloads"), .x))) |>
+#     dplyr::bind_rows() |>
+#     write.csv(file = path_to_new_file)
+# }
+# 
+# #### create files ####
+# # run only if the folder containing digitalized data doesn't exist
+# if(!file.exists(here::here("Model_implementation_validation/data/fournier_2018/data_fig_4"))) {
+# # 1st row, left
+# csv_pta_fig_4(wanted_pattern = "left_1st_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_top_row.csv"))
+# # 1st row, right 
+# csv_pta_fig_4(wanted_pattern = "right_1st_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_top_row.csv"))
+# # 2nd row, left
+# csv_pta_fig_4(wanted_pattern = "left_2nd_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_2nd_row.csv"))
+# # 2nd row, right 
+# csv_pta_fig_4(wanted_pattern = "right_2nd_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_2nd_row.csv"))
+# # 3rd row, left
+# csv_pta_fig_4(wanted_pattern = "left_3rd_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_3rd_row.csv"))
+# # 3rd row, right 
+# csv_pta_fig_4(wanted_pattern = "right_3rd_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_3rd_row.csv"))
+# # 4th row, left
+# csv_pta_fig_4(wanted_pattern = "left_4th_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_4th_row.csv"))
+# # 4th row, right
+# csv_pta_fig_4(wanted_pattern = "right_4th_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_4th_row.csv"))
+# # 5th row, left
+# csv_pta_fig_4(wanted_pattern = "left_5th_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_5th_row.csv"))
+# # 5th row, right
+# csv_pta_fig_4(wanted_pattern = "right_5th_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_5th_row.csv"))
+# # 6th row, left
+# csv_pta_fig_4(wanted_pattern = "left_6th_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_6th_row.csv"))
+# # 6th row, right
+# csv_pta_fig_4(wanted_pattern = "right_6th_row",
+#               path_to_new_file = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_6th_row.csv"))
+# }
+
+```
+
+```{r function for new plots}
+  
+# regimen_id_pta_05 and regimen_id_pta_1 are character vectors containing dosing regimens for a given creatinin clearance/row and target
+# path_to_pta_05_article, path_to_pta_1_article are files containing digitalized pTA from figure 4 for this given creatinin clearance/row and target
+
+fig_4_new_plot_row = function(path_to_pta_05_article, path_to_pta_1_article, path_to_results, selected_clcr, regimen_id_pta_05, regimen_id_pta_1) {
+  
+  article_pta_0.5 = readr::read_csv(file = path_to_pta_05_article, show_col_types = FALSE) |>
+  dplyr::filter(regimen_id %in% regimen_id_pta_05) |>
+  dplyr::select(y, regimen_id) |>
+  dplyr::rename(PTA_article = y)
+  
+  # add MICs for all dosing regimens to join article and simulated data later 
+  # work because digitalized data were sorted by x (MIC) before their export
+  article_pta_0.5_2 = article_pta_0.5 |>
+    dplyr::mutate(MIC = rep(c(0.25, 0.5, 1, 2, 4, 8, 16), times = (nrow(article_pta_0.5)/7)))
+
+article_pta_1 = readr::read_csv(file = path_to_pta_1_article, show_col_types = FALSE) |>
+  dplyr::filter(regimen_id %in% regimen_id_pta_1) |>
+  dplyr::select(y, regimen_id) |>
+  dplyr::rename(PTA_article = y)
+
+article_pta_1_2 = article_pta_1 |>
+  dplyr::mutate(MIC = rep(c(0.25, 0.5, 1, 2, 4, 8, 16), times = (nrow(article_pta_1)/7)))
+
+fig_4_row_pta_05_data <- readr::read_csv(
+    file = path_to_results,
+    show_col_types = F
+  ) |>
+    tidyr::pivot_longer(
+      cols = tidyselect::starts_with("PTA"),
+      values_to = "PTA"
+    ) |>
+    dplyr::mutate(target = gsub("PTA_", "", x = name), .keep = "unused") |>
+    dplyr::filter(target == 0.5) |>
+    dplyr::filter(CLCR == selected_clcr & regimen_id %in% regimen_id_pta_05) |>
+    as.data.frame() |>
+    merge(y = article_pta_0.5_2, .by = MIC) 
+fig_4_row_pta_05_data
+
+fig_4_row_pta_1_data <- readr::read_csv(
+    file = path_to_results,
+    show_col_types = F
+  ) |>
+    tidyr::pivot_longer(
+      cols = tidyselect::starts_with("PTA"),
+      values_to = "PTA"
+    ) |>
+    dplyr::mutate(target = gsub("PTA_", "", x = name), .keep = "unused") |>
+    dplyr::filter(target == 1) |>
+    dplyr::filter(CLCR == selected_clcr & regimen_id %in% regimen_id_pta_1) |>
+    as.data.frame()|>
+    merge(y = article_pta_1_2, .by = MIC)
+
+  row_data <- dplyr::full_join(fig_4_row_pta_05_data, fig_4_row_pta_1_data) |>
+    dplyr::mutate(target = forcats::fct_relevel(target, "0.5", "1"))
+  row_data
+
+  mics = c(0.25, 0.5, 1, 2, 4, 8, 16)
+  row_plot <- ggplot2::ggplot(row_data, ggplot2::aes(x = MIC, y = PTA, color = as.factor(regimen_id))) +
+    ggplot2::geom_point(mapping = ggplot2::aes(x = MIC, y = PTA)) +
+    ggplot2::geom_line(mapping = ggplot2::aes(x = MIC, y = PTA)) +
+    ggplot2::geom_point(mapping = ggplot2::aes(x = MIC, y = PTA_article)) +
+    ggplot2::geom_line(mapping = ggplot2::aes(x = MIC, y = PTA_article), linetype = "dashed") +
+    ggplot2::facet_grid(CLCR ~ target,
+      labeller = ggplot2::labeller(.default = ggplot2::label_both)
+    ) +
+    ggplot2::scale_x_continuous("MIC (mg/L)",
+      transform = "log2",
+      breaks = mics
+    ) +
+    ggplot2::scale_y_continuous("Probability of target attainment",
+      breaks = seq(0, 1, 0.1)
+    ) +
+    ggplot2::scale_color_brewer(
+      name = "Dosing regimen",
+      palette = "Dark2"
+    ) +
+    ggplot2::theme_bw(base_size = 18)
+
+  row_plot
+  
+}
+
+
+```
+
+```{r figure_4_top_row }
+#| label: fig-reprod-top-row
+#| fig-cap: Reproduction of the first row of figure 4
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr200 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+regimen_id_pta_1_clcr200 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+selected_clcr_200 <- 200
+
+plot_top_row = fig_4_new_plot_row(path_to_pta_05_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_top_row.csv"),
+                                  path_to_pta_1_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_top_row.csv"),
+                                  path_to_results = here::here("Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"), 
+                                  selected_clcr = selected_clcr_200, 
+                                  regimen_id_pta_05 = regimen_id_pta_05_clcr200, 
+                                  regimen_id_pta_1 = regimen_id_pta_1_clcr200)
+
+plot_top_row
+
+```
+
+```{r figure_4_second_row}
+#| label: fig-reprod-second-row
+#| fig-cap: Reproduction of the 2nd row of figure 4
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr150 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+regimen_id_pta_1_clcr150 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h")
+selected_clcr_150 <- 150
+
+plot_2nd_row = fig_4_new_plot_row(path_to_pta_05_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_2nd_row.csv"),
+                                  path_to_pta_1_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_2nd_row.csv"),
+                                  path_to_results = here::here("Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"), 
+                                  selected_clcr = selected_clcr_150, 
+                                  regimen_id_pta_05 = regimen_id_pta_05_clcr150, 
+                                  regimen_id_pta_1 = regimen_id_pta_1_clcr150)
+plot_2nd_row
+```
+
+```{r figure_4_third_row}
+#| label: fig-reprod-third-row
+#| fig-cap: Reproduction of the 3rd row of figure 4
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr100 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q6h IT = 2h")
+regimen_id_pta_1_clcr100 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q4h IT = 2h", "2g q4h IT = 2h", "2g 6h IT = 2h")
+selected_clcr_100 <- 100
+
+plot_3rd_row = fig_4_new_plot_row(path_to_pta_05_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_3rd_row.csv"),
+                                  path_to_pta_1_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_3rd_row.csv"),
+                                  path_to_results = here::here("Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"), 
+                                  selected_clcr = selected_clcr_100, 
+                                  regimen_id_pta_05 = regimen_id_pta_05_clcr100, 
+                                  regimen_id_pta_1 = regimen_id_pta_1_clcr100)
+plot_3rd_row
+```
+
+```{r figure_4_fourth_row}
+#| label: fig-reprod-fourth-row
+#| fig-cap: Reproduction of the 4th row of figure 4
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr60 <- c("1g q8h", "2g q8h", "1g q6h", "1g q4h", "2g q4h", "1g q6h IT = 2h", "2g q8h IT = 2h")
+regimen_id_pta_1_clcr60 <- c("1g q8h", "2g q8h", "2g 8h IT = 2h", "1g q6h", "1g q4h", "2g q4h", "1g q6h IT = 2h", "2g q4h IT = 2h")
+selected_clcr_60 <- 60
+
+plot_4th_row = fig_4_new_plot_row(path_to_pta_05_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_4th_row.csv"),
+                                  path_to_pta_1_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_4th_row.csv"),
+                                  path_to_results = here::here("Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"), 
+                                  selected_clcr = selected_clcr_60, 
+                                  regimen_id_pta_05 = regimen_id_pta_05_clcr60, 
+                                  regimen_id_pta_1 = regimen_id_pta_1_clcr60)
+plot_4th_row
+```
+
+```{r figure_4_fifth_row}
+#| label: fig-reprod-fifth-row
+#| fig-cap: Reproduction of the 5th row of figure 4
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr30 <- c("0.5g q8h", "1g q8h", "0.5g q6h", "1g q6h", "0.5g q4h", "1g q4h")
+regimen_id_pta_1_clcr30 <- c("0.5g q8h", "1g q8h", "0.5g 6h", "1g q6h", "0.5g q4h", "1g q4h", "2g q4h")
+selected_clcr_30 <- 30
+
+plot_5th_row = fig_4_new_plot_row(path_to_pta_05_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_5th_row.csv"),
+                                  path_to_pta_1_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_5th_row.csv"),
+                                  path_to_results = here::here("Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"), 
+                                  selected_clcr = selected_clcr_30, 
+                                  regimen_id_pta_05 = regimen_id_pta_05_clcr30, 
+                                  regimen_id_pta_1 = regimen_id_pta_1_clcr30)
+plot_5th_row
+```
+
+```{r figure_4_sixth_row}
+#| label: fig-reprod-sixth-row
+#| fig-cap: Reproduction of the 6th row of figure 4
+#| fig-width: 12
+#| fig-height: 4
+
+regimen_id_pta_05_clcr15 <- c("0.5g q12h", "1g q12h", "0.5g q8h", "1g q8h", "0.5g q6h", "1g q6h")
+regimen_id_pta_1_clcr15 <- c("0.5g q12h", "1g q12h", "0.5g q8h", "1g q8h", "0.5g q6h", "1g q6h", "1g q4h")
+selected_clcr_15 <- 15
+
+plot_6th_row = fig_4_new_plot_row(path_to_pta_05_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_05_6th_row.csv"),
+                                  path_to_pta_1_article = here::here("Model_implementation_validation/data/fournier_2018/data_fig_4/pta_1_6th_row.csv"),
+                                  path_to_results = here::here("Model_implementation_validation/data/fournier_2018/sim_results/fig_4_pta_results_twelve_days_of_sim.csv"), 
+                                  selected_clcr = selected_clcr_15, 
+                                  regimen_id_pta_05 = regimen_id_pta_05_clcr15, 
+                                  regimen_id_pta_1 = regimen_id_pta_1_clcr15)
+plot_6th_row
+```
+
+Regarding over or under estimation of PTA in relation to MIC, compared with PTAs
+of the original article, no trend can be distinguished. Differences are of the
+order of 5%. Our simulations line up well with the published figures.
+
+## Reproduction of table 4
+
+Table 4 represents the influence of bodyweight and creatinin clearance on
+fT\>MIC means and PTAs for two targets. Four bodyweight (50, 70, 100, 150 kg)
+and 3 creatinin clearance were studied. Dosing regimen was 1g infused over 30
+minutes every eight hours and MIC was 8 mg/L. For each condition, 500 patients
+were simulated.
+
+```{r patients for table 4, results='hide'}
+patients_tbl_4 = tibble::tibble(ID = 1:500)
+patients_tbl_4
+
+write.csv(x = patients_tbl_4, file = here::here("Model_implementation_validation/data/fournier_2018/patients_tbl_4.csv"))
+```
+
+```{r function to reproduce table 4}
+wrapper_compute_pta_bw <- function(dosing_reg_id,
+                                path_dosing_regimens,
+                                sim_dur,
+                                sim_step,
+                                model,
+                                patients,
+                                path_parameters = NULL,
+                                cov_default,
+                                omega_mat,
+                                sigma_mat = NULL,
+                                from,
+                                to,
+                                targets) {
+  dosing_reg <- select_dosing_regimens(
+    selected_regimen = dosing_reg_id,
+    path_to_the_file = path_dosing_regimens
+  )
+
+  sim <- simulate_mrgsolve(
+    dosing_regimen = dosing_reg,
+    sim_dur = sim_dur,
+    model = model,
+    patients = patients,
+    sim_step = sim_step,
+    param_file = path_parameters,
+    cov_default = cov_default,
+    omega_mat = omega_mat,
+    sigma_mat = sigma_mat
+  )
+  
+  pta <-
+    purrr::map(
+      targets,
+      ~ compute_ft_over_mic(
+        sim_tbl = sim,
+        from = from,
+        to = to
+      ) |>
+        compute_pta_t_over_mic(target = .x)
+    ) |>
+    purrr::reduce(dplyr::left_join) |>
+    dplyr::mutate(
+      
+      regimen_id = dosing_reg_id,
+      BW = cov_default$WT,
+      CRCL = cov_default$CLCR)
+  
+  pta
+}
+```
+
+```{r reproduction of table 4, results = 'hide'}
+#### List of covariates ####
+tbl = expand.grid(CLCR = c(30, 100, 200),
+            WT = c(50, 70, 100, 150)) |>
+  dplyr::mutate(MIC = 8,
+                SEX = 0,
+                AGE = 60,
+                BSA = 1.73)
+
+list_clcr_bw  = split(tbl, seq(nrow(tbl)))
+list_clcr_bw
+
+#### Dosing regimen to be simulated ####
+  path_dosing_regimens <- here::here("Model_implementation_validation/data/fournier_2018/dosing_regimen_fig_4.csv")
+  dose = "1g q8h"
+
+
+#### Patients ####
+  patients_id <- readr::read_csv(
+    file = here::here("Model_implementation_validation/data/fournier_2018/patients_tbl_4.csv"),
+    show_col_types = F
+  )
+
+#### Simulation time parameters ####
+  sim_dur <- 288 # hours
+  sim_step <- 1 / 6 # 1 every 10 min
+
+#### PK/PD targets and PTA parameters ####
+  from <- 264
+  to <- 288
+  targets <- c(0.5, 1)
+
+  model_cov_CLCR <-  mrgsolve::mread(model = here::here("Model_implementation_validation/mrgsolve/amox_Fournier_cov_CLCR.cpp"))
+#### Simulations ####
+sim_tbl_4 = purrr::map(.x = list_clcr_bw,
+                  .f = ~wrapper_compute_pta_bw(dosing_reg_id = dose,
+                                path_dosing_regimens = path_dosing_regimens,
+                                sim_dur = sim_dur,
+                                sim_step = sim_step,
+                                model = model_cov_CLCR,
+                                patients = patients_id,
+                                cov_default = .x,
+                                omega_mat = NULL,
+                                from = 264,
+                                to = 288,
+                                targets = targets)) |>
+  purrr::list_rbind()
+sim_tbl_4 
+
+#### Display the results ####
+
+pretty_sim_tbl_4_2 = sim_tbl_4 |>
+  dplyr::select(mean_ft_over_mic, sd_ft_over_mic, PTA_0.5, PTA_1, CRCL , BW) |>
+  dplyr::group_by(CRCL) |>
+  dplyr::arrange(BW, .by_group = TRUE) |>
+  dplyr::ungroup() |>
+  dplyr::relocate(CRCL, BW) |>
+  dplyr::rename("fT>MIC, mean" = mean_ft_over_mic,
+                "fT>MIC, SD" = sd_ft_over_mic,
+                "PTA fT>MIC ≥ 50%" = PTA_0.5,
+                "PTA fT>MIC ≥ 100%" = PTA_1)
+pretty_sim_tbl_4_2 |>
+  knitr::kable()
+
+write.csv(x = sim_tbl_4, file = here::here("Model_implementation_validation/data/fournier_2018/sim_results/tbl_4_reproduction.csv"))
+
+#### Article values####
+article_mean_ft_over_mic = c(0.65, 0.34, 0.18,
+                             0.68, 0.36, 0.19,
+                             0.72, 0.38, 0.21,
+                             0.76, 0.42, 0.23)
+article_sd_ft_over_mic = c(0.24, 0.18, 0.10,
+                           0.24, 0.19, 0.10,
+                           0.24, 0.20, 0.11,
+                           0.23, 0.21, 0.12)
+article_pta_0.5 = c(0.69, 0.16, 0.012,
+                    0.73, 0.19, 0.018,
+                    0.77, 0.22, 0.03,
+                    0.82, 0.27, 0.04)
+article_pta_1 = c(0.17, 0.008, 0,
+                  0.21, 0.01, 0,
+                  0.26, 0.02, 0,
+                  0.32, 0.04, 0)
+
+```
+
+Simulated results are rounded to three significant digits. fT\>MIC and PTA were
+computed between the 11th and 12th day of simulation.
+
+```{r display the results reproduction table 4}
+sim_tbl_4_2 = readr::read_csv(here::here("Model_implementation_validation/data/fournier_2018/sim_results/tbl_4_reproduction.csv"), show_col_types = F)
+
+pretty_sim_tbl_4 = sim_tbl_4_2 |>
+  dplyr::mutate_if(is.numeric, round, digits=3)|>
+  dplyr::select(mean_ft_over_mic, sd_ft_over_mic, PTA_0.5, PTA_1, CRCL, BW) |>
+  dplyr::mutate(article_mean_ft_over_mic = article_mean_ft_over_mic,
+                article_sd_ft_over_mic = article_sd_ft_over_mic,
+                article_pta_0.5 = article_pta_0.5,
+                article_pta_1 = article_pta_1) |>
+  dplyr::mutate(pretty_crcl = paste("CRCL ",CRCL, " mL/min", sep = "")) |>
+  dplyr::relocate(CRCL, BW) |>
+  gt::gt(groupname_col = 'pretty_crcl') |>
+  gt::tab_spanner(label = gt::md('fT>MIC, mean'),
+                  columns = c('mean_ft_over_mic', 'article_mean_ft_over_mic')) |>
+  gt::tab_spanner(label = gt::md('fT>MIC, sd'),
+                  columns = c('sd_ft_over_mic', 'article_sd_ft_over_mic')) |>
+  gt::tab_spanner(label = gt::md('PTA fT>MIC ≥ 50%'),
+                  columns = c('PTA_0.5', 'article_pta_0.5')) |>
+  gt::tab_spanner(label = gt::md('PTA fT>MIC ≥ 100%'),
+                  columns = c('PTA_1', 'article_pta_1')) |>
+  gt::cols_label(mean_ft_over_mic = "fT>MIC, mean",
+                 sd_ft_over_mic = "fT>MIC, SD",
+                 PTA_0.5 = "PTA fT>MIC ≥ 50%",
+                 PTA_1 = "PTA fT>MIC ≥ 100%",
+                 article_mean_ft_over_mic = "Article fT>MIC, mean",
+                 article_sd_ft_over_mic = "Article fT>MIC, SD",
+                 article_pta_0.5 = "Article PTA fT>MIC ≥ 50%",
+                 article_pta_1 = "Article PTA fT>MIC ≥ 100%") |>
+  gt::opt_stylize(style = 2, color = "gray")
+pretty_sim_tbl_4
+```
+
+We reproduced the results very well !

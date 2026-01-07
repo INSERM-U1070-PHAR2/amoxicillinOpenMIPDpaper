@@ -1,0 +1,1 @@
+résultats à suppprimer car obtenus avec une ancienne version de create_simulation_multiple_patients ne permettant pas la prise en compte de la variabilité interindividuelle 

@@ -1,0 +1,5 @@
+column_name,column_description,column_unit
+dose,Amoxicillin dose,mg
+infusion_duration,Infusion duration,h
+ii,Interdose interval,h
+regimen_id,Dosing regimen identifier,unitless

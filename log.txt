@@ -1,0 +1,3648 @@
+starting worker pid=4828 on localhost:11599 at 08:20:12.788
+starting worker pid=17572 on localhost:11599 at 08:20:12.795
+starting worker pid=11116 on localhost:11599 at 08:20:12.802
+starting worker pid=1392 on localhost:11599 at 08:20:12.836
+starting worker pid=17548 on localhost:11599 at 08:20:12.859
+starting worker pid=16800 on localhost:11599 at 08:20:12.861
+starting worker pid=16652 on localhost:11599 at 08:20:12.882
+starting worker pid=5612 on localhost:11599 at 08:20:12.895
+starting worker pid=12384 on localhost:11599 at 08:20:12.906
+starting worker pid=17864 on localhost:11599 at 08:20:12.909
+starting worker pid=10756 on localhost:11599 at 08:20:12.913
+starting worker pid=13344 on localhost:11599 at 08:20:12.922
+starting worker pid=512 on localhost:11599 at 08:20:12.925
+starting worker pid=2544 on localhost:11599 at 08:20:12.938
+starting worker pid=524 on localhost:11599 at 08:20:12.954
+starting worker pid=7652 on localhost:11599 at 08:20:12.955
+starting worker pid=18132 on localhost:11599 at 08:20:12.961
+starting worker pid=16388 on localhost:11599 at 08:20:12.964
+starting worker pid=2880 on localhost:11599 at 08:20:12.982
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+starting worker pid=8524 on localhost:11241 at 08:33:34.111
+starting worker pid=10440 on localhost:11241 at 08:33:34.121
+starting worker pid=13088 on localhost:11241 at 08:33:34.123
+starting worker pid=19692 on localhost:11241 at 08:33:34.129
+starting worker pid=6552 on localhost:11241 at 08:33:34.149
+starting worker pid=10108 on localhost:11241 at 08:33:34.155
+starting worker pid=19696 on localhost:11241 at 08:33:34.156
+starting worker pid=19820 on localhost:11241 at 08:33:34.165
+starting worker pid=14916 on localhost:11241 at 08:33:34.168
+starting worker pid=19780 on localhost:11241 at 08:33:34.177
+starting worker pid=20380 on localhost:11241 at 08:33:34.177
+starting worker pid=2940 on localhost:11241 at 08:33:34.199
+starting worker pid=19812 on localhost:11241 at 08:33:34.202
+starting worker pid=1224 on localhost:11241 at 08:33:34.225
+starting worker pid=7540 on localhost:11241 at 08:33:34.227
+starting worker pid=19016 on localhost:11241 at 08:33:34.233
+starting worker pid=3144 on localhost:11241 at 08:33:34.246
+starting worker pid=19824 on localhost:11241 at 08:33:34.247
+starting worker pid=19716 on localhost:11241 at 08:33:34.254
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+starting worker pid=19960 on localhost:11423 at 08:40:05.563
+starting worker pid=13256 on localhost:11423 at 08:40:05.577
+starting worker pid=15292 on localhost:11423 at 08:40:05.583
+starting worker pid=16360 on localhost:11423 at 08:40:05.594
+starting worker pid=21168 on localhost:11423 at 08:40:05.618
+starting worker pid=1540 on localhost:11423 at 08:40:05.621
+starting worker pid=21172 on localhost:11423 at 08:40:05.625
+starting worker pid=15584 on localhost:11423 at 08:40:05.629
+starting worker pid=20008 on localhost:11423 at 08:40:05.642
+starting worker pid=288 on localhost:11423 at 08:40:05.674
+starting worker pid=18412 on localhost:11423 at 08:40:05.676
+starting worker pid=9156 on localhost:11423 at 08:40:05.678
+starting worker pid=16672 on localhost:11423 at 08:40:05.682
+starting worker pid=17596 on localhost:11423 at 08:40:05.691
+starting worker pid=9704 on localhost:11423 at 08:40:05.691
+starting worker pid=19260 on localhost:11423 at 08:40:05.706
+starting worker pid=20180 on localhost:11423 at 08:40:05.711
+starting worker pid=20432 on localhost:11423 at 08:40:05.714
+starting worker pid=18664 on localhost:11423 at 08:40:05.729
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+starting worker pid=27764 on localhost:11163 at 16:09:30.736
+starting worker pid=25584 on localhost:11163 at 16:09:30.762
+starting worker pid=23864 on localhost:11163 at 16:09:30.763
+starting worker pid=18356 on localhost:11163 at 16:09:30.784
+starting worker pid=27532 on localhost:11163 at 16:09:30.794
+starting worker pid=10632 on localhost:11163 at 16:09:30.818
+starting worker pid=27252 on localhost:11163 at 16:09:30.831
+starting worker pid=19876 on localhost:11163 at 16:09:30.847
+starting worker pid=11640 on localhost:11163 at 16:09:30.872
+starting worker pid=1312 on localhost:11163 at 16:09:30.883
+starting worker pid=26752 on localhost:11163 at 16:09:30.893
+starting worker pid=22512 on localhost:11163 at 16:09:30.909
+starting worker pid=25336 on localhost:11163 at 16:09:30.916
+starting worker pid=7776 on localhost:11163 at 16:09:30.929
+starting worker pid=10708 on localhost:11163 at 16:09:30.932
+starting worker pid=20208 on localhost:11163 at 16:09:30.935
+starting worker pid=22564 on localhost:11163 at 16:09:30.961
+starting worker pid=9176 on localhost:11163 at 16:09:30.967
+starting worker pid=8484 on localhost:11163 at 16:09:30.973
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+starting worker pid=10092 on localhost:11008 at 17:28:43.169
+starting worker pid=4460 on localhost:11008 at 17:28:43.188
+starting worker pid=14376 on localhost:11008 at 17:28:43.222
+starting worker pid=2864 on localhost:11008 at 17:28:43.223
+starting worker pid=15460 on localhost:11008 at 17:28:43.227
+starting worker pid=11388 on localhost:11008 at 17:28:43.230
+starting worker pid=17592 on localhost:11008 at 17:28:43.254
+starting worker pid=18176 on localhost:11008 at 17:28:43.257
+starting worker pid=16856 on localhost:11008 at 17:28:43.274
+starting worker pid=13308 on localhost:11008 at 17:28:43.278
+starting worker pid=15604 on localhost:11008 at 17:28:43.281
+starting worker pid=19644 on localhost:11008 at 17:28:43.302
+starting worker pid=15924 on localhost:11008 at 17:28:43.307
+starting worker pid=19588 on localhost:11008 at 17:28:43.313
+starting worker pid=13148 on localhost:11008 at 17:28:43.313
+starting worker pid=12496 on localhost:11008 at 17:28:43.315
+starting worker pid=16496 on localhost:11008 at 17:28:43.333
+starting worker pid=14712 on localhost:11008 at 17:28:43.344
+starting worker pid=15884 on localhost:11008 at 17:28:43.358
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+loaded tune and set parent environment
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+starting worker pid=15704 on localhost:11188 at 17:49:00.270
+starting worker pid=7988 on localhost:11188 at 17:49:00.274
+starting worker pid=9604 on localhost:11188 at 17:49:00.293
+starting worker pid=16336 on localhost:11188 at 17:49:00.294
+starting worker pid=14028 on localhost:11188 at 17:49:00.307
+starting worker pid=196 on localhost:11188 at 17:49:00.313
+starting worker pid=17476 on localhost:11188 at 17:49:00.320
+starting worker pid=7196 on localhost:11188 at 17:49:00.332
+starting worker pid=6388 on localhost:11188 at 17:49:00.343
+starting worker pid=9728 on localhost:11188 at 17:49:00.352
+starting worker pid=18788 on localhost:11188 at 17:49:00.373
+starting worker pid=16572 on localhost:11188 at 17:49:00.386
+starting worker pid=13016 on localhost:11188 at 17:49:00.388
+starting worker pid=12028 on localhost:11188 at 17:49:00.400
+starting worker pid=16160 on localhost:11188 at 17:49:00.404
+starting worker pid=9816 on localhost:11188 at 17:49:00.432
+starting worker pid=6908 on localhost:11188 at 17:49:00.435
+starting worker pid=16808 on localhost:11188 at 17:49:00.442
+starting worker pid=3636 on localhost:11188 at 17:49:00.451
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+Le chargement a nécessité le package : tune
+loaded tune and set parent environment
+Le chargement a nécessité le package : dplyr
+
+Attachement du package : 'dplyr'
+
+Les objets suivants sont masqués depuis 'package:stats':
+
+    filter, lag
+
+Les objets suivants sont masqués depuis 'package:base':
+
+    intersect, setdiff, setequal, union
+
+
+Attachement du package : 'recipes'
+
+L'objet suivant est masqué depuis 'package:stats':
+
+    step
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+
+Attachement du package : 'xgboost'
+
+L'objet suivant est masqué depuis 'package:dplyr':
+
+    slice
+
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+loaded tune and set parent environment
+starting worker pid=19316 on localhost:11677 at 10:27:27.212
+starting worker pid=6832 on localhost:11677 at 10:27:27.212
+starting worker pid=31104 on localhost:11677 at 10:27:27.212
+starting worker pid=9912 on localhost:11677 at 10:27:27.225
+starting worker pid=18520 on localhost:11677 at 10:27:27.226
+starting worker pid=9192 on localhost:11677 at 10:27:27.227
+starting worker pid=22788 on localhost:11677 at 10:27:27.230
+starting worker pid=28628 on localhost:11677 at 10:27:27.236
+starting worker pid=29000 on localhost:11677 at 10:27:27.238
+starting worker pid=16420 on localhost:11677 at 10:27:27.239
+starting worker pid=14280 on localhost:11677 at 10:27:27.245
+starting worker pid=27076 on localhost:11052 at 10:35:56.358
+starting worker pid=26132 on localhost:11052 at 10:35:56.360
+starting worker pid=8012 on localhost:11052 at 10:35:56.360
+starting worker pid=29004 on localhost:11052 at 10:35:56.372
+starting worker pid=23672 on localhost:11052 at 10:35:56.373
+starting worker pid=7468 on localhost:11052 at 10:35:56.382
+starting worker pid=21852 on localhost:11052 at 10:35:56.382
+starting worker pid=32928 on localhost:11052 at 10:35:56.391
+starting worker pid=14480 on localhost:11052 at 10:35:56.392
+starting worker pid=26948 on localhost:11052 at 10:35:56.392
+starting worker pid=14092 on localhost:11052 at 10:35:56.396

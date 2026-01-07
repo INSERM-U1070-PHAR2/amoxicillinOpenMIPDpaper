@@ -1,0 +1,7 @@
+﻿column_name,column_description
+DOI,Digital object identifier of the paper
+parameter_name,Name of the parameter
+parameter_description,Description of the parameter
+unit,Unit of the parameter
+mean,Mean value of the estimated parameter
+rse,Relative standard error of the estimated parameter

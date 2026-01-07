@@ -1,0 +1,4 @@
+# Preface {.unnumbered}
+
+This book contains all that is related to the a priori MIPD developped in
+STP-BRIOCHE

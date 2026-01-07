@@ -1,0 +1,403 @@
+---
+bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html:
+    code-fold: true
+---
+
+# Simulation of concentrations and secondary PK parameters
+
+```{r load-packages}
+#| message: false
+#| warning: false
+library(mrgsolve)
+library(here)
+library(tidyverse)
+library(mapbayr)
+library(MESS)
+library(ggplot2)
+library(dplyr)
+library(patchwork) # To put different plots on the same grid
+library(tableone)
+library(knitr)
+library(duckdb)
+library(purrr)
+
+con <- dbConnect(duckdb::duckdb(), "amox.db")
+
+dbExecute(con, "
+  CREATE TABLE IF NOT EXISTS AMOX_CMIN1 (
+    ID INTEGER,
+    MODEL TEXT,
+    TIME DOUBLE,
+    PRED DOUBLE,
+    IPRED DOUBLE,
+    Y DOUBLE,
+    WT DOUBLE,
+    CREAT DOUBLE,
+    BURN INTEGER,
+    ICU INTEGER,
+    OBESE INTEGER,
+    AGE DOUBLE,
+    SEX TEXT,
+    HT DOUBLE,
+    BSA DOUBLE,
+    MODEL_COHORT TEXT,
+    DOSE_ADM DOUBLE,
+    FREQ DOUBLE,
+    DUR DOUBLE,
+    Vc DOUBLE,
+    CL DOUBLE,
+    TSS DOUBLE,
+    REFERENCE INTEGER,
+    CMIN_IND DOUBLE,
+    CMIN_PRED DOUBLE,
+    CON INTEGER
+  )
+")
+```
+
+Trough concentrations are simulated for the 300000 subjects. As this data size causes memory problems for R, duckdb and parquet are used.
+
+```{r import-covariates, warning=FALSE, message=FALSE}
+# Import or generate the file with the covariates (COV)
+COV <- read.csv("COV3000.csv", quote = "")
+set.seed(2005)
+```
+
+First, the dataset needs to be created with all the information that
+mrgsolve needs for the simulation. In the function create_dosing_data,
+the input data is created for all the lines that contain an administered
+dose.
+
+```{r dosing-grid, warning=FALSE, message=FALSE}
+# Function to create dosing grid (lines where there is an administered dose)
+create_dosing_data <- function(id_range, amt, ii, rate, cmt, time_seq) {
+  COV1 <- COV %>% dplyr::filter(ID %in% id_range)
+  
+  ID <- id_range            # ID range for the regimen
+  
+  # Create base dosing data
+  dosing_data <- data.frame(
+    ID = ID,
+    amt = rep(amt, length(ID)),   # Dose amount in mg
+    ii = rep(ii, length(ID)),     # Interdose interval in h
+    rate = rep(rate, length(ID)), # Infusion rate
+    evid = rep(1, length(ID)),    # EVID
+    cmt = cmt                     # Compartment
+  )
+  
+  # Add covariates from COV.csv
+  dosing_data <- cbind(dosing_data, COV1[, setdiff(names(COV1), "ID")])
+  
+  # Repeat dosing data for all time points
+  dosing_repeated <- dosing_data[rep(1:nrow(dosing_data), each = length(time_seq)), ]
+  time <- rep(time_seq, times = length(ID))
+  
+  # Combine with time
+  final_dosing_data <- cbind(dosing_repeated, time)
+  return(final_dosing_data)
+}
+```
+
+Then, the information is created for all the lines, that do not contain
+a dose, but an observation. The latest possible time is 120 h, as
+amoxicillin has a short half life and all subjects have had a complete
+steady-state dosing interval by then.
+
+```{r observation-grid, warning=FALSE, message=FALSE}
+# Function to create observation grid (lines with concentration measurement)
+create_observation_data <- function(id_range, obs_length) {
+  COV1 <- COV %>% dplyr::filter(ID %in% id_range)
+ # Extract covariates for the specified range
+  ID <- id_range            # ID range for the regimen
+  
+  # Create base observation data (as these are lines with concentrations, AMT, II, RATE and EVID are always 0)
+  obs_data <- data.frame(
+    ID = ID,                     # ID meaning a set of covariates
+    amt = rep(0, length(ID)),    # Dose amount in mg
+    ii = rep(0, length(ID)),     # Interdose interval in h
+    rate = rep(0, length(ID)),   # Infusion rate
+    evid = rep(0, length(ID)),   # EVID
+    cmt = "CENTRAL"              # Central compartment
+  )
+  
+  # Add covariates
+  obs_data <- cbind(obs_data, COV1[, setdiff(names(COV1), "ID")])
+  
+  # Repeat observation data for all observation times
+  obs_repeated <- obs_data[rep(1:nrow(obs_data), each = obs_length), ]
+  time <- rep(seq(from = 0, to = 120, length.out = obs_length), times = length(ID))   # Latest possible time is 7120 h as amoxicillin has a short half life
+  
+  # Combine with time
+  final_obs_data <- cbind(obs_repeated, time)
+  return(final_obs_data)
+}
+```
+
+To remove outliers, the non-physiological PK parameter values are
+resimulated (at most 100 times per value) using the *simeta*
+function of mrgsolve. A central volume of distribution smaller than 3 L
+(the volume of plasma) and a clearance higher than 180 L/h (normal
+blood flow) is considered non-physiological. (However, the maximum simulated clearance is around 100 L/h, so its resimulation is unnecessary.) \
+
+Simulations are done using the mrgsolve models in .cpp format. To find
+the interdose interval which is entirely in steady-state, first, the
+time to reach steady state (TSS) has to be calculated. $$
+K_{10} = \frac{CL}{V_c}
+$$
+
+$$
+K_{12} = \frac{Q}{V_c}
+$$
+
+$$
+K_{21} = \frac{Q}{V_p}
+$$
+
+$$
+L_2 = \frac{ \left( K_{10} + K_{12} + K_{21} \right) - 
+\sqrt{ \left( K_{10} + K_{12} + K_{21} \right)^2 - 4 K_{10} K_{21} } }{2}
+$$ 
+$$
+t_{1/2} = \frac{ln(2)}{L_2}
+$$
+
+We can consider that steady state is reached when the concentration
+is 90 % of the steady state concentration, which corresponds to a time
+of 3.3 times the half life ( as $1 - e^{(-k_e \cdot t)} = 0.9$ ).
+
+First, concentrations are simulated for all data points between 0 and 120
+h, then the results are filtered to choose the first interdose interval
+and the first interdose interval entirely in steady-state.
+
+```{r mrgsolve-simulation, warning=FALSE, message=FALSE}
+# Function to simulate based on mrgsolve models
+simulate_mrgsim <- function(sim_final, model, interval) {
+  sim_results <- mrgsim(model, sim_final) %>% as.data.frame()
+  
+  return(sim_results)
+}
+```
+
+Then, the filtered dataset, and the covariates will be put together, and
+the observation and dosing grids will be simulated based on the
+functions defined earlier. The dosing scheme is added as three columns
+(DOSE, FREQuence, DURation). Each model control stream is used two times
+for each simulation. Once, to simulate IPRED and Y (and $Cmax_{\text{ind}}$, $Cmin_{\text{ind}}$ and $AUC_{\text{ind}}$
+which are base on IPRED), then a second time, the omega matrix is set
+to 0 to simulate PRED (and CMAX_PRED and AUC_PRED based on PRED). PRED are
+typical concentrations which do not contain inter-individual
+variability. IPRED has inter-individual variability incorporated, and Y
+has both inter-and intra-individual variability.
+
+```{r finalized-dataset, warning=FALSE, message=FALSE}
+# Function to merge covariates and finalize
+finalize_results <- function(sim_results, id_range, model, dose, freq, dur) {
+  COV1 <- COV %>% dplyr::filter(ID %in% id_range)
+  
+  # Merge with simulation results
+  result <- merge(sim_results, COV1, by = "ID", all.x = TRUE)
+  
+  result <- result %>%
+    mutate(MODEL = model, DOSE_ADM = dose, FREQ = freq, DUR = dur) %>%
+    distinct(ID, TIME = time, .keep_all = TRUE)
+  
+  return(result)
+}
+
+generate_model_regimen <- function(model_name, cpp_file, cpp_file_zero, regimens, sim_dur, COV) {
+  model <- mread(model = cpp_file)
+  model_zero <- zero_re(model)
+
+  regimen_assignments <- list()
+
+  for (cohort_name in unique(COV$MODEL_COHORT)) {
+    cohort_cov <- COV %>% filter(MODEL_COHORT == cohort_name)
+    cohort_regimens <- regimens[sapply(regimens, function(x) x$model_cohort == cohort_name)]
+
+    for (ir_value in unique(cohort_cov$IR)) {
+      eligible_ids <- cohort_cov %>% filter(IR == ir_value) %>% pull(ID)
+
+      matched_regimens <- cohort_regimens[seq_along(cohort_regimens) %% length(unique(cohort_cov$IR)) == ir_value]
+
+      # Distribute eligible subjects evenly across relevant dosing regimens
+      id_splits <- split(eligible_ids, rep(1:length(matched_regimens), length.out = length(eligible_ids)))
+
+      for (i in seq_along(matched_regimens)) {
+        matched_regimens[[i]]$assigned_ids <- id_splits[[i]]
+        regimen_assignments <- append(regimen_assignments, list(matched_regimens[[i]]))
+      }
+    }
+  }
+
+  # Simulate for the assigned regimens
+  regimen_results <- list()
+  for (regimen in regimen_assignments) {
+    if (length(regimen$assigned_ids) == 0) next
+
+    dose <- regimen$dose
+    interval <- regimen$interval
+    duration <- regimen$duration
+    id_range <- regimen$assigned_ids
+
+    dosing_times <- seq(0, sim_dur - interval, by = interval)
+    obs_length <- (sim_dur / interval) * sim_dur + 1
+
+    dose_data <- create_dosing_data(
+      id_range = id_range,
+      amt = dose,
+      ii = interval,
+      rate = dose / duration,
+      cmt = "CENTRAL",
+      time_seq = dosing_times
+    )
+
+    obs_data <- create_observation_data(id_range = id_range, obs_length = obs_length)
+    sim_data <- rbind(dose_data, obs_data) %>% arrange(ID, time, desc(evid))
+
+    processed_data <- simulate_mrgsim(sim_data, model, interval)
+    processed_data_zero <- simulate_mrgsim(sim_data, model_zero, interval)
+
+    finalized_data <- finalize_results(
+      sim_results = processed_data,
+      id_range = id_range,
+      model = model_name,
+      dose = dose,
+      freq = interval,
+      dur = duration
+    )
+
+    pred_data <- processed_data_zero %>%
+      select(ID, time, PRED = IPRED, AUC_PRED = AUC, Cmax_PRED = Cmax)
+
+    merged_data <- finalized_data %>% left_join(pred_data, by = c("ID", "time"))
+    regimen_results <- append(regimen_results, list(merged_data))
+  }
+
+  combined_results <- do.call(rbind, regimen_results)
+  return(combined_results)
+}
+```
+
+8 different dosing schemes are used depending on the model cohort. 
+
+```{r dosing-regimens, warning=FALSE, message=FALSE}
+# Define regimen parameters for all models. For each regimen, we take a different batch of 100 sets of covariates (defined by starting ID)
+regimens <- list(
+  list(model_cohort = "CARLIER", ir_group = 0, dose = 1000, interval = 6, duration = 0.5),
+  list(model_cohort = "CARLIER", ir_group = 1, dose = 1000, interval = 8, duration = 0.5),
+  list(model_cohort = "FOURNIER", ir_group = 0, dose = 1000, interval = 6, duration = 2),
+  list(model_cohort = "FOURNIER", ir_group = 0, dose = 1500, interval = 6, duration = 1),
+  list(model_cohort = "FOURNIER", ir_group = 0, dose = 2000, interval = 6, duration = 2),
+  list(model_cohort = "FOURNIER", ir_group = 0, dose = 2000, interval = 8, duration = 1),
+  list(model_cohort = "FOURNIER", ir_group = 1, dose = 500, interval = 8, duration = 2),
+  list(model_cohort = "MELLON", ir_group = 0, dose = 1000, interval = 6, duration = 0.5),
+  list(model_cohort = "RAMBAUD", ir_group = 0, dose = 12000, interval = 24, duration = 24),
+  list(model_cohort = "RAMBAUD", ir_group = 0, dose = 14000, interval = 24, duration = 24)
+)
+
+# Total simulation time
+sim_dur <- 120
+```
+
+Finally, the simulations are done with each respective model, the
+results are merged and a MODEL column is added to identify the model
+used for the simulation of each concentration.
+
+```{r simulations, warning=FALSE, message=FALSE}
+
+process_batch <- function(id_range, con, regimens, sim_dur) {
+  COV <- read.csv("COV3000.csv", quote = "")
+  
+  COV_batch <- COV %>% filter(ID %in% id_range)
+  
+  results_list <- list(
+    generate_model_regimen("amox_Carlier", "amox_Carlier", "amox_Carlier_zero", regimens, sim_dur, COV_batch),
+    generate_model_regimen("amox_Fournier", "amox_Fournier", "amox_Fournier_zero", regimens, sim_dur, COV_batch),
+    generate_model_regimen("amox_Mellon",   "amox_Mellon",   "amox_Mellon_zero", regimens, sim_dur, COV_batch),
+    generate_model_regimen("amox_Rambaud",  "amox_Rambaud",  "amox_Rambaud_zero", regimens, sim_dur, COV_batch)
+  )
+  
+  all_results_raw <- bind_rows(results_list) %>%
+    mutate(MODEL = recode(MODEL,
+      "amox_Carlier" = "CARLIER",
+      "amox_Fournier" = "FOURNIER",
+      "amox_Mellon"   = "MELLON",
+      "amox_Rambaud"  = "RAMBAUD"
+    )) %>% distinct()
+  
+  ref_values <- all_results_raw %>%
+  filter(MODEL == MODEL_COHORT) %>%
+  group_by(ID) %>%
+  slice(1) %>%
+  select(ID, Vc, CL, Q, Vp)
+all_results <- all_results_raw %>%
+  left_join(ref_values, by = "ID", suffix = c("", "_ref")) %>%
+  mutate(K10 = CL_ref/Vc_ref,
+  K12 = Q_ref/Vc_ref,
+  K21 = Q_ref/Vp_ref,
+  L2 = ((K10+K12+K21)-((K10+K12+K21)**2-4*K10*K21)**0.5)/2,
+  TSS = ceiling((3.3 * (0.693 / L2)) / FREQ) * FREQ) %>%
+  dplyr::filter((TIME >= 0 & TIME <= (0 + FREQ)) | (TIME >= TSS & TIME <= (TSS + FREQ)))
+
+AMOX_SIM <- all_results %>%
+  select(ID, TIME, PRED, IPRED, Y, WT, CREAT, BURN, ICU, OBESE, AGE, SEX, HT, BSA, MODEL, MODEL_COHORT, DOSE_ADM, FREQ, DUR, Vc, CL, TSS) %>%
+  distinct()
+
+# Add a variable called REFERENCE which is 1 for the the line where the model used for simulation is the same as the model cohort (otherwise 0) and take only observed values
+AMOX_SIM <- AMOX_SIM %>%
+  mutate(REFERENCE = if_else(MODEL == MODEL_COHORT, 1, 0))
+
+AMOX_SIM_QL2 <- AMOX_SIM %>%
+  group_by(ID, TIME) %>%
+  mutate(IPRED = IPRED[REFERENCE == 1]) %>%
+  ungroup()
+
+
+# Add CMIN column by taking the last steady-state concentration
+AMOX_CMIN1 <- AMOX_SIM_QL2 %>%
+  group_by(ID, MODEL) %>%
+  arrange(TIME) %>%
+  mutate(CMIN_IND = last(IPRED[TIME == max(TIME)])) %>%
+  mutate(CMIN_PRED = last(PRED[TIME == max(TIME)])) %>%
+  slice_max(TIME, n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
+  distinct(ID, MODEL, CMIN_IND, .keep_all = TRUE) %>%
+  mutate(CON = ifelse(DUR == 24, 1, 0))
+
+summarized_CMIN <- AMOX_CMIN1 %>%
+  dplyr::filter(REFERENCE==1)
+
+# Add a variable called REFERENCE which is 1 for the the line where the model used for simulation is the same as the model cohort (otherwise 0) and take only observed values
+  AMOX_CMIN1 <- AMOX_CMIN1 %>%
+  group_by(ID) %>%
+  mutate(CMIN_IND = CMIN_IND[REFERENCE == 1]) %>%
+  ungroup()
+  
+  # Write to DuckDB
+  dbWriteTable(con, "AMOX_CMIN1", AMOX_CMIN1, append = TRUE)
+  
+  rm(results_list, all_results_raw, ref_values, all_results,
+     AMOX_SIM, AMOX_SIM_QL2, AMOX_CMIN1, summarized_CMIN)
+  gc()
+  
+  invisible(NULL)
+}
+
+
+batch_size <- 5000
+id_batches <- split(unique(COV$ID), ceiling(seq_along(unique(COV$ID)) / batch_size))
+
+
+walk(id_batches, ~process_batch(.x, con, regimens, sim_dur))
+
+dbExecute(con, "COPY AMOX_CMIN1 TO 'AMOX_CMIN3000.parquet' (FORMAT 'parquet')")
+
+dbDisconnect(con, shutdown = TRUE)
+```

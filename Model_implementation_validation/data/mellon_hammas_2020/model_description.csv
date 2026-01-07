@@ -1,0 +1,2 @@
+DOI,structural_model,variability_model,covariate_effects,patients_number,free_or_total_concentrations,unbound fraction
+doi:10.1093/jac/dkaa368 ,2-comp,"interindividual variability for all parameters, log-distribution for all parameters except F",weight on absorption rate,27,total,0.8

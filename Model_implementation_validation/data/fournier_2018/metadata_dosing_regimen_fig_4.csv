@@ -1,0 +1,9 @@
+column_name,column_description,column_unit
+amt,Amoxicillin dose,mg
+tinf,Infusion duration,h
+ii,Interdose interval,h
+regimen_id,Dosing regimen identifier,unitless
+time,Time at the begenning of the event ,h
+ss,"Steady state, 0 if steady-state dosing isn't implemented",unitless
+evid,"Event indicator, 1 if it's a dosing event",unitless
+cmt,Dosing compartment number,unitless

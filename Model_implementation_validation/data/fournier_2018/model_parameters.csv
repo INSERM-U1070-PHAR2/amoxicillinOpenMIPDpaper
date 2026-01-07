@@ -1,0 +1,10 @@
+DOI,parameter_name,parameter_description,unit,mean,rse
+10.1128/AAC.00505-18,CLpop,Typical clearance  ,L/h,13.6,0.08
+10.1128/AAC.00505-18,theta_CRCL_CL,Covariate effect of creatinine clearance on amoxicillin clearance,unitless,0.0057,0.25
+10.1128/AAC.00505-18,Vcpop,Typical central volume of distribution,L,9.73,0.2
+10.1128/AAC.00505-18,Q,Intercompartimental clearance,L/h,20.1,0.24
+10.1128/AAC.00505-18,Vp,Peripheral volume of distribution,L,17.6,0.14
+10.1128/AAC.00505-18,fup,Plasma unbound fraction,unitless,0.82,NA
+10.1128/AAC.00505-18,cv_iiv_CL,Coefficient of variation of the inter individual variability on cleara,unitless,0.373,0.19
+10.1128/AAC.00505-18,ruv_prop,Proportional residual variability,unitless,0.37,0.19
+10.1128/AAC.00505-18,ruv_add,Additive residual variability,mg/L,0.08,0.1

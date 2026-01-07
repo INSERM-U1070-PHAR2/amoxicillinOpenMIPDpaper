@@ -1,0 +1,6 @@
+column_name,column_description,column_unit
+CLCR,creatinin clearance,mL/min
+regimen_id,"dosing regimen, amoxicillin dose and dosing interval",unitless
+MIC,minimum inhibitory concentration,mg/L
+PTA_0.5,"were the simulated concentrations above the MIC for at least 50% of the dosing interval, 1 = yes, 0 = no",unitless
+PTA_1,"were the simulated concentrations above the MIC for at least 100% of the dosing interval, 1 = yes, 0 = no",unitless

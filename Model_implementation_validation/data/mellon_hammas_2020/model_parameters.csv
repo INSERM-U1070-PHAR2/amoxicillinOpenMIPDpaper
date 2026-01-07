@@ -1,0 +1,21 @@
+DOI,parameter_name,parameter_description,unit,mean,rse
+10.1093/jac/dkaa368,Fpop,Typical oral bioavailability,unitless,0.797,5
+10.1093/jac/dkaa369,Mtt_pop,Typical mean transit time,h,1,6
+10.1093/jac/dkaa370,Ktr_pop,Typical transit rate,h-1,1.6,11
+10.1093/jac/dkaa371,Ka_pop,Typical absorption rate constant ,h-1,1.7,10
+10.1093/jac/dkaa372,beta_weight,Relation between weight and absorption rate constant ,log h-1,-3.1,19
+10.1093/jac/dkaa373,CLpop,Typical clearance  ,L/h,14.6,5
+10.1093/jac/dkaa374,Vcpop,Typical central volume of distribution,L,9,11
+10.1093/jac/dkaa375,Qpop,Typical intercompartimental clearance,L/h,4.2,12
+10.1093/jac/dkaa376,Vppop,Typical peripheral volume of distribution,L,6.4,8
+10.1093/jac/dkaa377,omega_F,Standard deviation of F random effect,unitless,1,20
+10.1093/jac/dkaa378,omega_Mtt,Standard deviation of Mtt random effect,unitless,0.25,19
+10.1093/jac/dkaa379,omega_Ktr,Standard deviation of Ktr random effect,unitless,0.49,17
+10.1093/jac/dkaa380,omega_Ka,Standard deviation of Ka random effect,unitless,0.25,40
+10.1093/jac/dkaa381,omega_V1,Standard deviation of V1 random effect,unitless,0.5,17
+10.1093/jac/dkaa382,omega_CL,Standard deviation of CL random effect,unitless,0.27,16
+10.1093/jac/dkaa383,omega_V2,Standard deviation of V2 random effect,unitless,0.3,23
+10.1093/jac/dkaa384,omega_Q,Standard deviation of Q random effect,unitless,0.59,15
+10.1093/jac/dkaa385,correlation,Correlation between random effects of CL and Q,unitless,0.9,7
+10.1093/jac/dkaa386,SD_a,Standard deviation of the additive component for the residual error model,mg/L,0.383,15
+10.1093/jac/dkaa387,SD_b,Standard deviation of the proportional component for the residual error model,mg/L,0.131,7

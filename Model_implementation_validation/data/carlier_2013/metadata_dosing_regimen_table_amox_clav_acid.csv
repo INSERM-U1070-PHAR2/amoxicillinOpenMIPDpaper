@@ -1,0 +1,8 @@
+column_name,column_description,column_unit
+clcr,creatinin clearance,mL/min
+dose_type,high or low dose of amoxicillin/clavulanic acid,unitless
+regimen_id,"dosing regimen, amoxicillin/clavulanic acid and dosing interval",unitless
+amoxicillin_dose,amoxicillin dose,mg
+clavulanic_acid_dose,clavulanic acid dose,mg
+ii,interdose interval,hour
+tinf,infusion duration,hour

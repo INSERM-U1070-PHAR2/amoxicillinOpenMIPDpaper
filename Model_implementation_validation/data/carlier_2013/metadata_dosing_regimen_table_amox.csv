@@ -1,0 +1,13 @@
+column_name,column_description,column_unit
+"infusion_type
+",Infusion type : either intermittent ; or extended : infusion time = half of the dosing interval instead of 0.5h ; or continuous ,unitless
+"loading_dose
+",Presence (yes) or absence (no) of a loading dose,unitless
+regimen_id,Dose regimen,unitless
+amt,Amoxicillin dose,mg
+tinf,Infusion duration,h
+ii,Interdose interval,h
+time,Time at the begenning of the event ,h
+ss,"Steady state, 0 if steady-state dosing isn't implemented",unitless
+evid,"Event indicator, 1 if it's a dosing event",unitless
+cmt,Dosing compartment number,unitless

@@ -1,0 +1,26 @@
+project:
+  type: book
+  execute-dir: project
+
+book:
+  title: "STP-BRIOCHE : A priori MIPD - Amoxicillin"
+  date: "30/10/2025"
+  chapters:
+    - index.qmd
+    - covariate_simulation.qmd
+    - Simulation_Carlier_Fournier_Mellon_Rambaud.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    code-fold: true
+    code-summary: "Show the code"
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
+lightbox: true
