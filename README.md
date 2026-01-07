@@ -1,5 +1,11 @@
 # Code to reproduce the main computations of our Amoxicillin a priori MIPD paper
 
+## How to use
+
+You can see the rendered quarto documents at : https://inserm-u1070-phar2.github.io/amoxicillinOpenMIPDpaper
+
+In the repository you will find the codes necessary to reproduce the computations in the qmd documents.
+
 ## Authors and contributors
 
 Mihaly Leiwolf, Author, Maintainer, mihaly.leiwolf@univ-poitiers.fr
@@ -14,13 +20,6 @@ Link to preprint :
 
 Link to openMIPD R package : https://github.com/INSERM-U1070-PHAR2/openMIPD
 
-## How to use
-
-You can see the rendered quarto documents at :
-
-In the repository you will find the codes necessary to reproduce the computations in the qmd documents.
-
 ## License
 
 Etalab 2.0
-
