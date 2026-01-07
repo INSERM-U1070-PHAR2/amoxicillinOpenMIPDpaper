@@ -13,7 +13,7 @@ knitr:
 
 book:
   title: "STP-BRIOCHE : A priori MIPD - Amoxicillin"
-  date: "07/01/2025"
+  date: "2026-01-07"
   chapters:
     - index.qmd
     - part: "Validation of implementation from articles"
