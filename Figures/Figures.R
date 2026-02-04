@@ -7,7 +7,7 @@ library(tidyverse)
 library(grid)
 library(here)
 
-here::i_am("Figures/Figures.R")
+here::i_am("Amoxicillin/a_priori/For_publication/Figures/Figures.R")
 
 #### Figure 3 ####
 Results_Under_overdose <- read.csv("3.csv", sep=";")
@@ -65,11 +65,11 @@ plot_3 <- ggplot(dosing_summary, aes(x = Method, y = Proportion,
 
 print(plot_3)
 
-ggsave("3.jpg", plot = plot_3, width = 8.27, height = 10, units = "in", dpi = 600)
+ggsave("3.jpg", plot = plot_3, width = 7.01, height = 9, units = "in", dpi = 600)
 
 #### Figure 6 ####
 # Plot to represent model weights in the different clinical cohorts - to complement the ratio plot
-Weights <- read.csv2(here("Figures/6.csv"), sep=";")
+Weights <- read.csv2(here("Amoxicillin/a_priori/For_publication/Figures/6.csv"), sep=";")
 
 Weights_long <- Weights %>%
   pivot_longer(cols = c(Carlier, Fournier, Mellon, Rambaud),
@@ -93,12 +93,12 @@ plot_cohort <- function(cohort_name) {
     geom_bar(stat = "identity") +
     scale_fill_manual(values = model_colors) +
     labs(x = NULL, y = "Model weight (%)", title = cohort_name) +
-    theme_minimal(base_size = 14) +
+    theme_minimal(base_size = 12) +
     theme(
-      axis.text.x = element_text(size = 14, angle = 20, hjust = 1),
+      axis.text.x = element_text(size = 11, angle = 20, hjust = 1),
       legend.position = "none",
-      plot.title = element_text(size = 16),
-      axis.title.y = element_text(size = 15)
+      plot.title = element_text(size = 14),
+      axis.title.y = element_text(size = 12)
     )
 }
 
@@ -115,10 +115,10 @@ plot_6 <- (plots[[3]] | plots[[4]]) /
 
 plot_6
 
-ggsave(here("Figures/6.jpg"), plot = plot_6, width = 9, height = 7.5, units = "in", dpi = 600)
+ggsave(here("Amoxicillin/a_priori/For_publication/Figures/6.jpg"), plot = plot_6, width = 7.01, height = 6.5, units = "in", dpi = 600)
 
 #### Figure S4 ####
-Standard_dose_selection <- read.csv(here("Figures/S4.csv"), sep=";")
+Standard_dose_selection <- read.csv(here("Amoxicillin/a_priori/For_publication/Figures/S4.csv"), sep=";")
 
 Standard_dose_selection$Method <- factor(Standard_dose_selection$Method, levels = c("CRCL-based", "Infection-based", "200 mg/kg", "150 mg/kg","100 mg/kg"))
 
@@ -160,10 +160,10 @@ plot_S4 <- ggplot(dosing_summary, aes(x = Method, y = Proportion, fill = Dosing)
 
 print(plot_S4)
 
-ggsave(here("Figures/S4.jpg"), plot = plot_S4, width = 8.27, height = 3.5, units = "in", dpi = 600)
+ggsave(here("Amoxicillin/a_priori/For_publication/Figures/S4.jpg"), plot = plot_S4, width = 8.27, height = 3.5, units = "in", dpi = 600)
 
 #### Figure S19 ####
-Sensitivity_number_of_subjects_sim <- read.csv(here("Figures/S19.csv"), sep=";")
+Sensitivity_number_of_subjects_sim <- read.csv(here("Amoxicillin/a_priori/For_publication/Figures/S19.csv"), sep=";")
 
 Sensitivity_number_of_subjects_sim_long <- Sensitivity_number_of_subjects_sim %>%
   pivot_longer(
@@ -200,10 +200,10 @@ plot_S19 <- ggplot(Sensitivity_number_of_subjects_sim_long, aes(x = Number, y = 
 
 plot_S19
 
-ggsave(here("Figures/S19.jpg"), plot = plot_S19, width = 8, height = 6, units = "in", dpi = 600)
+ggsave(here("Amoxicillin/a_priori/For_publication/Figures/S19.jpg"), plot = plot_S19, width = 8, height = 6, units = "in", dpi = 600)
 
 #### Figure S20 ####
-Sensitivity_number_of_subjects_clin <- read.csv(here("Figures/S20.csv"), sep=";")
+Sensitivity_number_of_subjects_clin <- read.csv(here("Amoxicillin/a_priori/For_publication/Figures/S20.csv"), sep=";")
 
 Sensitivity_number_of_subjects_clin_long <- Sensitivity_number_of_subjects_clin %>%
   pivot_longer(
@@ -242,5 +242,5 @@ plot_S20 <- ggplot(Sensitivity_number_of_subjects_clin_long, aes(x = Number, y =
 
 plot_S20
 
-ggsave(here("Figures/S20.jpg"), plot = plot_S20, width = 8, height = 6, units = "in", dpi = 600)
+ggsave(here("Amoxicillin/a_priori/For_publication/Figures/S20.jpg"), plot = plot_S20, width = 8, height = 6, units = "in", dpi = 600)
 
