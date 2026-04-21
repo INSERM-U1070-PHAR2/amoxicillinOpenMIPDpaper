@@ -11,7 +11,7 @@ format:
 
 # Sensitivity analysis
 
-This folder contains the codes which are necessary to execute a sensitivity analysis combined with the other codes found in this repository (for example, the functions for the different MIPD methods).
+The folder /Sensitivity_analysis contains the codes which are necessary to execute a sensitivity analysis combined with the other codes found in this repository (for example, the functions for the different MIPD methods).
 
 ## Dosing scheme
 
